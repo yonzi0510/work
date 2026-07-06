@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day:음 프로그램 일지 생성기</title>
+<!-- v2026.07.06.005 -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1F3864; --teal:#1D9E75; --bg:#f4f6fa; --card:#ffffff;
+  --line:#e3e8f0; --txt:#2b3446; --sub:#7b8698; --danger:#c0392b;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--txt); font-size:15px;}
+.header{background:var(--navy); color:#fff; padding:14px 20px; display:flex; align-items:center; gap:12px;}
+.header h1{font-size:18px; font-weight:700;}
+.header .ver{font-size:11px; opacity:.6;}
+.header .spacer{flex:1;}
+.header .center-name{font-size:13px; opacity:.9;}
+.header button{background:rgba(255,255,255,.15); color:#fff; border:none; border-radius:6px; padding:6px 12px; font-size:12px; cursor:pointer; font-family:inherit;}
+.wrap{max-width:860px; margin:0 auto; padding:20px 16px 80px;}
+.card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px; margin-bottom:16px;}
+.card h2{font-size:15px; margin-bottom:14px; color:var(--navy);}
+.row{display:flex; gap:12px; flex-wrap:wrap; margin-bottom:12px;}
+.field{flex:1; min-width:140px;}
+.field label{display:block; font-size:12px; color:var(--sub); margin-bottom:5px; font-weight:500;}
+.field input[type=text], .field input[type=number], .field input[type=password], .field select{
+  width:100%; padding:9px 11px; border:1px solid var(--line); border-radius:8px; font-size:14px; font-family:inherit; background:#fff;
+}
+.field input:focus, .field select:focus{outline:2px solid #b9cdf0; border-color:var(--navy);}
+.typebtns{display:flex; gap:8px; flex-wrap:wrap;}
+.typebtn{padding:9px 16px; border:1.5px solid var(--line); background:#fff; border-radius:20px; font-size:14px; cursor:pointer; font-family:inherit; color:var(--sub);}
+.typebtn.on{border-color:var(--teal); background:#e6f7f1; color:var(--teal); font-weight:700;}
+.genbtn{width:100%; padding:13px; background:var(--teal); color:#fff; border:none; border-radius:10px; font-size:16px; font-weight:700; cursor:pointer; font-family:inherit; margin-top:4px;}
+.genbtn:hover{filter:brightness(1.05);}
+.genbtn:disabled{background:#a8b6c8; cursor:default;}
+.hint{font-size:12px; color:var(--sub); margin-top:6px; line-height:1.5;}
+/* 결과 */
+.result-head{display:flex; align-items:center; gap:10px; margin-bottom:12px;}
+.result-head h2{flex:1; margin:0;}
+.smallbtn{padding:7px 12px; border:1px solid var(--line); background:#fff; border-radius:8px; font-size:12px; cursor:pointer; font-family:inherit; color:var(--txt);}
+.smallbtn:hover{background:#f0f3f8;}
+.sent-row{display:flex; align-items:flex-start; gap:8px; padding:10px 8px; border-bottom:1px solid var(--line);}
+.sent-row:last-child{border-bottom:none;}
+.sent-row .num{width:26px; text-align:right; font-size:13px; color:var(--sub); padding-top:3px; flex-shrink:0;}
+.chip{flex-shrink:0; font-size:11px; padding:3px 8px; border-radius:10px; margin-top:2px; font-weight:500;}
+.chip.적극{background:#e6f7f1; color:#177a5b;}
+.chip.일반{background:#eef1f6; color:#5a6678;}
+.chip.소극{background:#fdf3e3; color:#a4700e;}
+.chip.휴식{background:#ede9f7; color:#5C3489;}
+.chip.결석{background:#fbeaea; color:var(--danger);}
+.sent-text{flex:1; line-height:1.55; padding-top:2px; word-break:keep-all;}
+.sent-acts{display:flex; gap:4px; flex-shrink:0;}
+.iconbtn{border:none; background:transparent; font-size:15px; cursor:pointer; padding:3px 5px; border-radius:6px; line-height:1;}
+.iconbtn:hover{background:#eef1f6;}
+.iconbtn:disabled{opacity:.35; cursor:default;}
+.iconbtn.copied{background:#e6f7f1;}
+/* 토스트 */
+#toast{position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--navy); color:#fff;
+  padding:10px 20px; border-radius:20px; font-size:13px; opacity:0; transition:opacity .25s; pointer-events:none; z-index:99; max-width:90vw;}
+#toast.show{opacity:1;}
+/* 로그인 & 모달 */
+.overlay{position:fixed; inset:0; background:rgba(20,30,50,.55); display:flex; align-items:center; justify-content:center; z-index:50; padding:16px;}
+.modal{background:#fff; border-radius:14px; padding:28px; width:100%; max-width:360px;}
+.modal h2{font-size:17px; color:var(--navy); margin-bottom:6px;}
+.modal p{font-size:13px; color:var(--sub); margin-bottom:16px; line-height:1.5;}
+.modal .field{margin-bottom:12px;}
+.modal .err{color:var(--danger); font-size:12px; margin-bottom:8px; min-height:16px;}
+.spin{display:inline-block; width:14px; height:14px; border:2px solid #ccd; border-top-color:var(--teal); border-radius:50%; animation:sp .7s linear infinite; vertical-align:-2px;}
+@keyframes sp{to{transform:rotate(360deg);}}
+@media (max-width:560px){
+  .sent-row{flex-wrap:wrap;}
+  .sent-text{min-width:100%; order:3;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📋 프로그램 일지 생성기</h1><span class="ver">v2026.07.06.005</span>
+  <div class="spacer"></div>
+</div>
+
+<div class="wrap">
+  <div class="card">
+    <h2>프로그램 정보</h2>
+    <div class="row">
+      <div class="field" style="flex:2">
+        <label>프로그램명</label>
+        <input type="text" id="progName" placeholder="예: 소망노래자랑, 실버체조, 머리감기 및 네일케어">
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label>프로그램 유형</label>
+        <div class="typebtns" id="typeBtns">
+          <button class="typebtn on" data-cat="인지">인지</button>
+          <button class="typebtn" data-cat="신체">신체</button>
+          <button class="typebtn" data-cat="사회">사회적응</button>
+          <button class="typebtn" data-cat="몸단장">몸단장</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field" style="flex:2">
+        <label>활동 키워드 (선택, 쉼표로 구분)</label>
+        <input type="text" id="keywords" placeholder="예: 노래, 탬버린, 마라카스">
+      </div>
+      <div class="field">
+        <label>참여 분위기</label>
+        <select id="mood">
+          <option value="high">적극적 (적극 위주)</option>
+          <option value="mid" selected>보통 (적극+일반 섞임)</option>
+          <option value="low">차분 (일반 위주)</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label>참여 인원</label>
+        <input type="number" id="nJoin" value="30" min="0" max="99">
+      </div>
+      <div class="field">
+        <label>침상휴식 인원</label>
+        <input type="number" id="nRest" value="0" min="0" max="99">
+      </div>
+      <div class="field">
+        <label>결석 인원</label>
+        <input type="number" id="nAbsent" value="0" min="0" max="99">
+      </div>
+    </div>
+    <button class="genbtn" id="genBtn" onclick="generateAll()">✨ 특이사항 문장 생성</button>
+    <div class="hint">실제 운영기록지 2,100여 개 문장에서 프로그램에 맞는 문장을 골라 배분합니다. 같은 회차 안에서 문장이 겹치지 않아요.</div>
+  </div>
+
+  <div class="card" id="resultCard" style="display:none">
+    <div class="result-head">
+      <h2 id="resultTitle">생성 결과</h2>
+      <button class="smallbtn" onclick="copyAllList()">전체 복사</button>
+      <button class="smallbtn" onclick="generateAll()">🔄 전체 다시 생성</button>
+    </div>
+    <div id="resultList"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── 문장 은행 (빌드 시 주입) ──
+var BANK = __BANK_DATA__;
+
+// ═══════════ 유형 버튼 ═══════════
+var curCat = '인지';
+document.getElementById('typeBtns').addEventListener('click', function(e){
+  var b = e.target.closest('.typebtn'); if(!b) return;
+  document.querySelectorAll('.typebtn').forEach(function(x){ x.classList.remove('on'); });
+  b.classList.add('on');
+  curCat = b.dataset.cat;
+});
+
+// ═══════════ 문장 선택 로직 ═══════════
+function tokenize(s){
+  return (s||'').split(/[^가-힣a-zA-Z0-9]+/).filter(function(t){ return t.length >= 2; });
+}
+// 중복 판정 키: 공백 차이만 있는 문장은 같은 문장으로 취급
+function normKey(t){ return (t||'').replace(/\s+/g, ''); }
+// 한 문장이 다른 문장을 통째로 포함하거나(부분 변형) 글자 구성이 거의 같은 문장은 중복으로 판정
+function bigramSet(k){
+  var s = new Set();
+  for(var i=0;i<k.length-1;i++) s.add(k.substr(i,2));
+  return s;
+}
+function isNearDup(k, usedSet){
+  var dup = false;
+  var kb = bigramSet(k);
+  usedSet.forEach(function(u){
+    if(dup) return;
+    var shorter = k.length <= u.length ? k : u;
+    var longer  = shorter === k ? u : k;
+    if(shorter.length < 10) return;
+    if(longer.indexOf(shorter) >= 0){ dup = true; return; }
+    // 바이그램 유사도: 몇 글자만 다른 변형 문장 걸러내기
+    var ub = bigramSet(u), inter = 0;
+    kb.forEach(function(g){ if(ub.has(g)) inter++; });
+    var union = kb.size + ub.size - inter;
+    if(union > 0 && inter/union >= 0.75) dup = true;
+  });
+  return dup;
+}
+
+// ── 주제 게이팅: 특정 소품·활동·행사가 언급된 문장은
+//    입력한 프로그램명/키워드와 맞을 때만 나오게 함 ──
+// [감점크기, 용어들...] — 용어는 공백 제거 기준 부분일치.
+// '@'로 시작하는 용어는 입력 매칭에만 쓰이고 문장 감지에는 쓰지 않음
+// (예: '@레크'가 입력에 있으면 이 그룹 문장 허용, 그러나 문장에 '레크'가 있다고 감점하진 않음)
+var TOPIC_GROUPS = [
+  // 행사·이름 고정 표현: 입력에 없으면 강하게 배제
+  [8, '이구동성','홍팀','청팀','월드컵','올림픽','설날','추석','단오','동지','명절','크리스마스','성탄','어버이날','삼다도','깨뚱이','PPT','멕시코','개최국','선수','32강','중계'],
+  [8, '결핵','객담','검진'],
+  // 활동 소품·종목: 입력과 다르면 감점, 맞으면 가점
+  [4, '노래','선곡','가요','민요','동요','애창곡','마이크','메들리','합창','가사','멜로디','음정','후렴','신청곡','가수','완곡','이어부','따라부','인사송','트로트','@음악'],
+  [4, '탬버린','마라카스','짝짝이','캐스터네츠','난타','실로폰','장구','소고','스카프','백업','접시','리듬악기','@악기','@리듬'],
+  [4, '체조','스트레칭','구령','밴드','아령','근력','뇌크레이션','손유희','발목펌핑','@운동','@재활','@슬링'],
+  [4, '슬링','@재활','@운동'],
+  [4, '색칠','채색','칠하','도안','미술','그림','그리기','그리며','그리시','작품','목장','가위','만들','종이접기','접기','접으','협동화','털실','점토','물감','색연필','크레파스','풀칠','풀사용','호박','꽃','색종이','스티커','휴지','습자지','솜넣기','철사','종이테이프','토마토','당근','나비','열매','곤충','부채','우산','별모양','별모형','별을','입체','꾸미','완성','조립','오려','오리기','뿅뿅이','창가','물병','페트병','마개','너트','볼트','테이프클리너','클리너','@만들기','@공예','@네일아트'],
+  [4, '아기','인형','아이가','아이의','아이와','아이들','아이에게','아이를','아이랑','@세대교감'],
+  [4, '축구','야구','씨름','줄다리기'],
+  [4, '도형','시계','달력','계산','숫자','날짜','@지남력'],
+  [4, '영화','영상','화면','티비','TV','텔레비','@감상'],
+  [4, '매니큐어','손톱','발톱','네일','머리를감','머리감','세발','미용'],
+  [4, '윷','말판','선승'],
+  [4, '빙고','낱말','글자','한글','자음','모음','서당','지필','받아쓰','학습지','단어','@학습','@쓰기'],
+  [4, '퍼즐','설압자'],
+  [4, '탁구공','계란판'],
+  [4, '오재미','투호','과녁'],
+  [4, '볼링','고리던지기','다트'],
+  [4, '풍선'],
+  [4, '공굴리기','공넣기','훌라우프','@공놀이'],
+  [4, '주사위','분리수거','보드판','@보드게임'],
+  [4, '낚시','물고기','낚싯','월척','고리가','고리를','고리에'],
+  [4, '도르래','짝꿍','장애물','@협동','@미션'],
+  [4, '퀴즈','속담','사자성어','제시어','수수께끼','동물','울음소리','@맞추기','@맞히기'],
+  [4, '장터','시장','오누이','전래동화','떡광주리','가마솥','옛물건','옛이야기','구연','@이야기','@여행','@회상','@동화'],
+  [4, '공연','연주','무대','율동','중창단','@감상'],
+  [4, '요리','만두','송편','부침개','화전'],
+  // 응원·경기·팀 표현: 게임/레크/대항전류 프로그램에서만 허용
+  [4, '응원','경기','득점','승부','시합','점수','상대팀','팀원','우리팀','팀이','팀의','팀대항','결승','우승','역전','상품','1등','2등','3등','함성','만세','환호','@레크','@게임','@오락','@윷','@대항','@운동회','@월드컵','@탁구공','@공굴리','@공넣기','@공던지','@볼링','@다트','@풍선','@주사위','@빙고']
+];
+function scoreSentence(s, progTokens, kws){
+  var sc = 0;
+  // 프로그램명 매칭: 은행 문장이 쓰였던 프로그램명과 입력 프로그램명 토큰 비교
+  for(var i=0;i<progTokens.length;i++){
+    for(var j=0;j<s.programs.length;j++){
+      if(s.programs[j].indexOf(progTokens[i]) >= 0){ sc += 4; i = progTokens.length; break; }
+    }
+  }
+  // 키워드 매칭: 문장 본문에 활동 키워드 포함 시 가중
+  var nt = normKey(s.text);
+  for(var k=0;k<kws.length;k++){
+    if(nt.indexOf(normKey(kws[k])) >= 0) sc += 3;
+  }
+  // 주제 게이팅: 문장에 특정 소품/행사 언급 시 입력과 맞으면 +6, 다르면 감점
+  var inputN = normKey(document.getElementById('progName').value + ' ' + kws.join(' '));
+  if(curCat === '몸단장') inputN += '매니큐어손톱머리감세발네일';  // 몸단장 유형은 위생 용어 허용
+  for(var g=0; g<TOPIC_GROUPS.length; g++){
+    var grp = TOPIC_GROUPS[g], present = false, strongMatch = false, softMatch = false;
+    for(var t=1; t<grp.length; t++){
+      var term = grp[t], matcherOnly = term.charAt(0) === '@';
+      if(matcherOnly) term = term.slice(1);
+      // 문장 감지: '@' 용어는 제외
+      if(!matcherOnly && nt.indexOf(term) >= 0) present = true;
+      if(inputN.indexOf(term) >= 0){
+        // 확실한 매칭(소품·종목 단어 일치)은 가점, '@' 계열 매칭은 허용만(감점 면제)
+        if(matcherOnly) softMatch = true; else strongMatch = true;
+      }
+    }
+    if(present) sc += strongMatch ? 6 : (softMatch ? 0 : -grp[0]);
+  }
+  return sc + Math.random()*1.5;  // 동점 셔플
+}
+function pickFromPool(status, n, progTokens, kws, usedSet){
+  // 참여 상태(적극/일반/소극)는 해당 유형 우선, 부족하면 전체 유형에서 보충.
+  // 휴식/결석은 유형 무관 전체에서.
+  var inCat = [], anyCat = [];
+  BANK.sentences.forEach(function(s){
+    if(s.status !== status) return;
+    if(usedSet.has(normKey(s.text))) return;
+    if(s.category === curCat) inCat.push(s); else anyCat.push(s);
+  });
+  var pool;
+  if(status === '휴식' || status === '결석'){ pool = inCat.concat(anyCat); }
+  else { pool = inCat.length >= n ? inCat : inCat.concat(anyCat); }
+  pool.forEach(function(s){ s._sc = scoreSentence(s, progTokens, kws); });
+  pool.sort(function(a,b){ return b._sc - a._sc; });
+  var out = [];
+  for(var i=0; i<pool.length && out.length<n; i++){
+    var k = normKey(pool[i].text);
+    if(usedSet.has(k) || isNearDup(k, usedSet)) continue;
+    out.push(pool[i]);
+    usedSet.add(k);
+  }
+  return out;
+}
+function moodSplit(nJoin, mood){
+  var r = mood==='high' ? [0.70,0.25,0.05] : mood==='low' ? [0.35,0.55,0.10] : [0.55,0.35,0.10];
+  var a = Math.round(nJoin*r[0]), b = Math.round(nJoin*r[1]);
+  if(a+b > nJoin) b = nJoin - a;
+  var c = nJoin - a - b;
+  return {적극:a, 일반:b, 소극:c};
+}
+
+// ═══════════ 생성 ═══════════
+var rows = [];      // {status, text}
+var usedTexts = new Set();
+
+function generateAll(){
+  var nJoin = parseInt(document.getElementById('nJoin').value)||0;
+  var nRest = parseInt(document.getElementById('nRest').value)||0;
+  var nAbs  = parseInt(document.getElementById('nAbsent').value)||0;
+  if(nJoin+nRest+nAbs === 0){ toast('인원을 입력해 주세요.'); return; }
+  var progTokens = tokenize(document.getElementById('progName').value);
+  var kws = document.getElementById('keywords').value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+  var mood = document.getElementById('mood').value;
+
+  usedTexts = new Set();
+  rows = [];
+  var split = moodSplit(nJoin, mood);
+  ['적극','일반','소극'].forEach(function(st){
+    pickFromPool(st, split[st], progTokens, kws, usedTexts).forEach(function(s){
+      rows.push({status:st, text:s.text});
+    });
+    // 풀 부족 시 개수 못 채움 — 일반으로 보충
+    var short = split[st] - rows.filter(function(r){return r.status===st;}).length;
+    if(short > 0){
+      pickFromPool('일반', short, progTokens, kws, usedTexts).forEach(function(s){
+        rows.push({status:st, text:s.text});
+      });
+    }
+  });
+  // 참여자들 순서 섞기 (상태별 블록이 티 나지 않게)
+  shuffle(rows);
+  pickFromPool('휴식', nRest, progTokens, kws, usedTexts).forEach(function(s){ rows.push({status:'휴식', text:s.text}); });
+  while(rows.filter(function(r){return r.status==='휴식';}).length < nRest){
+    rows.push({status:'휴식', text:'컨디션 저하로 자리에 누워 휴식을 취하셨음.'});
+  }
+  pickFromPool('결석', nAbs, progTokens, kws, usedTexts).forEach(function(s){ rows.push({status:'결석', text:s.text}); });
+  while(rows.filter(function(r){return r.status==='결석';}).length < nAbs){
+    rows.push({status:'결석', text:'결석'});
+  }
+  renderRows();
+  document.getElementById('resultCard').style.display = '';
+  document.getElementById('resultTitle').textContent =
+    '생성 결과 — 참여 ' + nJoin + '명' + (nRest?' · 휴식 '+nRest+'명':'') + (nAbs?' · 결석 '+nAbs+'명':'');
+}
+function shuffle(a){
+  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+}
+
+// ═══════════ 렌더링 ═══════════
+function renderRows(){
+  var box = document.getElementById('resultList');
+  box.innerHTML = '';
+  rows.forEach(function(r, idx){
+    var div = document.createElement('div');
+    div.className = 'sent-row';
+    div.innerHTML =
+      '<span class="num">'+(idx+1)+'</span>' +
+      '<span class="chip '+r.status+'">'+r.status+'</span>' +
+      '<span class="sent-text" id="txt'+idx+'"></span>' +
+      '<span class="sent-acts">' +
+        '<button class="iconbtn" title="복사" onclick="copyRow('+idx+', this)">📋</button>' +
+        '<button class="iconbtn" title="다른 문장으로 교체" onclick="swapRow('+idx+')">🔄</button>' +
+      '</span>';
+    box.appendChild(div);
+    div.querySelector('#txt'+idx).textContent = r.text;
+  });
+}
+function copyRow(idx, btn){
+  copyText(rows[idx].text, function(){
+    btn.classList.add('copied');
+    setTimeout(function(){ btn.classList.remove('copied'); }, 900);
+    toast((idx+1)+'번 문장 복사됨');
+  });
+}
+function copyAllList(){
+  var t = rows.map(function(r,i){ return (i+1)+'. ['+r.status+'] '+r.text; }).join('\n');
+  copyText(t, function(){ toast('전체 '+rows.length+'개 문장 복사됨'); });
+}
+function copyText(t, ok){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).then(ok, function(){ legacyCopy(t); ok(); });
+  } else { legacyCopy(t); ok(); }
+}
+function legacyCopy(t){
+  var ta = document.createElement('textarea');
+  ta.value = t; document.body.appendChild(ta); ta.select();
+  document.execCommand('copy'); document.body.removeChild(ta);
+}
+function swapRow(idx){
+  var r = rows[idx];
+  var progTokens = tokenize(document.getElementById('progName').value);
+  var kws = document.getElementById('keywords').value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+  var got = pickFromPool(r.status, 1, progTokens, kws, usedTexts);
+  if(!got.length){ toast('교체할 문장이 더 없어요. 직접 다듬어서 사용해 주세요.'); return; }
+  r.text = got[0].text;
+  document.getElementById('txt'+idx).textContent = r.text;
+}
+function toast(msg){
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._tm); t._tm = setTimeout(function(){ t.classList.remove('show'); }, 1800);
+}
+
+</script>
+</body>
+</html>
