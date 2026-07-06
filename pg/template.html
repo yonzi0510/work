@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Day:음 프로그램 일지 생성기</title>
-<!-- v2026.07.06.006 -->
+<!-- v2026.07.06.007 -->
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -25,10 +25,16 @@ body{font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--tx
 .row{display:flex; gap:12px; flex-wrap:wrap; margin-bottom:12px;}
 .field{flex:1; min-width:140px;}
 .field label{display:block; font-size:12px; color:var(--sub); margin-bottom:5px; font-weight:500;}
-.field input[type=text], .field input[type=number], .field input[type=password], .field select{
+.field input[type=text], .field input[type=number], .field input[type=password], .field select, .field textarea{
   width:100%; padding:9px 11px; border:1px solid var(--line); border-radius:8px; font-size:14px; font-family:inherit; background:#fff;
 }
-.field input:focus, .field select:focus{outline:2px solid #b9cdf0; border-color:var(--navy);}
+.field textarea{resize:vertical; min-height:74px; line-height:1.5;}
+.field input:focus, .field select:focus, .field textarea:focus{outline:2px solid #b9cdf0; border-color:var(--navy);}
+/* 다듬은 총평 박스 */
+.sum-box{background:#f2f8f5; border:1px solid #cfe6da; border-radius:10px; padding:12px 14px; margin-bottom:14px;}
+.sum-head{display:flex; align-items:center; gap:8px; margin-bottom:6px; font-size:13px; color:var(--navy); font-weight:700;}
+.sum-head .smallbtn{margin-left:auto;}
+#sumText{line-height:1.6; word-break:keep-all;}
 .typebtns{display:flex; gap:8px; flex-wrap:wrap;}
 .typebtn{padding:9px 16px; border:1.5px solid var(--line); background:#fff; border-radius:20px; font-size:14px; cursor:pointer; font-family:inherit; color:var(--sub);}
 .typebtn.on{border-color:var(--teal); background:#e6f7f1; color:var(--teal); font-weight:700;}
@@ -78,7 +84,7 @@ body{font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--tx
 <body>
 
 <div class="header">
-  <h1>📋 프로그램 일지 생성기</h1><span class="ver">v2026.07.06.006</span>
+  <h1>📋 프로그램 일지 생성기</h1><span class="ver">v2026.07.06.007</span>
   <div class="spacer"></div>
 </div>
 
@@ -104,14 +110,15 @@ body{font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--tx
     </div>
     <div class="row">
       <div class="field" style="flex:2">
-        <label>활동 키워드 (선택, 쉼표로 구분)</label>
-        <input type="text" id="keywords" placeholder="예: 노래, 탬버린, 마라카스">
+        <label>오늘의 총평 (분위기·활동 내용을 자유롭게 — 여기 적힌 소품·분위기를 자동으로 읽어요)</label>
+        <textarea id="summary" rows="3" placeholder="예: 오늘은 무더위에 다들 지쳐 있었는데 밴드 운동을 시작하니 점점 활기를 찾았다. 전반적으로 호응이 좋고 즐거운 분위기였다."></textarea>
       </div>
       <div class="field">
         <label>참여 분위기</label>
         <select id="mood">
+          <option value="auto" selected>자동 (총평에서 감지)</option>
           <option value="high">적극적 (적극 위주)</option>
-          <option value="mid" selected>보통 (적극+일반 섞임)</option>
+          <option value="mid">보통 (적극+일반 섞임)</option>
           <option value="low">차분 (일반 위주)</option>
         </select>
       </div>
@@ -131,7 +138,7 @@ body{font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--tx
       </div>
     </div>
     <button class="genbtn" id="genBtn" onclick="generateAll()">✨ 특이사항 문장 생성</button>
-    <div class="hint">실제 운영기록지 2,100여 개 문장에서 프로그램에 맞는 문장을 골라 배분합니다. 같은 회차 안에서 문장이 겹치지 않아요.</div>
+    <div class="hint">실제 운영기록지 2,100여 개 문장 중에서 총평에 적힌 소품·활동·분위기에 맞는 문장을 골라 배분합니다. 총평은 내용 그대로 공문서체(~함/~하셨음)로 다듬어 함께 보여드려요.</div>
   </div>
 
   <div class="card" id="resultCard" style="display:none">
@@ -139,6 +146,10 @@ body{font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--tx
       <h2 id="resultTitle">생성 결과</h2>
       <button class="smallbtn" onclick="copyAllList()">전체 복사</button>
       <button class="smallbtn" onclick="generateAll()">🔄 전체 다시 생성</button>
+    </div>
+    <div class="sum-box" id="sumBox" style="display:none">
+      <div class="sum-head">📝 다듬은 총평 <button class="smallbtn" onclick="copySummary()">복사</button></div>
+      <div id="sumText"></div>
     </div>
     <div id="resultList"></div>
   </div>
@@ -230,6 +241,29 @@ var TOPIC_GROUPS = [
   // 응원·경기·팀 표현: 게임/레크/대항전류 프로그램에서만 허용
   [4, '응원','경기','득점','승부','시합','점수','상대팀','팀원','우리팀','팀이','팀의','팀대항','결승','우승','역전','상품','1등','2등','3등','함성','만세','환호','@레크','@게임','@오락','@윷','@대항','@운동회','@월드컵','@탁구공','@공굴리','@공넣기','@공던지','@볼링','@다트','@풍선','@주사위','@빙고']
 ];
+// ═══════════ 총평 해석 ═══════════
+// 총평에서 소품·활동 단어 추출 (TOPIC_GROUPS의 감지 용어와 대조)
+function extractTerms(raw){
+  var n = normKey(raw), out = [];
+  TOPIC_GROUPS.forEach(function(grp){
+    for(var t=1; t<grp.length; t++){
+      var term = grp[t];
+      if(term.charAt(0) === '@') continue;
+      if(n.indexOf(term) >= 0 && out.indexOf(term) < 0) out.push(term);
+    }
+  });
+  return out;
+}
+// 총평에서 분위기 감지
+var MOOD_HIGH = ['적극','활기','활발','즐거','흥겹','흥이','신나','호응','웃음','열정','밝은','밝았','기뻐','좋아하','만족','열심','에너지'];
+var MOOD_LOW  = ['차분','조용','피곤','지치','지쳐','지쳤','졸','더위','한파','추위','기력','소극','가라앉','늘어지','지루','컨디션이좋지'];
+function detectMood(raw){
+  var n = normKey(raw), h = 0, l = 0;
+  MOOD_HIGH.forEach(function(w){ if(n.indexOf(w) >= 0) h++; });
+  MOOD_LOW.forEach(function(w){ if(n.indexOf(w) >= 0) l++; });
+  return h > l ? 'high' : (l > h ? 'low' : 'mid');
+}
+
 function scoreSentence(s, progTokens, kws){
   var sc = 0;
   // 프로그램명 매칭: 은행 문장이 쓰였던 프로그램명과 입력 프로그램명 토큰 비교
@@ -238,13 +272,13 @@ function scoreSentence(s, progTokens, kws){
       if(s.programs[j].indexOf(progTokens[i]) >= 0){ sc += 4; i = progTokens.length; break; }
     }
   }
-  // 키워드 매칭: 문장 본문에 활동 키워드 포함 시 가중
+  // 키워드 매칭: 문장 본문에 총평 속 활동 단어 포함 시 가중
   var nt = normKey(s.text);
   for(var k=0;k<kws.length;k++){
     if(nt.indexOf(normKey(kws[k])) >= 0) sc += 3;
   }
-  // 주제 게이팅: 문장에 특정 소품/행사 언급 시 입력과 맞으면 +6, 다르면 감점
-  var inputN = normKey(document.getElementById('progName').value + ' ' + kws.join(' '));
+  // 주제 게이팅: 문장에 특정 소품/행사 언급 시 입력(프로그램명+총평)과 맞으면 +6, 다르면 감점
+  var inputN = normKey(document.getElementById('progName').value + ' ' + document.getElementById('summary').value);
   if(curCat === '몸단장') inputN += '매니큐어손톱머리감세발네일';  // 몸단장 유형은 위생 용어 허용
   for(var g=0; g<TOPIC_GROUPS.length; g++){
     var grp = TOPIC_GROUPS[g], present = false, strongMatch = false, softMatch = false;
@@ -304,8 +338,16 @@ function generateAll(){
   var nAbs  = parseInt(document.getElementById('nAbsent').value)||0;
   if(nJoin+nRest+nAbs === 0){ toast('인원을 입력해 주세요.'); return; }
   var progTokens = tokenize(document.getElementById('progName').value);
-  var kws = document.getElementById('keywords').value.split(',').map(function(s){return s.trim();}).filter(Boolean);
-  var mood = document.getElementById('mood').value;
+  var sumRaw = document.getElementById('summary').value || '';
+  var kws = extractTerms(sumRaw);
+  var moodSel = document.getElementById('mood').value;
+  var mood = moodSel === 'auto' ? detectMood(sumRaw) : moodSel;
+
+  // 다듬은 총평 표시
+  var polished = polishSummary(sumRaw);
+  var sb = document.getElementById('sumBox');
+  if(polished){ sb.style.display = ''; document.getElementById('sumText').textContent = polished; }
+  else { sb.style.display = 'none'; }
 
   usedTexts = new Set();
   rows = [];
@@ -384,7 +426,7 @@ function legacyCopy(t){
 function swapRow(idx){
   var r = rows[idx];
   var progTokens = tokenize(document.getElementById('progName').value);
-  var kws = document.getElementById('keywords').value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+  var kws = extractTerms(document.getElementById('summary').value || '');
   var got = pickFromPool(r.status, 1, progTokens, kws, usedTexts);
   if(!got.length){ toast('교체할 문장이 더 없어요. 직접 다듬어서 사용해 주세요.'); return; }
   r.text = got[0].text;
@@ -394,6 +436,49 @@ function toast(msg){
   var t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
   clearTimeout(t._tm); t._tm = setTimeout(function(){ t.classList.remove('show'); }, 1800);
+}
+
+// ═══════════ 총평 다듬기 (내용은 그대로, 어미·공백만 공문서체로 정리) ═══════════
+function jong(ch){
+  var c = ch.charCodeAt(0) - 0xAC00;
+  return (c >= 0 && c <= 11171) ? c % 28 : -1;
+}
+// 받침 ㅂ → ㅁ (합니다→함, 됩니다→됨)
+function bToM(ch){
+  var c = ch.charCodeAt(0) - 0xAC00;
+  if(c < 0 || c > 11171 || c % 28 !== 17) return null;
+  return String.fromCharCode(0xAC00 + c - 17 + 16);
+}
+function polishEnding(s){
+  var m;
+  s = s.replace(/(습니다|십니다)$/, '음');
+  if((m = s.match(/([가-힣])니다$/))){ var b = bToM(m[1]); if(b) s = s.slice(0, -3) + b; }
+  s = s.replace(/이에요$/, '임').replace(/예요$/, '임').replace(/이었어요$/, '이었음')
+       .replace(/해요$/, '함').replace(/돼요$/, '됨').replace(/없어요$/, '없음').replace(/세요$/, '심');
+  if((m = s.match(/([가-힣])어요$/)) && jong(m[1]) === 20) s = s.slice(0, -2) + '음';   // 했어요→했음
+  s = s.replace(/이다$/, '임').replace(/한다$/, '함').replace(/된다$/, '됨').replace(/하다$/, '함')
+       .replace(/있다$/, '있음').replace(/없다$/, '없음').replace(/같다$/, '같음').replace(/보인다$/, '보임');
+  if((m = s.match(/([가-힣])다$/)) && jong(m[1]) === 20) s = s.slice(0, -1) + '음';     // 찾았다→찾았음
+  return s;
+}
+function polishSummary(raw){
+  var t = (raw || '').trim();
+  if(!t) return '';
+  t = t.replace(/\s+/g, ' ').replace(/ ([.,!?])/g, '$1');
+  var chunks = t.split(/([.!?]+ ?)/);
+  var out = '';
+  for(var i = 0; i < chunks.length; i += 2){
+    var s = (chunks[i] || '').trim();
+    if(!s) continue;
+    var punc = (chunks[i+1] || '').trim() || '.';
+    out += polishEnding(s) + punc + ' ';
+  }
+  return out.trim();
+}
+function copySummary(){
+  var t = document.getElementById('sumText').textContent;
+  if(!t) return;
+  copyText(t, function(){ toast('총평 복사됨'); });
 }
 
 </script>
