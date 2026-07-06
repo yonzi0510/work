@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>삽교주간보호센터 · 강사배치 달력</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root{
+    --line:#333; --head:#2b6cb0; --sun:#c0392b; --sat:#2565c0; --bg:#f4f5f7;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"맑은 고딕","Malgun Gothic",AppleGothic,sans-serif;background:var(--bg);color:#222;}
+  /* ---------- 조작 패널 ---------- */
+  .toolbar{background:#fff;border-bottom:1px solid #ddd;padding:12px 16px;position:sticky;top:0;z-index:20;box-shadow:0 2px 6px rgba(0,0,0,.05);}
+  .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0;}
+  .toolbar label{font-size:13px;color:#555;}
+  select,input,button{font-family:inherit;font-size:14px;}
+  select,input[type=text]{padding:6px 8px;border:1px solid #ccc;border-radius:6px;}
+  .btn{padding:6px 12px;border:1px solid #ccc;background:#fff;border-radius:6px;cursor:pointer;}
+  .btn:hover{background:#f0f0f0;}
+  .btn.primary{background:var(--head);color:#fff;border-color:var(--head);}
+  .btn.primary:hover{opacity:.9;}
+  .hint{font-size:12px;color:#888;}
+  /* 강사 팔레트 */
+  .palette{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+  .brush{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:2px solid transparent;border-radius:20px;cursor:pointer;font-size:13px;font-weight:600;color:#fff;user-select:none;}
+  .brush.active{outline:3px solid #111;outline-offset:1px;box-shadow:0 0 0 2px #fff inset;}
+  .brush .x{margin-left:2px;opacity:.7;font-weight:400;cursor:pointer;}
+  .brush .x:hover{opacity:1;}
+  .brush.eraser{background:#fff !important;color:#333;border:2px dashed #999;}
+  #addName{width:90px;}
+  /* ---------- 인쇄 영역 ---------- */
+  .sheet-wrap{padding:20px;display:flex;justify-content:center;}
+  .sheet{background:#fff;width:1000px;max-width:100%;padding:22px 26px;border:1px solid #ccc;box-shadow:0 4px 16px rgba(0,0,0,.08);}
+  .sheet h1{text-align:center;font-size:24px;margin:0 0 2px;}
+  .sheet .sub{text-align:center;font-size:13px;color:#444;margin:0 0 10px;}
+  .memo{border:1px solid #bbb;border-radius:4px;padding:6px 10px;font-size:12.5px;color:#333;margin-bottom:10px;min-height:22px;background:#fafafa;}
+  table{width:100%;border-collapse:collapse;table-layout:fixed;border:2px solid var(--line);}
+  th{border:1px solid var(--line);padding:6px;font-size:14px;background:#eef3fa;}
+  th.sun{color:var(--sun);} th.sat{color:var(--sat);}
+  th.dowhead{cursor:pointer;user-select:none;}
+  th.dowhead:hover{background:#dbe8fb;}
+  @media print{ th.dowhead:hover{background:#eef3fa;} }
+  td{border:1px solid var(--line);height:92px;vertical-align:top;padding:4px 5px;cursor:pointer;position:relative;}
+  td .date{font-size:13px;font-weight:700;}
+  td.sun .date{color:var(--sun);} td.sat .date{color:var(--sat);}
+  td.empty{border:1px solid var(--line) !important;background:repeating-linear-gradient(45deg,#f2f2f2,#f2f2f2 6px,#fafafa 6px,#fafafa 12px);cursor:default;}
+  td .assign{margin-top:8px;text-align:center;font-size:16px;font-weight:700;line-height:1.35;word-break:keep-all;}
+  td .note{margin-top:2px;text-align:center;font-size:11px;color:#666;}
+  td:hover:not(.empty){background:#fffbe6;}
+  .center{text-align:center;}
+  /* 인쇄 */
+  @media print{
+    @page{size:A4 landscape;margin:8mm;}
+    body{background:#fff;}
+    .toolbar,.hint,.noprint{display:none !important;}
+    .sheet-wrap{padding:0;}
+    .sheet{width:100%;border:none;box-shadow:none;padding:0;}
+    td{height:1.05in;}
+    td:hover:not(.empty){background:transparent;}
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar noprint">
+  <div class="row">
+    <label>연도 <select id="year"></select></label>
+    <label>월 <select id="month"></select></label>
+    <label>센터명 <input type="text" id="center" value="삽교주간보호센터" style="width:160px"></label>
+    <button class="btn" id="clearBtn">🔄 초기화(이 달)</button>
+    <button class="btn" id="imgBtn">🖼 이미지(PNG) 저장</button>
+    <button class="btn primary" id="printBtn">🖨 인쇄 / PDF 저장</button>
+  </div>
+  <div class="row">
+    <label>데이터 백업:</label>
+    <button class="btn" id="exportBtn">💾 백업 저장(파일로)</button>
+    <button class="btn" id="importBtn">📂 백업 불러오기</button>
+    <input type="file" id="importFile" accept="application/json,.json" style="display:none">
+    <span class="hint">브라우저가 기억 못 할 때를 대비해, 다 만든 뒤 [백업 저장]으로 파일을 받아두면 다음에 [불러오기]로 복원할 수 있어요.</span>
+  </div>
+  <div class="row">
+    <label>강사:</label>
+    <div class="palette" id="palette"></div>
+    <input type="text" id="addName" placeholder="강사 추가">
+    <button class="btn" id="addBtn">＋추가</button>
+  </div>
+  <div class="row">
+    <label>메모</label>
+    <input type="text" id="memo" style="flex:1;min-width:260px" placeholder="예: (외부강사 우선 ○○○ > ○○○), 관리자는 ○○○으로 통일">
+  </div>
+  <div class="row hint">사용법 ①위에서 강사를 하나 선택 ②달력의 날짜를 클릭하면 그 강사가 배정됩니다. 같은 칸을 한 번 더 클릭하면 지워집니다. ③달력의 <b>요일 제목(예: 금요일)</b>을 클릭하면 그 요일 전체가 한 번에 채워집니다(한 번 더 누르면 지워짐). 한 달 전체를 비우려면 [초기화]. 배정 내용은 자동 저장됩니다.</div>
+</div>
+
+<div class="sheet-wrap">
+  <div class="sheet" id="sheet">
+    <h1 id="title">삽교주간보호센터</h1>
+    <p class="sub" id="subtitle"></p>
+    <div class="memo" id="memoView"></div>
+    <table>
+      <thead>
+        <tr>
+          <th class="sun dowhead" data-dow="0" title="이 요일 전체 채우기">일요일</th><th class="dowhead" data-dow="1" title="이 요일 전체 채우기">월요일</th><th class="dowhead" data-dow="2" title="이 요일 전체 채우기">화요일</th><th class="dowhead" data-dow="3" title="이 요일 전체 채우기">수요일</th><th class="dowhead" data-dow="4" title="이 요일 전체 채우기">목요일</th><th class="dowhead" data-dow="5" title="이 요일 전체 채우기">금요일</th><th class="sat dowhead" data-dow="6" title="이 요일 전체 채우기">토요일</th>
+        </tr>
+      </thead>
+      <tbody id="cal"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const COLORS=["#2b6cb0","#c0392b","#27ae60","#8e44ad","#d35400","#16a085","#2c3e50","#c2185b","#00838f","#5d4037"];
+const DEFAULT_NAMES=[];
+const LS="sapgyo_calendar_v1";
+
+let store = load();
+let brush = null; // 선택된 강사 이름, "__ERASE__" = 지우개
+
+function load(){
+  try{ return JSON.parse(localStorage.getItem(LS)) || {}; }catch(e){ return {}; }
+}
+function save(){ try{ localStorage.setItem(LS, JSON.stringify(store)); }catch(e){} }
+
+// ---- 초기 데이터 ----
+if(!store.names) store.names = DEFAULT_NAMES.slice();
+if(!store.colors){ store.colors={}; store.names.forEach((n,i)=>store.colors[n]=COLORS[i%COLORS.length]); }
+if(!store.assign) store.assign = {};   // key "YYYY-M" -> { day: name }
+if(!store.memo)   store.memo   = {};   // key "YYYY-M" -> string
+if(!store.center) store.center = "삽교주간보호센터";
+
+const yearSel=document.getElementById('year');
+const monthSel=document.getElementById('month');
+const centerInp=document.getElementById('center');
+const memoInp=document.getElementById('memo');
+
+// 연/월 셀렉트 채우기
+const now=new Date();
+for(let y=now.getFullYear()-1; y<=now.getFullYear()+2; y++){
+  const o=document.createElement('option'); o.value=y; o.textContent=y+'년'; yearSel.appendChild(o);
+}
+for(let m=1;m<=12;m++){
+  const o=document.createElement('option'); o.value=m; o.textContent=m+'월'; monthSel.appendChild(o);
+}
+yearSel.value=now.getFullYear();
+monthSel.value=now.getMonth()+1;
+centerInp.value=store.center;
+
+function key(){ return yearSel.value+'-'+monthSel.value; }
+
+// ---- 강사 팔레트 렌더 ----
+function renderPalette(){
+  const p=document.getElementById('palette'); p.innerHTML='';
+  store.names.forEach(n=>{
+    const b=document.createElement('span');
+    b.className='brush'+(brush===n?' active':'');
+    b.style.background=store.colors[n]||'#555';
+    b.innerHTML='<span class="nm"></span><span class="x" title="삭제">✕</span>';
+    b.querySelector('.nm').textContent=n;
+    b.addEventListener('click',e=>{
+      if(e.target.classList.contains('x')){ removeName(n); return; }
+      brush=(brush===n?null:n); renderPalette();
+    });
+    p.appendChild(b);
+  });
+}
+function removeName(n){
+  if(!confirm(n+' 강사를 목록에서 삭제할까요?')) return;
+  store.names=store.names.filter(x=>x!==n);
+  if(brush===n) brush=null;
+  save(); renderPalette();
+}
+document.getElementById('addBtn').addEventListener('click',()=>{
+  const v=document.getElementById('addName').value.trim();
+  if(!v) return;
+  if(!store.names.includes(v)){
+    store.names.push(v);
+    store.colors[v]=store.colors[v]||COLORS[(store.names.length-1)%COLORS.length];
+  }
+  document.getElementById('addName').value='';
+  save(); renderPalette();
+});
+document.getElementById('addName').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('addBtn').click(); });
+
+// ---- 달력 렌더 ----
+function renderCal(){
+  const y=+yearSel.value, m=+monthSel.value;
+  document.getElementById('title').textContent=store.center;
+  document.getElementById('subtitle').textContent=y+'년 '+String(m).padStart(2,'0')+'월';
+  memoInp.value=store.memo[key()]||'';
+  document.getElementById('memoView').textContent=memoInp.value;
+
+  const first=new Date(y,m-1,1);
+  const startDow=first.getDay();
+  const days=new Date(y,m,0).getDate();
+  const tbody=document.getElementById('cal'); tbody.innerHTML='';
+  const a=store.assign[key()]||{};
+
+  let day=1, done=false;
+  for(let w=0; w<6 && !done; w++){
+    const tr=document.createElement('tr');
+    for(let d=0; d<7; d++){
+      const td=document.createElement('td');
+      if((w===0 && d<startDow) || day>days){
+        td.className='empty';
+      }else{
+        const dnum=day;
+        td.className=(d===0?'sun':d===6?'sat':'');
+        td.innerHTML='<div class="date">'+dnum+'</div><div class="assign"></div>';
+        const nm=a[dnum];
+        if(nm){
+          const asg=td.querySelector('.assign');
+          asg.textContent=nm;
+          asg.style.color=store.colors[nm]||'#111';
+        }
+        td.addEventListener('click',()=>onCellClick(dnum));
+        day++;
+      }
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+    if(day>days) done=true;
+  }
+}
+function onCellClick(dnum){
+  const a=store.assign[key()]||(store.assign[key()]={});
+  if(brush){
+    if(a[dnum]===brush) delete a[dnum];   // 같은 칸 다시 클릭 → 지움
+    else a[dnum]=brush;
+  }else{
+    if(a[dnum]){ delete a[dnum]; }         // 강사 미선택 상태면 클릭한 칸 지움
+    else { alert('먼저 위에서 강사를 하나 선택하세요.'); return; }
+  }
+  save(); renderCal();
+}
+
+// ---- 이벤트 ----
+yearSel.addEventListener('change',renderCal);
+monthSel.addEventListener('change',renderCal);
+centerInp.addEventListener('input',()=>{ store.center=centerInp.value; save(); document.getElementById('title').textContent=store.center; });
+memoInp.addEventListener('input',()=>{ store.memo[key()]=memoInp.value; save(); document.getElementById('memoView').textContent=memoInp.value; });
+document.getElementById('clearBtn').addEventListener('click',()=>{
+  if(!confirm('이 달의 배정만 지웁니다. (강사 목록은 그대로 유지) 초기화할까요?')) return;
+  store.assign[key()]={}; save(); renderCal();
+});
+document.getElementById('printBtn').addEventListener('click',()=>window.print());
+
+// ---- 요일 일괄입력 : 달력 요일 제목 클릭 ----
+document.querySelectorAll('th.dowhead').forEach(th=>{
+  th.addEventListener('click',()=>fillWeekday(+th.dataset.dow));
+});
+function fillWeekday(dow){
+  if(!brush){ alert('먼저 위에서 강사를 하나 선택하세요.'); return; }
+  const y=+yearSel.value, m=+monthSel.value;
+  const days=new Date(y,m,0).getDate();
+  const a=store.assign[key()]||(store.assign[key()]={});
+  const list=[];
+  for(let d=1; d<=days; d++){ if(new Date(y,m-1,d).getDay()===dow) list.push(d); }
+  const allSame=list.length>0 && list.every(d=>a[d]===brush);
+  list.forEach(d=>{ if(allSame) delete a[d]; else a[d]=brush; }); // 이미 다 채워졌으면 토글로 지움
+  save(); renderCal();
+}
+
+// ---- 이미지(PNG) 저장 ----
+document.getElementById('imgBtn').addEventListener('click',()=>{
+  if(typeof html2canvas==='undefined'){
+    alert('이미지 저장은 인터넷 연결이 필요합니다. 대신 [인쇄 / PDF 저장]을 이용하세요.');
+    return;
+  }
+  const sheet=document.getElementById('sheet');
+  html2canvas(sheet,{scale:2,backgroundColor:'#ffffff'}).then(canvas=>{
+    const a=document.createElement('a');
+    a.download=(store.center||'달력')+'_'+yearSel.value+'-'+String(monthSel.value).padStart(2,'0')+'.png';
+    a.href=canvas.toDataURL('image/png');
+    a.click();
+  }).catch(()=>alert('이미지 생성에 실패했어요. [인쇄 / PDF 저장]을 이용해 주세요.'));
+});
+
+// ---- 백업 저장 / 불러오기 ----
+document.getElementById('exportBtn').addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify(store,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.download='강사배치_백업_'+new Date().toISOString().slice(0,10)+'.json';
+  a.href=URL.createObjectURL(blob); a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+});
+document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());
+document.getElementById('importFile').addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const data=JSON.parse(r.result);
+      if(!data.names || !data.assign){ alert('올바른 백업 파일이 아닌 것 같아요.'); }
+      else{
+        store=data;
+        if(!store.colors) store.colors={};
+        store.names.forEach((n,i)=>{ if(!store.colors[n]) store.colors[n]=COLORS[i%COLORS.length]; });
+        if(!store.memo) store.memo={};
+        if(!store.center) store.center='삽교주간보호센터';
+        centerInp.value=store.center;
+        save(); renderPalette(); renderCal();
+        alert('백업을 불러왔습니다.');
+      }
+    }catch(err){ alert('파일을 읽지 못했어요.'); }
+    e.target.value='';
+  };
+  r.readAsText(f);
+});
+
+renderPalette();
+renderCal();
+</script>
+</body>
+</html>
