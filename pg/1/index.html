@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>숫자찾기 생성기</title>
+<!-- v2026.07.07.001 -->
+<style>
+  :root{
+    --ink:#1b1b1b; --line:#222; --accent:#2563eb; --soft:#f3f4f6;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:"Pretendard","Malgun Gothic","맑은 고딕",sans-serif; color:var(--ink); background:#fafafa;}
+
+  /* ===== 컨트롤 패널 ===== */
+  .controls{max-width:980px; margin:0 auto; padding:24px 20px 40px;}
+  .controls h1{font-size:22px; margin:0 0 4px;}
+  .controls .sub{color:#666; font-size:14px; margin:0 0 20px;}
+  .card{background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:18px 20px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,.04);}
+  .card h2{font-size:15px; margin:0 0 14px; color:#111;}
+  .row{display:flex; flex-wrap:wrap; gap:14px 22px; align-items:center;}
+  label.fld{display:flex; flex-direction:column; gap:5px; font-size:13px; color:#374151;}
+  select,input[type=text]{padding:8px 10px; border:1px solid #d1d5db; border-radius:8px; font-size:14px; background:#fff;}
+  .btn{padding:10px 18px; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;}
+  .btn-primary{background:var(--accent); color:#fff;}
+  .btn-primary:hover{background:#1d4ed8;}
+  .btn-ghost{background:#eef2ff; color:#1d4ed8;}
+  .btn-ghost:hover{background:#e0e7ff;}
+  .btn-line{background:#fff; border:1px solid #d1d5db; color:#374151;}
+  .btn-line:hover{background:#f9fafb;}
+  .pages-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:10px;}
+  .pages-grid .pg{display:flex; flex-direction:column; gap:4px; font-size:12px; color:#6b7280;}
+  .pages-grid .pg select{font-size:13px; padding:6px 8px;}
+  .quick{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:14px;}
+  .actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:6px;}
+  .hint{font-size:12px; color:#9ca3af; margin-top:10px;}
+
+  /* ===== 인쇄물(페이지) ===== */
+  #output{max-width:980px; margin:0 auto; padding:0 20px 60px;}
+  .sheet{
+    background:#fff; width:210mm; min-height:297mm; margin:0 auto 24px; padding:18mm 16mm;
+    border:1px solid #e5e7eb; box-shadow:0 2px 10px rgba(0,0,0,.06);
+    display:flex; flex-direction:column; align-items:center;
+    font-family:"Comic Sans MS","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  }
+  .sheet .head{width:100%; display:flex; justify-content:space-between; font-size:13px; color:#444; margin-bottom:10mm; min-height:14px;}
+  .sheet .head .title{font-weight:700;}
+  table.grid{border-collapse:collapse; margin:0 auto;}
+  table.grid td{
+    width:14mm; height:14mm; border:1px solid #111; text-align:center; vertical-align:middle;
+    font-size:24px; font-weight:600; padding:0;
+  }
+  table.grid td.hit{background:#fff3b0;}
+  .targets{display:flex; width:100%; border:1.5px solid #111; margin-top:10mm;}
+  .targets .col{flex:1; padding:10px 6px; display:flex; flex-direction:column; align-items:center; gap:9px;}
+  .targets .col + .col{border-left:1.5px solid #111;}
+  .targets .t{font-size:22px; font-weight:600; letter-spacing:1px;}
+  .targets .t.mark{color:#c026d3;}
+
+  .pageno{font-size:11px; color:#9ca3af; margin-top:6mm; align-self:center;}
+
+  @media print{
+    body{background:#fff;}
+    .controls{display:none !important;}
+    #output{max-width:none; margin:0; padding:0;}
+    .sheet{box-shadow:none; border:none; margin:0; width:auto; min-height:auto; padding:14mm 12mm; page-break-after:always;}
+    .sheet:last-child{page-break-after:auto;}
+    @page{size:A4 portrait; margin:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <h1>🔢 숫자찾기 생성기 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.07.07.001</span></h1>
+  <p class="sub">인지훈련용 숫자찾기 학습지를 무한 생성합니다. 한 부 = 10장. 제시된 묶음은 모두 격자 안에 들어 있습니다.</p>
+
+  <div class="card">
+    <h2>기본 설정</h2>
+    <div class="row">
+      <label class="fld">난이도(방향)
+        <select id="difficulty">
+          <option value="easy">쉬움 — 가로·세로</option>
+          <option value="normal" selected>보통 — 가로·세로·거꾸로</option>
+          <option value="hard">어려움 — 대각선 포함</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>페이지별 스타일 구성 (1~10장)</h2>
+    <div class="quick">
+      <label class="fld" style="flex-direction:row; align-items:center; gap:8px;">한 번에 적용:
+        <select id="bulkStyle">
+          <option value="num">숫자만</option>
+          <option value="kor">숫자 + 한글</option>
+          <option value="eng">숫자 + 영어</option>
+          <option value="sym">숫자 + 기호(＋－)</option>
+          <option value="spc">숫자 + 특수기호</option>
+        </select>
+      </label>
+      <button class="btn btn-ghost" id="applyAll">10장 모두 적용</button>
+      <button class="btn btn-line" id="presetMix">난이도 점증(섞기)</button>
+    </div>
+    <div class="pages-grid" id="pagesGrid"></div>
+    <p class="hint">각 칸에서 페이지별로 스타일을 다르게 지정하면 난이도를 조절할 수 있습니다.</p>
+  </div>
+
+  <div class="actions">
+    <label class="fld" style="flex-direction:row; align-items:center; gap:8px; font-size:13px;">총 장수:
+      <select id="totalPages">
+        <option value="10">10장 (1부)</option>
+        <option value="20">20장 (2부)</option>
+        <option value="30">30장 (3부)</option>
+        <option value="50">50장 (5부)</option>
+        <option value="100">100장 (10부)</option>
+      </select>
+    </label>
+    <button class="btn btn-primary" id="generate">📄 생성</button>
+    <button class="btn btn-line" id="print">🖨️ 인쇄 / PDF 저장</button>
+    <label class="fld" style="flex-direction:row; align-items:center; gap:8px; font-size:13px;">
+      <input type="checkbox" id="showAnswers"> 정답 표시(격자에 음영)
+    </label>
+  </div>
+  <p class="hint">위 ‘1~10장 스타일 구성’이 한 부의 패턴이며, 50·100장을 선택하면 그 패턴이 부마다 반복되되 문제는 매번 새로 생성됩니다. 생성 후 [인쇄] → ‘대상: PDF로 저장’을 선택하면 됩니다.</p>
+</div>
+
+<div id="output"></div>
+
+<script>
+const STYLES = {
+  num: { name:"숫자만",        chars:"0123456789" },
+  kor: { name:"숫자+한글",     chars:"0123456789가나다라마바사아자차카타파하거너더러머버서어저고노도로모보" },
+  eng: { name:"숫자+영어",     chars:"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" },
+  sym: { name:"숫자+기호(＋－)", chars:"0123456789＋－" },
+  spc: { name:"숫자+특수기호",   chars:"0123456789＋－×÷＝＜＞＃＠＆％★※♥☆◆" },
+};
+const SIZE = 12;          // 12 x 12
+const NUM_TARGETS = 15;   // 3칸 x 5개
+const DIRS = {
+  easy:  [[0,1],[1,0]],
+  normal:[[0,1],[1,0],[0,-1],[-1,0]],
+  hard:  [[0,1],[1,0],[0,-1],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]],
+};
+
+function rand(n){ return Math.floor(Math.random()*n); }
+function pick(str){ return str[rand(str.length)]; }
+
+// 한 묶음(문자열) 생성: 길이 4~5
+function makeTarget(chars){
+  const len = 4 + rand(2);
+  let s = "";
+  for(let i=0;i<len;i++) s += pick(chars);
+  return s;
+}
+
+// 12x12 격자에 묶음들을 반드시 배치 → 나머지 무작위 채움
+function buildPuzzle(styleKey, difficulty){
+  const chars = STYLES[styleKey].chars;
+  const dirs = DIRS[difficulty] || DIRS.normal;
+
+  for(let attempt=0; attempt<400; attempt++){
+    const grid = Array.from({length:SIZE}, ()=>Array(SIZE).fill(null));
+    const targets = [];
+    const placements = [];
+    let ok = true;
+
+    for(let t=0; t<NUM_TARGETS; t++){
+      let placed = false;
+      for(let tries=0; tries<200 && !placed; tries++){
+        const word = makeTarget(chars);
+        const dir = dirs[rand(dirs.length)];
+        const r0 = rand(SIZE), c0 = rand(SIZE);
+        const rEnd = r0 + dir[0]*(word.length-1);
+        const cEnd = c0 + dir[1]*(word.length-1);
+        if(rEnd<0||rEnd>=SIZE||cEnd<0||cEnd>=SIZE) continue;
+        // 충돌 검사(겹치되 같은 글자면 허용)
+        let fits = true;
+        for(let i=0;i<word.length;i++){
+          const r=r0+dir[0]*i, c=c0+dir[1]*i;
+          if(grid[r][c]!==null && grid[r][c]!==word[i]){ fits=false; break; }
+        }
+        if(!fits) continue;
+        const cells=[];
+        for(let i=0;i<word.length;i++){
+          const r=r0+dir[0]*i, c=c0+dir[1]*i;
+          grid[r][c]=word[i];
+          cells.push([r,c]);
+        }
+        targets.push(word);
+        placements.push(cells);
+        placed = true;
+      }
+      if(!placed){ ok=false; break; }
+    }
+    if(!ok) continue;
+
+    // 나머지 채우기
+    for(let r=0;r<SIZE;r++) for(let c=0;c<SIZE;c++)
+      if(grid[r][c]===null) grid[r][c]=pick(chars);
+
+    return { grid, targets, placements };
+  }
+  // 극히 드문 실패 시 마지막 시도 반환(이론상 도달 안 함)
+  return null;
+}
+
+function renderSheet(puzzle, idx, total, opts){
+  const { grid, targets, placements } = puzzle;
+  const hitSet = new Set();
+  if(opts.showAnswers){
+    placements.forEach(cells=>cells.forEach(([r,c])=>hitSet.add(r+"_"+c)));
+  }
+
+  const sheet = document.createElement("div");
+  sheet.className = "sheet";
+
+  // 격자
+  const table = document.createElement("table");
+  table.className = "grid";
+  for(let r=0;r<SIZE;r++){
+    const tr = document.createElement("tr");
+    for(let c=0;c<SIZE;c++){
+      const td = document.createElement("td");
+      td.textContent = grid[r][c];
+      if(hitSet.has(r+"_"+c)) td.classList.add("hit");
+      tr.appendChild(td);
+    }
+    table.appendChild(tr);
+  }
+  sheet.appendChild(table);
+
+  // 묶음 박스 3칸 x 5개
+  const box = document.createElement("div");
+  box.className = "targets";
+  for(let col=0; col<3; col++){
+    const colDiv = document.createElement("div");
+    colDiv.className = "col";
+    for(let i=0;i<5;i++){
+      const t = document.createElement("div");
+      t.className = "t" + (opts.showAnswers?" mark":"");
+      t.textContent = targets[col*5+i];
+      colDiv.appendChild(t);
+    }
+    box.appendChild(colDiv);
+  }
+  sheet.appendChild(box);
+
+  return sheet;
+}
+
+// ===== UI 구성 =====
+const pagesGrid = document.getElementById("pagesGrid");
+const pageSelects = [];
+function buildPageControls(){
+  for(let i=0;i<10;i++){
+    const wrap = document.createElement("div");
+    wrap.className = "pg";
+    const lbl = document.createElement("span");
+    lbl.textContent = `${i+1}장`;
+    const sel = document.createElement("select");
+    for(const k in STYLES){
+      const o = document.createElement("option");
+      o.value=k; o.textContent=STYLES[k].name; sel.appendChild(o);
+    }
+    sel.value = "num";
+    wrap.appendChild(lbl); wrap.appendChild(sel);
+    pagesGrid.appendChild(wrap);
+    pageSelects.push(sel);
+  }
+}
+buildPageControls();
+
+document.getElementById("applyAll").onclick = ()=>{
+  const v = document.getElementById("bulkStyle").value;
+  pageSelects.forEach(s=>s.value=v);
+};
+document.getElementById("presetMix").onclick = ()=>{
+  // 난이도 점증 예시 배열
+  const mix = ["num","num","sym","sym","eng","eng","kor","kor","eng","sym"];
+  pageSelects.forEach((s,i)=>s.value=mix[i]);
+};
+
+function generate(){
+  const out = document.getElementById("output");
+  out.innerHTML = "";
+  const opts = {
+    showAnswers: document.getElementById("showAnswers").checked,
+  };
+  const difficulty = document.getElementById("difficulty").value;
+  const total = parseInt(document.getElementById("totalPages").value, 10) || 10;
+  for(let i=0;i<total;i++){
+    const styleKey = pageSelects[i % 10].value;   // 10장 패턴을 부마다 반복
+    const puzzle = buildPuzzle(styleKey, difficulty);
+    if(!puzzle){ continue; }
+    out.appendChild(renderSheet(puzzle, i, total, opts));
+  }
+  window.scrollTo({top: out.offsetTop-10, behavior:"smooth"});
+}
+
+document.getElementById("generate").onclick = generate;
+document.getElementById("print").onclick = ()=>window.print();
+document.getElementById("showAnswers").onchange = ()=>{
+  if(document.getElementById("output").children.length) generate();
+};
+
+// 첫 화면 자동 생성
+generate();
+</script>
+</body>
+</html>

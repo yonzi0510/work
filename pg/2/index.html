@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>단어찾기 생성기</title>
+<!-- v2026.07.07.001 -->
+<style>
+  :root{ --ink:#1b1b1b; --accent:#16a34a; }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:"Pretendard","Malgun Gothic","맑은 고딕",sans-serif; color:var(--ink); background:#fafafa;}
+
+  .controls{max-width:980px; margin:0 auto; padding:24px 20px 40px;}
+  .controls h1{font-size:22px; margin:0 0 4px;}
+  .controls .sub{color:#666; font-size:14px; margin:0 0 20px;}
+  .card{background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:18px 20px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,.04);}
+  .card h2{font-size:15px; margin:0 0 14px; color:#111;}
+  .row{display:flex; flex-wrap:wrap; gap:14px 22px; align-items:center;}
+  label.fld{display:flex; flex-direction:column; gap:5px; font-size:13px; color:#374151;}
+  select,input[type=text]{padding:8px 10px; border:1px solid #d1d5db; border-radius:8px; font-size:14px; background:#fff;}
+  .btn{padding:10px 18px; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;}
+  .btn-primary{background:var(--accent); color:#fff;}
+  .btn-primary:hover{background:#15803d;}
+  .btn-ghost{background:#dcfce7; color:#15803d;}
+  .btn-ghost:hover{background:#bbf7d0;}
+  .btn-line{background:#fff; border:1px solid #d1d5db; color:#374151;}
+  .btn-line:hover{background:#f9fafb;}
+  .pages-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:10px;}
+  .pages-grid .pg{display:flex; flex-direction:column; gap:4px; font-size:12px; color:#6b7280;}
+  .pages-grid .pg select{font-size:13px; padding:6px 8px;}
+  .quick{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:14px;}
+  .actions{display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-top:6px;}
+  .hint{font-size:12px; color:#9ca3af; margin-top:10px;}
+
+  #output{max-width:980px; margin:0 auto; padding:0 20px 60px;}
+  .sheet{
+    background:#fff; width:210mm; min-height:297mm; margin:0 auto 24px; padding:18mm 16mm;
+    border:1px solid #e5e7eb; box-shadow:0 2px 10px rgba(0,0,0,.06);
+    display:flex; flex-direction:column; align-items:center;
+    font-family:"Comic Sans MS","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  }
+  table.grid{border-collapse:collapse; margin:0 auto;}
+  table.grid td{
+    width:14mm; height:14mm; border:1px solid #111; text-align:center; vertical-align:middle;
+    font-size:21px; font-weight:600; padding:0;
+  }
+  table.grid td.hit{background:#fff3b0;}
+  .words{display:flex; width:100%; border:1.5px solid #111; margin-top:10mm;}
+  .words .col{flex:1; padding:12px 10px; display:flex; flex-direction:column; align-items:center; gap:11px;}
+  .words .col + .col{border-left:1.5px solid #111;}
+  .words .w{font-size:22px; font-weight:600; letter-spacing:1px;}
+  .words .w.mark{color:#c026d3;}
+  .words .w::before{content:"○ "; color:#9ca3af; font-weight:400;}
+
+  @media print{
+    body{background:#fff;}
+    .controls{display:none !important;}
+    #output{max-width:none; margin:0; padding:0;}
+    .sheet{box-shadow:none; border:none; margin:0; width:auto; min-height:auto; padding:14mm 12mm; page-break-after:always;}
+    .sheet:last-child{page-break-after:auto;}
+    @page{size:A4 portrait; margin:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <h1>🔤 단어찾기 생성기 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.07.07.001</span></h1>
+  <p class="sub">12×12 한글 격자에 주제별 단어를 숨겨 만드는 인지훈련 학습지입니다. 한 부 = 10장. 제시된 단어는 모두 격자 안에 들어 있습니다.</p>
+
+  <div class="card">
+    <h2>기본 설정</h2>
+    <div class="row">
+      <label class="fld">난이도(방향)
+        <select id="difficulty">
+          <option value="easy">쉬움 — 가로·세로</option>
+          <option value="normal" selected>보통 — 가로·세로·거꾸로</option>
+          <option value="hard">어려움 — 대각선 포함</option>
+        </select>
+      </label>
+      <label class="fld">한 장당 단어 수
+        <select id="numWords">
+          <option value="8">8개</option>
+          <option value="10" selected>10개</option>
+          <option value="12">12개</option>
+          <option value="14">14개</option>
+          <option value="16">16개</option>
+          <option value="18">18개</option>
+          <option value="20">20개</option>
+          <option value="24">24개</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>페이지별 주제 구성 (1~10장)</h2>
+    <div class="quick">
+      <label class="fld" style="flex-direction:row; align-items:center; gap:8px;">한 번에 적용:
+        <select id="bulkTheme"></select>
+      </label>
+      <button class="btn btn-ghost" id="applyAll">10장 모두 적용</button>
+      <button class="btn btn-line" id="presetRandom">전부 무작위 섞기</button>
+    </div>
+    <div class="pages-grid" id="pagesGrid"></div>
+    <p class="hint">‘무작위 섞기’는 여러 주제의 단어를 섞어 한 장을 구성합니다. 특정 주제를 고르면 그 주제 단어만 나옵니다.</p>
+  </div>
+
+  <div class="actions">
+    <label class="fld" style="flex-direction:row; align-items:center; gap:8px; font-size:13px;">총 장수:
+      <select id="totalPages">
+        <option value="10">10장 (1부)</option>
+        <option value="20">20장 (2부)</option>
+        <option value="30">30장 (3부)</option>
+        <option value="50">50장 (5부)</option>
+        <option value="100">100장 (10부)</option>
+      </select>
+    </label>
+    <button class="btn btn-primary" id="generate">📄 생성</button>
+    <button class="btn btn-line" id="print">🖨️ 인쇄 / PDF 저장</button>
+    <label class="fld" style="flex-direction:row; align-items:center; gap:8px; font-size:13px;">
+      <input type="checkbox" id="showAnswers"> 정답 표시(격자에 음영)
+    </label>
+  </div>
+  <p class="hint">위 ‘주제 구성’이 한 부의 패턴이며, 50·100장 선택 시 패턴이 부마다 반복되되 단어·격자는 매번 새로 생성됩니다. [인쇄] → ‘대상: PDF로 저장’으로 PDF를 만들 수 있습니다.</p>
+</div>
+
+<div id="output"></div>
+
+<script>
+// ===== 주제별 단어 은행 =====
+const THEMES = {
+  동물:["사자","호랑이","코끼리","기린","원숭이","토끼","거북이","고양이","강아지","다람쥐","너구리","코뿔소","하마","악어","펭귄","두더지","캥거루","얼룩말","표범","늑대","여우","사슴","돼지","멧돼지","고라니","부엉이","올빼미","독수리","참새","제비","까치","비둘기","오리","거위","염소","낙타","코알라","판다","고슴도치","물개","돌고래","고래","상어","문어","오징어","개구리","두꺼비","도마뱀","달팽이","지렁이","잠자리","나비","매미","메뚜기","귀뚜라미"],
+  과일:["사과","포도","딸기","수박","참외","바나나","복숭아","자두","오렌지","키위","메론","앵두","살구","무화과","석류","레몬","망고","파인애플","체리","블루베리","자몽","한라봉","청포도","단감","홍시","대추","모과","라임","코코넛","두리안","리치","구아바","천도복숭아"],
+  채소:["배추","당근","양파","마늘","호박","오이","가지","고추","상추","시금치","깻잎","부추","콩나물","버섯","토마토","감자","고구마","브로콜리","파프리카","연근","우엉","도라지","더덕","미나리","쑥갓","양배추","양상추","케일","셀러리","옥수수","완두콩","강낭콩","고사리","토란","생강","대파","쪽파","청경채","비트"],
+  음식:["김치","된장","불고기","비빔밥","김밥","떡국","만두","라면","국수","칼국수","잡채","갈비","삼겹살","찌개","부침개","송편","식혜","떡볶이","순두부","제육","냉면","수제비","보쌈","족발","닭갈비","찜닭","갈비탕","설렁탕","삼계탕","육개장","순대","어묵","파전","호떡","붕어빵","약과","미역국","볶음밥","돈가스","오므라이스"],
+  신체:["머리","이마","눈썹","입술","어깨","팔꿈치","손목","손가락","무릎","발목","허리","가슴","발바닥","손바닥","엄지","검지","종아리","뒤꿈치","콧등","턱","눈동자","머리카락","엉덩이","발가락","손등","어금니","송곳니","갈비뼈","척추","골반","볼","목"],
+  가족:["아버지","어머니","할머니","할아버지","누나","동생","언니","오빠","이모","고모","삼촌","사촌","조카","손자","손녀","부모","며느리","사위","외삼촌","처남","외할머니","외할아버지","이모부","고모부","큰아버지","작은아버지","시어머니","시아버지","장모","장인","매형","형수","올케","동서"],
+  자연:["하늘","구름","바다","강물","들판","나무","바위","폭포","계곡","호수","무지개","바람","햇살","단풍","노을","별빛","이슬","안개","파도","모래","절벽","동굴","언덕","시냇물","초원","사막","빙하","화산","수평선","새벽","천둥","번개","눈송이","서리","우박","달빛","은하수","별똥별"],
+  생활용품:["칫솔","치약","수건","베개","이불","그릇","주전자","냄비","가위","우산","빗자루","거울","시계","의자","책상","신발","양말","모자","안경","지갑","열쇠","컵","접시","숟가락","젓가락","프라이팬","도마","행주","청소기","세탁기","냉장고","다리미","손톱깎이","면도기","비누","샴푸","휴지","방석","담요","옷걸이","부채","손전등"],
+  직업:["의사","간호사","교사","경찰","소방관","요리사","가수","화가","농부","어부","목수","미용사","운전사","군인","판사","변호사","기자","배우","작가","약사","교수","우체부","집배원","건축가","디자이너","회계사","통역사","번역가","사진작가","조종사","승무원","선장","검사","수의사","한의사","사육사","정원사","제빵사","바리스타","무용수","과학자","연구원"],
+  꽃:["장미","국화","튤립","백합","진달래","개나리","무궁화","코스모스","해바라기","민들레","동백","수선화","벚꽃","나팔꽃","제비꽃","봉선화","철쭉","모란","수국","난초","카네이션","라벤더","라일락","목련","매화","작약","백일홍","채송화","안개꽃","프리지아","양귀비","금잔화","팬지","히아신스"],
+};
+const THEME_KEYS = Object.keys(THEMES);
+const ALL_WORDS = [].concat(...THEME_KEYS.map(k=>THEMES[k]));
+// 빈칸 채울 음절 풀(모든 단어 글자 모음) → 자연스러운 한글 격자
+const FILLER = Array.from(new Set(ALL_WORDS.join("").split("")));
+
+const SIZE = 12;
+const DIRS = {
+  easy:[[0,1],[1,0]],
+  normal:[[0,1],[1,0],[0,-1],[-1,0]],
+  hard:[[0,1],[1,0],[0,-1],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]],
+};
+
+function rand(n){ return Math.floor(Math.random()*n); }
+function pick(arr){ return arr[rand(arr.length)]; }
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=rand(i+1);[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+// 생성 1회 동안 단어 사용 횟수 추적 → 페이지 간 중복 최소화
+let usage = {};
+const byUsage = (a,b)=> (usage[a]||0)-(usage[b]||0);
+
+// 한 장에 쓸 단어 목록 선택 (적게 쓰인 단어 우선)
+function chooseWords(themeKey, n){
+  const pool = (themeKey==="random") ? ALL_WORDS : THEMES[themeKey];
+  // 무작위로 섞은 뒤 사용 횟수가 적은 순으로 정렬 → 같은 횟수끼리는 무작위
+  let cand = shuffle(pool.filter(w=>w.length<=SIZE)).sort(byUsage).slice(0, n);
+  // 주제 단어가 부족하면 다른 주제 단어로 보충
+  if(cand.length < n){
+    const used = new Set(cand);
+    const extra = shuffle(ALL_WORDS.filter(w=>w.length<=SIZE && !used.has(w))).sort(byUsage);
+    cand = cand.concat(extra.slice(0, n - cand.length));
+  }
+  return cand.slice(0, n);
+}
+
+function buildPuzzle(themeKey, difficulty, n){
+  const dirs = DIRS[difficulty] || DIRS.normal;
+  for(let attempt=0; attempt<500; attempt++){
+    const words = chooseWords(themeKey, n);
+    if(words.length < n) return null;
+    const grid = Array.from({length:SIZE},()=>Array(SIZE).fill(null));
+    const placements = [];
+    let ok = true;
+
+    // 긴 단어부터 배치
+    const ordered = words.slice().sort((a,b)=>b.length-a.length);
+    for(const word of ordered){
+      let placed=false;
+      for(let tries=0; tries<300 && !placed; tries++){
+        const dir = dirs[rand(dirs.length)];
+        const r0=rand(SIZE), c0=rand(SIZE);
+        const rEnd=r0+dir[0]*(word.length-1), cEnd=c0+dir[1]*(word.length-1);
+        if(rEnd<0||rEnd>=SIZE||cEnd<0||cEnd>=SIZE) continue;
+        let fits=true;
+        for(let i=0;i<word.length;i++){
+          const r=r0+dir[0]*i, c=c0+dir[1]*i;
+          if(grid[r][c]!==null && grid[r][c]!==word[i]){ fits=false; break; }
+        }
+        if(!fits) continue;
+        const cells=[];
+        for(let i=0;i<word.length;i++){
+          const r=r0+dir[0]*i, c=c0+dir[1]*i;
+          grid[r][c]=word[i]; cells.push([r,c]);
+        }
+        placements.push({word, cells});
+        placed=true;
+      }
+      if(!placed){ ok=false; break; }
+    }
+    if(!ok) continue;
+
+    for(let r=0;r<SIZE;r++) for(let c=0;c<SIZE;c++)
+      if(grid[r][c]===null) grid[r][c]=pick(FILLER);
+
+    // 화면 표시용 단어 순서(원래 무작위 순서 유지)
+    return { grid, words, placements };
+  }
+  return null;
+}
+
+function renderSheet(puzzle, opts){
+  const { grid, words, placements } = puzzle;
+  const hitSet = new Set();
+  if(opts.showAnswers) placements.forEach(p=>p.cells.forEach(([r,c])=>hitSet.add(r+"_"+c)));
+
+  const sheet=document.createElement("div"); sheet.className="sheet";
+
+  const table=document.createElement("table"); table.className="grid";
+  for(let r=0;r<SIZE;r++){
+    const tr=document.createElement("tr");
+    for(let c=0;c<SIZE;c++){
+      const td=document.createElement("td");
+      td.textContent=grid[r][c];
+      if(hitSet.has(r+"_"+c)) td.classList.add("hit");
+      tr.appendChild(td);
+    }
+    table.appendChild(tr);
+  }
+  sheet.appendChild(table);
+
+  // 단어 목록: 단어가 많으면 3열, 적으면 2열
+  const box=document.createElement("div"); box.className="words";
+  const nCol = words.length > 16 ? 3 : 2;
+  const per = Math.ceil(words.length/nCol);
+  const cols=[];
+  for(let i=0;i<nCol;i++) cols.push(words.slice(i*per, (i+1)*per));
+  cols.forEach(list=>{
+    const col=document.createElement("div"); col.className="col";
+    list.forEach(w=>{
+      const el=document.createElement("div");
+      el.className="w"+(opts.showAnswers?" mark":"");
+      el.textContent=w;
+      col.appendChild(el);
+    });
+    box.appendChild(col);
+  });
+  sheet.appendChild(box);
+  return sheet;
+}
+
+// ===== UI =====
+const bulkTheme=document.getElementById("bulkTheme");
+[["random","무작위 섞기"], ...THEME_KEYS.map(k=>[k,k])].forEach(([v,t])=>{
+  const o=document.createElement("option"); o.value=v; o.textContent=t; bulkTheme.appendChild(o);
+});
+
+const pagesGrid=document.getElementById("pagesGrid");
+const pageSelects=[];
+for(let i=0;i<10;i++){
+  const wrap=document.createElement("div"); wrap.className="pg";
+  const lbl=document.createElement("span"); lbl.textContent=`${i+1}장`;
+  const sel=document.createElement("select");
+  [["random","무작위 섞기"], ...THEME_KEYS.map(k=>[k,k])].forEach(([v,t])=>{
+    const o=document.createElement("option"); o.value=v; o.textContent=t; sel.appendChild(o);
+  });
+  sel.value="random";
+  wrap.appendChild(lbl); wrap.appendChild(sel);
+  pagesGrid.appendChild(wrap);
+  pageSelects.push(sel);
+}
+
+document.getElementById("applyAll").onclick=()=>{
+  const v=bulkTheme.value; pageSelects.forEach(s=>s.value=v);
+};
+document.getElementById("presetRandom").onclick=()=>{
+  pageSelects.forEach(s=>s.value="random");
+};
+
+function generate(){
+  const out=document.getElementById("output"); out.innerHTML="";
+  const opts={ showAnswers:document.getElementById("showAnswers").checked };
+  const difficulty=document.getElementById("difficulty").value;
+  const n=parseInt(document.getElementById("numWords").value,10)||10;
+  const total=parseInt(document.getElementById("totalPages").value,10)||10;
+  usage={};  // 이번 생성분의 단어 사용 횟수 초기화
+  for(let i=0;i<total;i++){
+    const themeKey=pageSelects[i%10].value;
+    const puzzle=buildPuzzle(themeKey, difficulty, n);
+    if(!puzzle) continue;
+    puzzle.words.forEach(w=>{ usage[w]=(usage[w]||0)+1; });  // 사용 기록
+    out.appendChild(renderSheet(puzzle, opts));
+  }
+  window.scrollTo({top:out.offsetTop-10, behavior:"smooth"});
+}
+
+document.getElementById("generate").onclick=generate;
+document.getElementById("print").onclick=()=>window.print();
+document.getElementById("showAnswers").onchange=()=>{
+  if(document.getElementById("output").children.length) generate();
+};
+
+generate();
+</script>
+</body>
+</html>

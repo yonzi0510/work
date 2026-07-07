@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이동서비스 안내서</title>
+<!-- v2026.07.07.001 -->
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:"맑은 고딕","Malgun Gothic",sans-serif; background:#f0f2f5; color:#222; }
+  .layout { display:flex; gap:0; min-height:100vh; }
+  .panel-input { width:400px; flex-shrink:0; background:#fff; border-right:1px solid #ddd; padding:20px; overflow-y:auto; height:100vh; position:sticky; top:0; }
+  .panel-preview { flex:1; padding:30px; overflow-y:auto; height:100vh; }
+  .panel-input h2 { font-size:17px; margin:0 0 4px; }
+  .panel-input .sub { font-size:12px; color:#888; margin:0 0 16px; }
+  fieldset { border:1px solid #e0e0e0; border-radius:8px; margin:0 0 14px; padding:12px 14px; }
+  legend { font-size:13px; font-weight:700; color:#2962ff; padding:0 6px; }
+  label { display:block; font-size:12px; color:#555; margin:8px 0 3px; }
+  input[type=text], input[type=time], select { width:100%; padding:7px 9px; border:1px solid #ccc; border-radius:5px; font-size:13px; font-family:inherit; }
+  input:focus, select:focus { outline:none; border-color:#2962ff; }
+  .row { display:flex; gap:8px; } .row > div { flex:1; }
+  .btns { display:flex; gap:8px; margin-top:6px; }
+  button { flex:1; padding:11px; border:none; border-radius:6px; font-size:13px; font-weight:700; cursor:pointer; font-family:inherit; }
+  .btn-print { background:#2962ff; color:#fff; } .btn-print:hover { background:#1a4fd6; }
+  .btn-jpg { background:#00897b; color:#fff; } .btn-jpg:hover { background:#00695c; }
+  .btn-reset { background:#eceff1; color:#555; } .btn-reset:hover { background:#dfe3e6; }
+
+  .doc { background:#fff; width:210mm; min-height:297mm; margin:0 auto; padding:18mm 16mm; box-shadow:0 2px 12px rgba(0,0,0,.12); font-size:11pt; line-height:1.7; color:#000; }
+  .doc h1 { text-align:center; font-size:16pt; margin:0 0 2px; letter-spacing:1px; }
+  .doc .subtitle { text-align:center; font-size:12pt; margin:0 0 22px; }
+  .doc .clause { margin:0 0 14px; } .doc .clause .num { font-weight:700; }
+  .blue { color:#1565d8; font-weight:700; }
+  table.tbl { border-collapse:collapse; width:100%; margin:6px 0 4px; }
+  table.tbl th, table.tbl td { border:1px solid #444; padding:5px 6px; text-align:center; font-size:10pt; }
+  table.tbl th { background:#f3f3f3; font-weight:700; }
+  .doc .sec-label { font-weight:700; margin:18px 0 4px; }
+  .doc .notice-date { text-align:right; margin:30px 0 0; font-size:11pt; }
+  .doc .signature { text-align:center; margin:40px 0 0; position:relative; display:inline-block; left:50%; transform:translateX(-50%); }
+  .doc .signature .org { font-size:15pt; font-weight:700; letter-spacing:4px; position:relative; z-index:1; }
+  .doc .signature .seal-wrap { position:absolute; right:0; top:50%; width:0; height:0; z-index:2; }
+  .doc .signature .seal-wrap img { position:absolute; right:-10px; top:-42px; width:62px; height:62px; opacity:0.85; }
+
+  @media print {
+    body { background:#fff; }
+    .panel-input { display:none; }
+    .panel-preview { padding:0; height:auto; overflow:visible; }
+    .doc { box-shadow:none; margin:0; width:auto; min-height:auto; padding:0; }
+    @page { size:A4; margin:14mm; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <div class="panel-input">
+    <h2>이동서비스 안내서 <span class="ver" style="font-size:11px;color:#999;font-weight:400;">v2026.07.07.001</span></h2>
+    <p class="sub">새로 안내할 내용을 입력하면 오른쪽에 바로 반영됩니다.</p>
+
+    <fieldset style="background:#fff7e6;border-color:#ffe0a3;">
+      <legend style="color:#b8860b;">🚐 차량 목록 관리</legend>
+      <div class="row">
+        <div style="flex:2;"><input type="text" id="newcar" placeholder="새 차량 (예: 모닝(12가3456))"></div>
+        <div style="flex:1;"><button type="button" onclick="addCar()" style="background:#f0ad4e;color:#fff;width:100%;">추가</button></div>
+      </div>
+      <label>등록된 차량 (삭제하려면 선택 후 삭제 버튼)</label>
+      <div class="row">
+        <div style="flex:2;"><select id="carlist" size="5" style="height:auto;"></select></div>
+        <div style="flex:1;"><button type="button" onclick="delCar()" style="background:#d9534f;color:#fff;width:100%;">선택 삭제</button></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>수급자 정보</legend>
+      <label>수급자명</label><input type="text" id="name">
+      <div class="row">
+        <div><label>보호자</label><input type="text" id="guardian"></div>
+        <div><label>연락처</label><input type="text" id="phone"></div>
+      </div>
+      <label>주소 (없으면 직접 입력)</label><input type="text" id="addr" placeholder="주소를 입력하세요">
+    </fieldset>
+
+    <fieldset>
+      <legend>변경 적용된 시간표 (주중/토/일 각각 입력)</legend>
+
+      <label style="font-weight:700;color:#333;margin-top:6px;">주중</label>
+      <label>출발(이용) 시간 / 귀가 시간</label>
+      <div class="row">
+        <div><input type="time" id="wd_dep_t"></div>
+        <div><input type="time" id="wd_ret_t"></div>
+      </div>
+      <label>차량</label><select id="wd_car" class="carsel"></select>
+
+      <label style="font-weight:700;color:#333;margin-top:12px;">토요일</label>
+      <label>출발(이용) 시간 / 귀가 시간</label>
+      <div class="row">
+        <div><input type="time" id="sat_dep_t"></div>
+        <div><input type="time" id="sat_ret_t"></div>
+      </div>
+      <label>차량</label><select id="sat_car" class="carsel"></select>
+
+      <label style="font-weight:700;color:#333;margin-top:12px;">일요일</label>
+      <label>출발(이용) 시간 / 귀가 시간</label>
+      <div class="row">
+        <div><input type="time" id="sun_dep_t"></div>
+        <div><input type="time" id="sun_ret_t"></div>
+      </div>
+      <label>차량</label><select id="sun_car" class="carsel"></select>
+    </fieldset>
+
+    <fieldset>
+      <legend>변경 전 / 변경 후 내역 (평일·토·일)</legend>
+      <div style="display:flex;gap:16px;margin:4px 0 8px;">
+        <label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#234;"><input type="checkbox" id="use_sat" checked style="width:auto;"> 토요일 이용</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#234;"><input type="checkbox" id="use_sun" checked style="width:auto;"> 일요일 이용</label>
+      </div>
+      <label style="font-weight:700;color:#333;margin-top:10px;">평일</label>
+      <label>변경전 오전 (시간/차량)</label>
+      <div class="row"><div><input type="time" id="wd_b_am_t"></div><div><select id="wd_b_am_c" class="carsel"></select></div></div>
+      <label>변경전 오후 (시간/차량)</label>
+      <div class="row"><div><input type="time" id="wd_b_pm_t"></div><div><select id="wd_b_pm_c" class="carsel"></select></div></div>
+      <label>변경후 오전 (시간/차량)</label>
+      <div class="row"><div><input type="time" id="wd_a_am_t"></div><div><select id="wd_a_am_c" class="carsel"></select></div></div>
+      <label>변경후 오후 (시간/차량)</label>
+      <div class="row"><div><input type="time" id="wd_a_pm_t"></div><div><select id="wd_a_pm_c" class="carsel"></select></div></div>
+      <label style="font-weight:700;color:#333;margin-top:10px;">토요일</label>
+      <label>변경전 오전 (시간/차량)</label>
+      <div class="row"><div><input type="time" id="sat_b_am_t"></div><div><select id="sat_b_am_c" class="carsel"></select></div></div>
+      <label>변경전 오후 (시간/차량)</label>
+      <div class="row"><div><input type="time" id="sat_b_pm_t"></div><div><select id="sat_b_pm_c" class="carsel"></select></div></div>
+      <label>변경후 오전 (시간/차량)</label>
+      <div class="row"><div><input type="time" id="sat_a_am_t"></div><div><select id="sat_a_am_c" class="carsel"></select></div></div>
+      <label>변경후 오후 (시간/차량)</label>
+      <div class="row"><div><input type="time" id="sat_a_pm_t"></div><div><select id="sat_a_pm_c" class="carsel"></select></div></div>
+      <label style="font-weight:700;color:#333;margin-top:10px;">일요일</label>
+      <label>변경전 오전 (시간/차량)</label>
+      <div class="row"><div><input type="time" id="sun_b_am_t"></div><div><select id="sun_b_am_c" class="carsel"></select></div></div>
+      <label>변경전 오후 (시간/차량)</label>
+      <div class="row"><div><input type="time" id="sun_b_pm_t"></div><div><select id="sun_b_pm_c" class="carsel"></select></div></div>
+      <label>변경후 오전 (시간/차량)</label>
+      <div class="row"><div><input type="time" id="sun_a_am_t"></div><div><select id="sun_a_am_c" class="carsel"></select></div></div>
+      <label>변경후 오후 (시간/차량)</label>
+      <div class="row"><div><input type="time" id="sun_a_pm_t"></div><div><select id="sun_a_pm_c" class="carsel"></select></div></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>안내일자</legend>
+      <input type="text" id="notice_date">
+    </fieldset>
+
+    <fieldset style="background:#f3f0ff;border-color:#d5ccff;">
+      <legend style="color:#6a4bff;">✍️ 서명부 (기관명 · 직인)</legend>
+      <label>기관명 (서명 문구)</label>
+      <input type="text" id="org_name" value="삽교주간보호센터장">
+
+      <label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#234;margin-top:10px;"><input type="checkbox" id="seal_show" checked style="width:auto;"> 직인 표시</label>
+
+      <label>직인 이미지 교체 (PNG/JPG)</label>
+      <input type="file" id="seal_file" accept="image/*" style="font-size:12px;padding:4px 0;border:none;">
+
+      <label>직인 크기: <span id="seal_size_val">62</span> px</label>
+      <input type="range" id="seal_size" min="30" max="120" value="62" style="width:100%;">
+      <label>가로 위치 (오른쪽 기준): <span id="seal_x_val">-10</span> px</label>
+      <input type="range" id="seal_x" min="-80" max="80" value="-10" style="width:100%;">
+      <label>세로 위치: <span id="seal_y_val">-42</span> px</label>
+      <input type="range" id="seal_y" min="-90" max="30" value="-42" style="width:100%;">
+    </fieldset>
+
+    <div class="btns">
+      <button class="btn-reset" onclick="resetAll()">초기화</button>
+      <button class="btn-print" onclick="window.print()">인쇄 / PDF</button>
+    </div>
+    <div class="btns" style="margin-top:8px;">
+      <button class="btn-jpg" onclick="saveJpg()">JPG 저장</button>
+    </div>
+  </div>
+
+  <div class="panel-preview">
+    <div class="doc" id="doc">
+      <h1>[이동서비스 안전수칙]</h1>
+      <p class="subtitle">- 차량운행표 -</p>
+      <div class="clause"><span class="num">① 기관 안전수칙 목표</span><br>수급자가 기관을 안전하게 이용할 수 있도록 이동서비스를 제공하는 수칙을 만들어 안전한 이동서비스를 제공한다.</div>
+      <div class="clause"><span class="num">② 운전자 및 동승자</span><br>장기요양요원 등이 특별자치시장, 특별자치도지사, 시장, 군수, 구청장에게 신고된 차량을 이용하여 이동서비스를 제공한다. (제34조 1항 참조)</div>
+      <div class="clause"><span class="num">③</span> 차량 안전수칙 및 사고시 조치 사항은 기존 제공해드린 안전수칙을 확인하시며, 필요한 경우 다시 제공해드립니다.</div>
+      <div class="clause"><span class="num">④ 차량운행표 ( 변경 적용된 시간표 )</span></div>
+
+      <table class="tbl">
+        <tr><th>수급자</th><td class="blue" id="o_name"></td><th>보호자</th><td class="blue" id="o_guardian"></td></tr>
+        <tr><th>연락처</th><td class="blue" colspan="3" id="o_phone"></td></tr>
+        <tr><th>주소</th><td class="blue" colspan="3" id="o_addr"></td></tr>
+      </table>
+
+      <table class="tbl">
+        <tr><th rowspan="2">구분</th><th>이용 요일</th><th>이용시간</th><th>차량</th></tr>
+        <tr><th colspan="3" style="background:#fafafa;"></th></tr>
+        <tr><th>주중</th><td>주중</td><td class="blue" id="o_wd_time"></td><td class="blue" id="o_wd_car"></td></tr>
+        <tr id="srow_sat"><th>주말</th><td>토요일</td><td class="blue" id="o_sat_time"></td><td class="blue" id="o_sat_car"></td></tr>
+        <tr id="srow_sun"><th>주말</th><td>일요일</td><td class="blue" id="o_sun_time"></td><td class="blue" id="o_sun_car"></td></tr>
+      </table>
+
+      <div class="sec-label">※ 기존 차량운행표와 변경된 내역</div>
+      <table class="tbl">
+        <tr><th rowspan="2">구분</th><th colspan="4">변경전</th><th colspan="4">변경후</th></tr>
+        <tr><th colspan="2">오전</th><th colspan="2">오후</th><th colspan="2">오전</th><th colspan="2">오후</th></tr>
+        <tr><th></th><th>시간</th><th>차량</th><th>시간</th><th>차량</th><th>시간</th><th>차량</th><th>시간</th><th>차량</th></tr>
+        <tr><th>평일</th><td class="blue" id="o_wd_b_am_t"></td><td class="blue" id="o_wd_b_am_c"></td><td class="blue" id="o_wd_b_pm_t"></td><td class="blue" id="o_wd_b_pm_c"></td><td class="blue" id="o_wd_a_am_t"></td><td class="blue" id="o_wd_a_am_c"></td><td class="blue" id="o_wd_a_pm_t"></td><td class="blue" id="o_wd_a_pm_c"></td></tr>
+        <tr id="row_sat"><th>토요일</th><td class="blue" id="o_sat_b_am_t"></td><td class="blue" id="o_sat_b_am_c"></td><td class="blue" id="o_sat_b_pm_t"></td><td class="blue" id="o_sat_b_pm_c"></td><td class="blue" id="o_sat_a_am_t"></td><td class="blue" id="o_sat_a_am_c"></td><td class="blue" id="o_sat_a_pm_t"></td><td class="blue" id="o_sat_a_pm_c"></td></tr>
+        <tr id="row_sun"><th>일요일</th><td class="blue" id="o_sun_b_am_t"></td><td class="blue" id="o_sun_b_am_c"></td><td class="blue" id="o_sun_b_pm_t"></td><td class="blue" id="o_sun_b_pm_c"></td><td class="blue" id="o_sun_a_am_t"></td><td class="blue" id="o_sun_a_am_c"></td><td class="blue" id="o_sun_a_pm_t"></td><td class="blue" id="o_sun_a_pm_c"></td></tr>
+      </table>
+
+      <p class="notice-date">안내일자 : <span class="blue" id="o_notice_date"></span></p>
+      <div class="signature">
+        <span class="org" id="o_org_name">삽교주간보호센터장</span>
+        <span class="seal-wrap"><img id="seal_img" alt="직인" src="직인.png" onerror="this.style.display='none'; this.dataset.missing='1';"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var simpleFields = ["name","guardian","phone","addr","notice_date"];
+var topFields=["wd_dep_t","wd_ret_t","wd_car","sat_dep_t","sat_ret_t","sat_car","sun_dep_t","sun_ret_t","sun_car"];
+var detailFields = [];
+["wd","sat","sun"].forEach(function(k){ ["b_am_t","b_am_c","b_pm_t","b_pm_c","a_am_t","a_am_c","a_pm_t","a_pm_c"].forEach(function(s){ detailFields.push(k+"_"+s); }); });
+function syncSimple(id){ var el=document.getElementById(id),o=document.getElementById("o_"+id); if(el&&o)o.textContent=el.value; }
+function recompute(){
+  ["wd","sat","sun"].forEach(function(k){
+    var dep=document.getElementById(k+"_dep_t").value, ret=document.getElementById(k+"_ret_t").value, car=document.getElementById(k+"_car").value;
+    var span = (dep||ret) ? (dep||"")+"~"+(ret||"") : "";
+    document.getElementById("o_"+k+"_time").textContent=span;
+    document.getElementById("o_"+k+"_car").textContent=car;
+  });
+  detailFields.forEach(function(id){ var o=document.getElementById("o_"+id); if(o)o.textContent=document.getElementById(id).value; });
+  simpleFields.forEach(syncSimple);
+  // 토/일 이용 체크에 따라 행 숨김
+  var sat=document.getElementById("use_sat").checked, sun=document.getElementById("use_sun").checked;
+  document.getElementById("row_sat").style.display = sat? "" : "none";
+  document.getElementById("row_sun").style.display = sun? "" : "none";
+  var ssat=document.getElementById("srow_sat"), ssun=document.getElementById("srow_sun");
+  if(ssat) ssat.style.display = sat? "" : "none";
+  if(ssun) ssun.style.display = sun? "" : "none";
+  applySignature();
+}
+function applySignature(){
+  document.getElementById("o_org_name").textContent = document.getElementById("org_name").value;
+  var img=document.getElementById("seal_img");
+  var size=document.getElementById("seal_size").value;
+  var x=document.getElementById("seal_x").value;
+  var y=document.getElementById("seal_y").value;
+  img.style.width=size+"px"; img.style.height=size+"px";
+  img.style.right=x+"px"; img.style.top=y+"px";
+  document.getElementById("seal_size_val").textContent=size;
+  document.getElementById("seal_x_val").textContent=x;
+  document.getElementById("seal_y_val").textContent=y;
+  img.style.display = (document.getElementById("seal_show").checked && !img.dataset.missing) ? "" : "none";
+}
+document.getElementById("seal_file").addEventListener("change", function(e){
+  var f=e.target.files && e.target.files[0];
+  if(!f) return;
+  var reader=new FileReader();
+  reader.onload=function(ev){ var si=document.getElementById("seal_img"); delete si.dataset.missing; si.src=ev.target.result; applySignature(); };
+  reader.readAsDataURL(f);
+});
+["org_name","seal_show","seal_size","seal_x","seal_y"].forEach(function(id){
+  var el=document.getElementById(id);
+  if(el){ el.addEventListener("input", applySignature); el.addEventListener("change", applySignature); }
+});
+document.getElementById("use_sat").addEventListener("change", recompute);
+document.getElementById("use_sun").addEventListener("change", recompute);
+simpleFields.concat(topFields).concat(detailFields).forEach(function(id){
+  var el=document.getElementById(id);
+  if(el){ el.addEventListener("input", recompute); el.addEventListener("change", recompute); }
+});
+function resetAll(){
+  simpleFields.concat(topFields).concat(detailFields).forEach(function(id){var e=document.getElementById(id); if(e)e.value="";});
+  setToday(); recompute();
+}
+function setToday(){
+  var d=new Date();
+  document.getElementById("notice_date").value=d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일";
+}
+
+function collectCss(){ var c=""; for(var i=0;i<document.styleSheets.length;i++){ try{var r=document.styleSheets[i].cssRules; for(var j=0;j<r.length;j++)c+=r[j].cssText+"\n";}catch(e){} } return c; }
+function saveJpg(){
+  var doc=document.getElementById("doc");
+  var nameVal=(document.getElementById("name").value||"안내서").trim();
+  var w=Math.ceil(doc.getBoundingClientRect().width), h=Math.ceil(doc.scrollHeight);
+  var clone=doc.cloneNode(true); clone.style.margin="0"; clone.style.boxShadow="none";
+  var xml=new XMLSerializer().serializeToString(clone), css=collectCss();
+  var svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'"><defs><style type="text/css"><![CDATA['+css+']]></style></defs><foreignObject x="0" y="0" width="'+w+'" height="'+h+'"><div xmlns="http://www.w3.org/1999/xhtml" style="background:#fff;">'+xml+'</div></foreignObject></svg>';
+  var scale=2, canvas=document.createElement("canvas"); canvas.width=w*scale; canvas.height=h*scale;
+  var ctx=canvas.getContext("2d"); ctx.scale(scale,scale); ctx.fillStyle="#fff"; ctx.fillRect(0,0,w,h);
+  var img=new Image();
+  img.onload=function(){ ctx.drawImage(img,0,0); try{ var u=canvas.toDataURL("image/jpeg",0.95); var a=document.createElement("a"); a.href=u; a.download="이동서비스_안내서_"+nameVal+".jpg"; document.body.appendChild(a); a.click(); document.body.removeChild(a);}catch(e){alert("JPG 저장 오류: "+e);} };
+  img.onerror=function(){ alert("JPG 변환 실패. 인쇄/PDF를 이용해 주세요."); };
+  img.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);
+}
+
+
+// 차량 드롭다운 "직접 입력" 처리 (이벤트 위임)
+document.addEventListener("change", function(e){
+  if(e.target && e.target.classList && e.target.classList.contains("carsel")){
+    if(e.target.value==="__custom__"){
+      var v=prompt("차량명을 입력하세요 (예: 스타리아(714모2617))","");
+      if(v){ if(CARS.indexOf(v)<0)CARS.push(v); renderCarSelects(); renderCarList(); e.target.value=v; }
+      else { e.target.value=""; }
+    }
+    recompute();
+  }
+});
+
+// ===== 차량 목록 관리 =====
+var CARS = ["K3(68고1739)","SM3(63다3023)","경차(150하7184)","그랜져(14어2727)","레이(113거8130)","레이(198러9409)","소나타(163호6244)","스타렉스(74버9171)","스타렉스(79모7939)","스타렉스2(74버9171)","스타리아(714모2617)","스타리아(727노3007)","스토닉(04보1808)","카니발(74무0466)"];
+function renderCarSelects(){
+  document.querySelectorAll(".carsel").forEach(function(s){
+    var cur=s.value;
+    s.innerHTML="";
+    var blank=document.createElement("option"); blank.value=""; blank.textContent=""; s.appendChild(blank);
+    CARS.forEach(function(c){ var o=document.createElement("option"); o.value=c; o.textContent=c; s.appendChild(o); });
+    var cu=document.createElement("option"); cu.value="__custom__"; cu.textContent="+ 직접 입력"; s.appendChild(cu);
+    // 기존 선택값 복원 (목록에 있으면)
+    if(cur && CARS.indexOf(cur)>=0) s.value=cur; else if(cur==="") s.value="";
+  });
+}
+function renderCarList(){
+  var cl=document.getElementById("carlist"); cl.innerHTML="";
+  CARS.forEach(function(c){ var o=document.createElement("option"); o.value=c; o.textContent=c; cl.appendChild(o); });
+}
+function addCar(){
+  var v=(document.getElementById("newcar").value||"").trim();
+  if(!v){ alert("차량명을 입력하세요."); return; }
+  if(CARS.indexOf(v)>=0){ alert("이미 등록된 차량입니다."); return; }
+  CARS.push(v); document.getElementById("newcar").value="";
+  renderCarSelects(); renderCarList();
+}
+function delCar(){
+  var cl=document.getElementById("carlist");
+  if(cl.selectedIndex<0){ alert("삭제할 차량을 목록에서 선택하세요."); return; }
+  var v=cl.value;
+  if(!confirm("'"+v+"' 차량을 목록에서 삭제할까요?")) return;
+  CARS=CARS.filter(function(c){return c!==v;});
+  renderCarSelects(); renderCarList(); recompute();
+}
+renderCarSelects();
+renderCarList();
+
+setToday();
+recompute();
+</script>
+</body>
+</html>
