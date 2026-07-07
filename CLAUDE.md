@@ -23,6 +23,7 @@ GitHub Pages로 배포된다: https://yonzi0510.github.io/work/
 |---|---|---|
 | `pgcalendar/` | 강사배치 달력 | 월별 강사배치표 작성·인쇄(A4 가로). 단일 HTML, localStorage 저장 |
 | `move/` | 이동서비스 안내서 | 차량운행표(변경 안내서) 작성·인쇄·JPG. 직인 이미지 삽입 가능한 단일 HTML |
+| `pdf/` | PDF 변환기 | PDF↔Markdown·이미지 변환, 이미지·문서→PDF. pdf.js·jspdf·html2canvas 내장(워커 포함) 단일 HTML |
 
 ## 절대 규칙 (어기면 안 됨)
 
