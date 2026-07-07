@@ -10,6 +10,7 @@ GitHub Pages로 배포된다: https://yonzi0510.github.io/work/
 |---|---|---|
 | `pg/` | 프로그램 일지 생성기 | 운영기록지 "반응 및 특이사항" 문장 생성. 문장은행 내장 단일 HTML |
 | `pg2/` | 강사배치 달력 | 월별 강사배치표 작성·인쇄(A4 가로). 단일 HTML, localStorage 저장 |
+| `sg/` | 근무표(삽교) | 월별 근무 편성표 자동 배치·수동 수정·엑셀/JPG 출력. exceljs·html2canvas 내장 단일 HTML |
 
 ## 절대 규칙 (어기면 안 됨)
 
