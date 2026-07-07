@@ -12,7 +12,7 @@ GitHub Pages로 배포된다: https://yonzi0510.github.io/work/
 | `pg/` | 인지 프로그램 도구 모음 | `pg/1`·`pg/2`·`pg/pixel`로 가는 안내 허브(index.html). 하위가 실제 도구 |
 | `pg/1/`, `pg/2/` | 숫자찾기·단어찾기 생성기 | 인지훈련용 학습지 무한 생성·인쇄. 각 폴더 단일 HTML(외부 의존 없음) |
 | `pg/pixel/` | 픽셀 도안 인쇄 | 인지학습 픽셀아트 활동지 43종 A4/A3 인쇄. `pictures/*.js`·`print.js`·`print.css` 상대경로 로드 |
-| `pg2/` | 강사배치 달력 | 월별 강사배치표 작성·인쇄(A4 가로). 단일 HTML, localStorage 저장 |
+| `pgcalendar/` | 강사배치 달력 | 월별 강사배치표 작성·인쇄(A4 가로). 단일 HTML, localStorage 저장 |
 | `move/` | 이동서비스 안내서 | 차량운행표(변경 안내서) 작성·인쇄·JPG. 직인 이미지 삽입 가능한 단일 HTML |
 
 ## 절대 규칙 (어기면 안 됨)
