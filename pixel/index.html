@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#4DC98F">
+<link rel="icon" type="image/png" href="favicon.png">
+<title>픽셀 도안 인쇄</title>
+<link rel="stylesheet" href="print.css">
+<style id="page-style"></style>
+</head>
+<body>
+
+<!-- ═══════════ 화면 UI (인쇄 시 숨김) ═══════════ -->
+<div id="ui" class="no-print">
+  <header class="print-header">
+    <h1 class="app-title"><span class="title-emoji">🖨️</span> 픽셀 도안 인쇄</h1>
+  </header>
+
+  <div class="controls">
+    <div class="control-group">
+      <div class="control-label">용지</div>
+      <div id="paper-btns" class="seg">
+        <button data-paper="A4" class="seg-btn sel">A4</button>
+        <button data-paper="A3" class="seg-btn">A3</button>
+      </div>
+    </div>
+    <div class="control-group">
+      <div class="control-label">방향</div>
+      <div id="orient-btns" class="seg">
+        <button data-orient="auto" class="seg-btn sel">자동</button>
+        <button data-orient="portrait" class="seg-btn">세로</button>
+        <button data-orient="landscape" class="seg-btn">가로</button>
+      </div>
+    </div>
+    <div class="control-group">
+      <div class="control-label">배경 칸</div>
+      <div id="bgfill-btns" class="seg">
+        <button data-bgfill="off" class="seg-btn sel">비우기</button>
+        <button data-bgfill="on" class="seg-btn">배경도 색칠</button>
+      </div>
+    </div>
+    <div class="control-group">
+      <div class="control-label">이름·날짜 칸</div>
+      <div id="namedate-btns" class="seg">
+        <button data-namedate="on" class="seg-btn sel">넣기</button>
+        <button data-namedate="off" class="seg-btn">빼기</button>
+      </div>
+    </div>
+    <button id="btn-print" class="big-btn btn-primary">🖨️ 인쇄하기</button>
+  </div>
+
+  <div id="pic-list" class="pic-list"><!-- 스크립트가 난이도별 도안 카드 생성 --></div>
+</div>
+
+<!-- ═══════════ 인쇄되는 종이 (화면에서는 미리보기) ═══════════ -->
+<div id="preview-wrap" class="preview-wrap">
+  <div id="sheet" class="sheet"><!-- 스크립트가 도안·범례 생성 --></div>
+</div>
+
+<script src="pictures/heart.js"></script>
+<script src="pictures/star.js"></script>
+<script src="pictures/ladybug.js"></script>
+<script src="pictures/rabbit.js"></script>
+<script src="pictures/tulip.js"></script>
+<script src="pictures/rainbow.js"></script>
+<script src="pictures/icecream.js"></script>
+<script src="pictures/rocket.js"></script>
+<script src="pictures/butterfly.js"></script>
+<script src="pictures/strawberry.js"></script>
+<script src="pictures/fish.js"></script>
+<script src="pictures/panda.js"></script>
+<script src="pictures/dino.js"></script>
+<script src="pictures/cake.js"></script>
+<script src="pictures/work01.js"></script>
+<script src="pictures/work02.js"></script>
+<script src="pictures/work03.js"></script>
+<script src="pictures/work04.js"></script>
+<script src="pictures/work05.js"></script>
+<script src="pictures/work06.js"></script>
+<script src="pictures/work07.js"></script>
+<script src="pictures/work08.js"></script>
+<script src="pictures/work09.js"></script>
+<script src="pictures/work10.js"></script>
+<script src="pictures/work11.js"></script>
+<script src="pictures/work12.js"></script>
+<script src="pictures/work13.js"></script>
+<script src="pictures/work14.js"></script>
+<script src="pictures/work15.js"></script>
+<script src="pictures/work16.js"></script>
+<script src="pictures/work17.js"></script>
+<script src="pictures/work18.js"></script>
+<script src="pictures/work19.js"></script>
+<script src="pictures/work20.js"></script>
+<script src="pictures/work21.js"></script>
+<script src="pictures/work22.js"></script>
+<script src="pictures/work23.js"></script>
+<script src="pictures/work24.js"></script>
+<script src="pictures/work25.js"></script>
+<script src="pictures/work26.js"></script>
+<script src="pictures/work27.js"></script>
+<script src="pictures/work28.js"></script>
+<script src="pictures/work29.js"></script>
+<script src="print.js"></script>
+</body>
+</html>
