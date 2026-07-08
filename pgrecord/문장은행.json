@@ -14,6 +14,11 @@
    "인지": 1043,
    "몸단장": 100,
    "사회": 93
+  },
+  "appended": {
+   "source": "프로그램 운영기록지 PDF 3부(좌표 열분리 추출, 이름 열 배제)",
+   "added": 409,
+   "date": "2026-07-08"
   }
  },
  "sentences": [
@@ -23188,6 +23193,3687 @@
    ],
    "status": "휴식",
    "text": "활동 중 피로감을 보이시고 자리에 앉아 주무심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "한글쓰기에 집중 하시어 프로그램에 거의 참여하지 않으심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "혼자 보행 운동 등을 하시며 어르신 루틴에 따른 생활을 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "동작 들을 열심히 따라 하시나 평소와 달리 다소 피곤 해보이 셨음"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "프로그램에 즐겁게 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "집중 하시고, 동작 들을 하나 하나 열심히 잘 따라 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "휴식",
+   "text": "누워서 휴식을 취하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "동작 들을 항상 열심히, 정확하게 따라 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "동작 들을 빠짐 없이 열심히 따라 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "집중 하시어 프로그램에 열중 하여 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "프로그램을 이해하시고, 집중 하시어 열심히 찾으시며 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "흥미를 가지고 집중하여 열심히 찾아 보심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "한글쓰기에 집중 하시어 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "머리 감으 시고 TV 보시며 어르신들과 담소 나누심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "머리 감으 시고 안마 의자도 하시며, 편안하게 휴식 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "프로그램에 흥미를 가지고 잘지 켜보 시며 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "이야기도 흥미 있게 들으시고 즐겁게 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "이야기에 흥미를 가지고 즐겁게들 으심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "이야기를 흥미 있게 집중하여 잘들 으심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "피곤하신지 앉아서 조금 졸으심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "마라카스 흔드 시며 프로그램에 즐겁게 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "노래도 크게 부리 시고, 흥겹게 리듬 맞추시며 즐겁게 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "별다른 움직임은 없으 셨으나, 노래를 즐겁게들 으셨음"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "마라카스 흥겹게 흔드 시며 즐겁게 프로그램에 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "탬버린 열심히 치시며, 노래 흥겹게 따라 부르심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "노래도 흥겹게 부르시며 즐겁게 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "마라카스와 몸을 흔드 시며, 흥겨워하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "노래도 흥겹게 부르시고, 프로그램에 즐거워하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "집중 하시어 꼼꼼하게 채색 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "집중 하시어 프로그램에 열심히 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "꼼꼼하게 채색 하시며 즐겁게 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "많이 느리 시지만 그래도 집중 하시어 열심히 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "프로그램에 흥미를 가지고 열심히 정답을 풀이 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "진중하게 프로그램에 성실히 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "참여를 위해 호명 하며 유도 하였 으나 큰의 미없 었음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "강사에게 집중 하시어 동작 정확하게 따라 하심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "동작 따라 하시는 모습을 관찰 해 보니 체력이 많이 좋아 지셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "다른 어르신들의 활동 모습 지켜 보시 다 이내 휴식 하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "가위질 조금 도와드리니 칠교 놀이 이해하시고 열심히 하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "옆에서 보조 하며 진행 함."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "드리니 웃으시며 좋아하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "숫자를 꼼꼼하게 칠하시며 빙고에 열심히 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "빙고게임에 즐겁게 참여하시고, 흥미를 느끼심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "즐겁게 프로그램에 함께 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "마라카스 흔드 시며 프로그램에 흥겹게 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "탬버린 흔드 시며 노래도 크게 따라 부르심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "탬버린 흔드 시며 즐겁게 프로그램에 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "마라카스 흔드 시며 매우 흥겹게 프로그램에 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "노래도 크게 부르시고 매우 기분좋게 프로그램에 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "노래도 불러주시고 박수 치시며 즐겁게 프로그램에 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "동작 들을 크고 정확하게 열심히 따라 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "본인의 루틴 대로 운동을 하실 뿐, 실버 체조를 따라하지 않으심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "열심히 따라 하시 다, 중간에 다소 힘이 드신 지 휴식을 취하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "중간에 다소 졸기도 하셨지만, 대체로 즐겁게 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "동작 들을 즐겁게 따라하시고 흥겨워하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "동작 들을 차분하게, 열심히 따라서 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "가장 앞에서 동작 들을 열심을 다해 따라 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "동작 들을 정확하게, 열심히 따라 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "앉아서 많은 시간 졸으심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "꼼꼼하게 채색을 완성하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "꼼꼼하게 채색 하시고, 완성하신 작품을 보고 성취감을 느끼심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "채색을 꼼꼼하게 하셨 으며, 집중 하시어 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "꼼꼼하게 채색 활동에 열심히 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "집중 하시어 채색 활동에 열심히 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "신중하게 색을고 르시고 열심히 채색 활동 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "집중 하시어, 채색 활동에 즐거이 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "졸지 않으시고, 집중 하시어 열심히 채색 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "머리 감으 시고, 손톱 관리도 받으심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "머리 감고 천자 문쓰 시며 유익 하게 시간 보내심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "손톱 관리 받으시고, 높은 만족도를 보이심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "머리 감으 시고, 손톱 관리도 받으심. 매우 감사 함을 표 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "머리 감으 시고 보행 운동 열심히 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "머리 감으 시고 TV 보시며 즐겁게 담소 나누심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "머리 감으 시고 TV 보시며 편안하게 휴식 취하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "숫자 퍼즐 하시며 유익 하게 시간 보내심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "머리 감으 시고 안마 의자를 하시며 편하 게 휴식 취하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "머리 감으 시고 안마 의자 하시며 편안하게 휴식을 취하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "머리 감으 시고 손톱 관리 받으심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "머리 감으 시고 안마 의자도 하시며 편안한 시간 보내심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "휴식",
+   "text": "손톱 관리 받으시고, 누워서 휴식을 취하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "숫자 퍼즐 맞추시며 유익 하게 시간 보내심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "머리 감으 시고 매우고 마움을 표현하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "머리 감으 시고, 티비 보시며 즐겁게 담소 나누심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "집중 하시어 열심히 바라 보시고 열심히 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "프로그램을 집중하여 바라 보심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "열심히 집중 하셨으나, 여쭈 어보 면잘 안들 린다고 답변 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "항상 강사님께 귀기 울여 주시고 프로그램에 열심히 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "마라카스 흔드 시며 다른 어르신들의 노래 응원 해주심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "함께 하자 말씀 드려도 반응 없음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "노란 샤쓰의 사나이 열창하심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "노래에 맞추어 박수 치시며 참여 해주심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "자리에 앉아 조셨음. 호명 하며 참여 유도 하였 으 나의 미없 었음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "다른 어르신들의 활동 바라보며 박수 쳐주심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "다른 어르신들의 참여를 바라보며 하하 하호 호호 웃으심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "집중 유도하여도 소용 없었음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "함께 하자 말씀 드려도 싫다 하시며 누우심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "참여하심. 옆의 어르신도 많이도 우심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "집중력이 좋으셨으며 동작을 열심히 따라하셨음"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "동작을 열심히 따라 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "한글쓰기에 집중하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "동작을 가장 적극적으로 열심히 따라 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "어르신의 루틴 대로 운동 하시며 프로그램 시간을 보내심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "동작 들을 보시고 최대한 열심히 따라 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "흥미를 가지고 TV를 즐겁게 시청 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "반복된 운동을 하시며 시간을 보내심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "흥미를 가지고 TV를 즐겁게 관람 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "흥미를 느끼 시며 즐겁게 영상 관람 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "자리에 앉아 계셨으나 TV는 잘바 라 보지 않으시고 휴식을 취하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "숫자인지 학습에 집중 하시어 유익 하게 시간 보내심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "탬버린 치시며 프로그램에 즐거이 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "노래 한곡 부르시고, 박수도 쳐주 셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "노래는 부르 지않 으시나, 탬버린 흔드 시며 즐겁게 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "즐겁게 구경 하시나, 노래를 부르 시지는 않으심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "흥겹게 마라카스 흔드 시며 즐겁게 구경하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "탬버린 치시며 노래를 흥겹게 따라 부르심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "노래도 크게 부르시며, 흥겹게 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "집중하여 강사를 보시며, 동작 들을 성실히 따라 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "어르신의 루틴에 따른 동작과 운동 들을 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "흥겹게 바라 보시며 프로그램 참여를 즐거워하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "풀이 방식을 어느 정도이 해 하시나 찾는 속도가 다소 더디심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "머리 감기 거부 하시고 tv 보시며 담소 나누심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "편안한 자세로 숫자 퍼즐 하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "적극적인 참여 유도하자 거수 하시며 참여하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "집중 잘하시고, 적극적으로 참여하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "퀴즈 활동보다 한글 공부 집중하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "활동에 집중하시는 하다가도 생화 실을 돌며 보행 운동 하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "활동에 집중 하시며 정답 맞추기에도 적극적이 였음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "적극적으로 거수 하며 정답 맞추심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "활동에 관심 많으 셨으며 적극적으로 거수 하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "프로그램 관심 없으시고 휴식 하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "활동에 관심 보이 시나 다소 소극적으로 참여하셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "특별한 반응 보이지 않으시고 앉아서 관람 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "탬버린 치시며 흥겹게 노래 따라 부르심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "탬버린 으로 박자 맞춰 주시며 즐겁게 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "마이크 들고 노래를 흥겹게 부르심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "손 운동을 최대한 많이 하시 게끔 하려는의도와는 맞지 않으 셨음"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "속도는 다소 더디 셨지만, 열심을 다해 프로그램에 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "집중 하셔서 활동에 적극적으로 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "프로그램을 이해하시고 참여도와 집중도가 좋으 셨음"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "활동에는 큰 관심은 없으 셨음. 생활 실을도 시며 보행 운동 하심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "강사에게 집중 하시고 동작도 크게크게 잘 따라 하심. 잘웃 으심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "체조 활동에 관심 없으시고 누워서 숫자 퍼즐 하심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "즐거운 모습으로 활동 하심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "덩실덩실 신나게 참여하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "잘하시는 듯 하나 자세 히보 면색 구분 위치 구분이 어려 우셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "활동 적극적으로 참여하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "하는 활동 으로 알고 계시는 듯함. 그러나 매우 꼼꼼하게 체크 하 시며 집중력 좋으 셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "빙고게임 완벽하게 이해하시고 적극적으로 참여하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "적극적으로 참여하시어 빙고 완성 해마 스크 받으시고 좋아하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "빙고게임 즐겁게 참여하시며 좋아 하셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "가장 즐겁게 참여하시며, 숫자와 단어 적극적으로 부르심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "탬버린 흔드 시며 흥겹게 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "노래를 즐겁게들 으시 다가 도중 간 중간 보행 운동을 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "프로그램에 즐거워하시며 노래도 크게 함께 불러주심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "노래를 즐겁게 따라 부르시며 흥겨워하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "마라카스 흔드 시며 노래에 흥겨워하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "즐겁게 몸을 흔드 시며 흥겹게 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "탬버린 흔드 시며 노래에 흥겨워하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "마이크 들고 노래 따라 부르시며 흥겹게 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "동작을 따라하려 노력 하시고 집중하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "차분하게 동작 들을 집중하여 열심히 따라 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "추시며 관찰 하듯 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "숫자인지 학습을 하시며 휴식을 취하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "즐겁게 동작 들을 열심히 따라 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "같은 도형을 찾아 붙이는 작업에 성의 있게 천천히 잘 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "풀이 방식을 이해하시고 집중 하시어 풀이 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "문제를 푸시 다가도 풀이 하는 방법을 반복적으로 잊으 셨음"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "머리 감으 시고 천자 문 학습 하시며 유익 하게 시간 보내심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "머리 감으 시고, 숫자인지 학습 열심히 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "머리 감으 시고 안마 의자 등을 하시며 편하 게 휴식 취하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "숫자인지 학습에 집중 하시어 시간 보내심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "머리 감으 시고 숫자인지 학습 하시며 알차 게 시간 보내심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "프로그램에 흥미 있게 집중 하시어 잘바 라보심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "하니 반응하심. 아침에 2 시간 보행 운동 하셔서 피곤 하시 다고 하시면서도 열심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "노래 시간 매우 좋아 하시며 모르는 노래가 없으심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "작은 목소리로 노래 따라 부르시며 박수 열심히 쳐주심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "노래 즐기시는 모습으로 신나게 탬버린 쳐주심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "노래 열심히 부르시며 즐기심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "특이사항 없음. 아시는 노래는 조용히 따라 부르심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "노래 박자에 맞추어 박수 치시 다가 노래도 따라 부르심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "노래 따라 부르 시다, 피곤하신지 자리이 탈 하시어 휴식 하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "완성하는 과정을 지켜 보심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "매우 집중 하시어 꼼꼼하게 잘 채색 하시고 가위질도 열심히 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "집중하여 채색 하시고 즐겁게 바라 보심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "채색에 집중 하시어 꼼꼼하게 잘칠 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "매우 꼼꼼하게 채색 하시며 열정적으로 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "자리에서 일어나 적극적으로 체조 활동 참여하심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "프로그램 활동보다 숫자 퍼즐에 집중 하셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "밝은 얼굴로 참여하시며 즐기심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "중간중간 참여 독려하며 진행 하였음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "중간중간 운동 하시며, 영상도 흥미 있게 구경하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "앉아서 많은 시간 졸기도 하시며 편안하게 시간 보내심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "숫자 찾기 인지학습 하시며 시간 보내심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "중간중간 졸면 서영 상을 보심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "이야기 즐겁게 들으시고 박수도 많이 치시며 즐겁게 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "이야기에 집중 하시고 많이 웃어 주심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "이야기도 즐겁게 들으시고, 노래에는 맞춰서 흥겹게 춤도 춰주심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "숫자인지 학습 하시며 휴식 취하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "노래도 불러주시고, 많이 호응 하시고 즐겁게 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "이야기도 즐겁게 들으시고 박수 치시며 즐거워하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "오면 웃으시며 즐겁게 따라 부르기도 하시고, 다소 기분 기복이 심 하셨음"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "숫자인지 학습 하시며 편안하게 휴식 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "다리운동 하시고, TV 보시며 자유 시간을 즐기심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "마이크 잡고 가장 적극적으로 활동 즐겨 주심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "참여 격려 하였 으나 큰반 응없 으셨음"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "차분하게 앉아서 활동 즐겨 주심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "한손으로 박자 맞추며 노래 즐겨 주심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "마이크 잡고 열심히 노래 부르심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "동작 들을 열심히 따라 즐겁게 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "동작을 적극적으로 따라하시며 즐겁게 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "중간중간 동작을 따라하지 않고 바라만 보셨음"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "흥겹게 동작 들을 열심히 따라 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "동작이 크지는 않지만 열심히 보고 따라하셨음"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "동작을 열심히 따라하시며 즐겁게 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "음악에 맞추어 흥겹게 몸을 흔드심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "앉아서 다소 많은 시간을 졸으심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "동작 들을 열심히 크게크게 따라 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "매우 빠른 속도로 풀이 하셨고 정확도도 뛰어나 셨음"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "후에는 옆의 어르신도 잘도 우심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "프로그램에 진중하게 참여하시고 열심히 풀이 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "풀이 방법을 계속 해서 헷갈려 하시며 풀이 속도도 다소 더디 셨음"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "머리 감으 시고, 안마 의자 등을 하시며 편안하게 휴식을 취하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "머리 감으 시고 열심히 보행 운동 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "머리 감으 시고 TV 보시며 담소 나누심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "숫자 찾기 학습을 하시며 편안한 시간 보내심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "다리운동 하시며 알찬 시간 보내심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "컨디션이 좋지 않으 셔서 휴식을 취하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "집중하여 강사를 바라 보시나, 내용에 대해서는 잘알 지못 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "즐겁게 참여 하시나 귀가 어두 워 이야기 내용은 잘못들 으심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "프로그램에 즐겁게 참여하시고, 이야기도 즐겁게들 으심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "특이사항 없이 활동 즐겨 주심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "노래 시간 가장 행복 해 보이시며 다양한 노래 부르시며 즐겨 주심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "새로운 노래신청 하여 노래 부르시고 박수 갈채 받으심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "노래에 맞추어 박수 치며 참여하심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "오늘은 기분이 좋으신 듯, 큰 목소리로 유정 천리 완창 하심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "특이사항 없이 활동 즐겨 주심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "탬버린 열심히 치시며 조곤 조곤 노래 따라 부르심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "빙고게임 적극적으로 참여하시며 환하게 웃으심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "단어 찾는 속도가 다소 늦으 시어 옆에서 보조함."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "빙고게임 재미 있다고 하시며 즐거워하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "하여 적극 보조 하였음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "자리에 우두 커니 앉아 강사를 바라 보시 기만 함."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "활동 내용 설명하며 참여 권유하였으나 거부 하시며 휴식 하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "컨디션 저조하여 휴식 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "활동에 관심 보이지 않고 지속적으로 졸으심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "컨디션 좋지 않아 휴식 하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "강사에게 집중하며 활동 즐기는 모습 보이심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "마이크 잡고 노래도 부르시며 즐기시는 모습 보이심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "보호자 딸분이 오셔서 이른 하원 하셨음"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "활동에 적극적으로 참여하시며 환하게 웃으심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "지속해서 호명 하며 활동 권유 하였음에도 잠만 주무심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "활동에 집중하며 적극적으로 참여 해주심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "컨디션 좋지 않으 시어 휴식 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "일어나 춤도 추시며 즐겨 주심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "섬마을 선생님 열창 해주심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "다른 참여자들의 노래도 함께 즐겨 주심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "시종일관 미소를 잃지 않고 즐겁게 참여 해주심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "자리에 우두 커니 앉아 활동에 적절한 반응 보이지 못 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "휴식",
+   "text": "누워 계시 어호 명 하며 활동 참여 권유하였으나 거부 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "자리에 앉아 강사에게 집중 하시며 열심히 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "활동 매우 적극적으로 참여 해주 셨음"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "다소 소극적인 모습으로 호명 하며 적극적인 참여 권유 하였음"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "활동에 흥미 보이지 않고 앉아 구경만 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "떨어지시면서 자리이동이 잦으 셨음. 신나는 음악에 맞추어 강사님을 보시면서 율동도 잘 따라하시고"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "활동에 참여하셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "팔에 힘이 빠지시면서 박수만 치고 계신 경우가 많으 셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "나머지 일어나서 춤도 추셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "힘이 빠지시면서 고개를 숙이신채 졸고 계셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "힘이 빠지시면서 쉬엄쉬엄 따라하셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "함박 웃음을 지으시면서 즐겁게 율동에 참여하셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "흥겹게 부르시면서 활동에 참여하셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "적극적으로 참여 잘하 시었음"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "뒤늦게 참여하시어 집중하시는 모습 보이심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "활동 적극적으로 참여 해주 시었음"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "웃으시며 활동 바라 보시 기는 하시나 적극적인 참여는 어려 웠음"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "활동 참여하지 않으시고 휴식 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "집중하시는 모습 보이심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "활동에 적극적으로 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "집중하시는 모습 보이시며 열심히 참여 해주 셨음"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "옆에서 보조가 필요 하였음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "활동에는 적극적으로 임하셨으나 옆에서 보조가 필요 하였음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "즐겁게 활동에 임하 셨으 면 퀴즈도 재밌 게잘 맞추 셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "활동 전반적으로 보조가 필요 하였음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "활동 전반적으로 옆에서 보조가 필요 하셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "다양한 색을 사용 하지 않으심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "드림 만다 라 도안을 보시고 어지럽다고 하여 부분적 도움을 드려심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "맞추어 마라카스도 신나게 흔들어 주셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "지시 면서 눈을 감고 계시는 경우가 많으 셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "탬버린을 흔들어 주셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "어르신들의 노래에 맞추어 마라카스를 즐겁게 흔들어 주셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "있도록 제공 하였 더니 그외 퍼즐 조각은 원활하게 잘 맞추심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "자리에 앉아 박수 치며 즐겨 주시는 모습이심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "마이크 잡고 적극적으로 노래 부르시며 즐거워하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "노래 즐기시는 모습. 동작도 열심히 따라 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "노래도 율동도 열심히 따라하시며 참여 해주 셨음"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "활동 참여 권유하였으나 기운 없는 모습으로 휴식 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "다른 참여자들의 참여 모습 바라만 보심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "노래 좋아하시는 모습으로 적극적으로 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "최근 활동에 대한 관심이 없어 지셨음. 자리에 앉아 주무심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "특이사항 없이 잘 따라 하심 자리에는 앉아 계셨으나 컨디션 좋지 못한 모습으로 앉아 계심."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "강사의 이야기에 웃음도 지으시며 즐겁게 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "동작 열심히 따라하시며 즐거워하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "활동 참여 권유하였으나 거부 당하 였음"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "활동에 흥미 보이지 않으시고 휴식 하셨음"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "몸이 어렵 다고 하시며 휴식 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "강사에게 집중 하시며 적극적으로 활동에 참여 해주심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "자리에는 앉아 계셨으나 반응 없이 정면만 바라보고 계심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "소극적으로 반응하시며 활동에 참여하셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "웃으며 적극적으로 참여 실수 있도록 독려 하였 으나 어려 웠음"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "강사의 동작에 집중하며 열심히 따라 하시려고 함."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "강사에게 집중 하시며 적극적으로 참여 해주 셨음"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "통해 작품을 완성하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "지 점토 반죽 하시면서 촉감 놀이에 푹빠 지시고 환하게 웃어 주심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "단계별로 수행 하실 때마다 확인을 받고 칭찬 받기를 원 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "지 점토 촉감 놀이를 즐겨 하시고 순서에 맞게 수행 원활 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "지 점토 촉감 놀이를 즐겨 하시고 반죽 할수 록부 드러 워지심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "구령도 크게 외치 시고 단합 하여 풍선 오재미 던지기 잘 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "차분하게 순서를 기 다리 시고 단합 하여 게임에 즐겁게 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "규칙을 인지 하시고 다른 어르신과 어울려 서개 임에 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "승부욕이 강하셔서 오재미를 수시로 주어 서던 지심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "오재미를 수시로 주어 풍선이 없어 질때 까지 던지심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "활동이 즐겁 다고 하시면서 흥겹게 활동에 참여하셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "어르신과 게임에 장의 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "노래도 흥겹게 따라 부르시면서 활동에 참여하셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "강사님을 보시면서 즐겁게 활동에 참여하시며 즐겁 다고 하셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "즐겁게 율동을 따라하시며 흥겹게 활동에 참여하셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "보조가 필요 하였음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "활동에 적극적으로 참여하시며 즐겁게 활동에 참여하셨음."
+  },
+  {
+   "category": "사회",
+   "types": [
+    "사회"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "흥겹게 공연을 감상 하셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "하시면서 흥겹게 활동에 참여하셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "특이사항 없이 즐겁게 활동에 참여하셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "함박 웃음을 지으시면서 흥겹게 활동에 참여하셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "어려워 하시어 옆에서 보조가 필요 하였음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "특이사항 없이 색칠도 열심히 하시면서 퍼즐도 잘맞 추셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "쉬엄쉬엄 색칠을 하셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "색칠을 꼼꼼히 하시며 적극적으로 활동에 참여하셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "집중력이 떨어지시면서 자리이동이 잦으 셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "크게 하시면서 자신감 있어 보이심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "동작을 잘 따라 하시 다기 운이 없다 하셔서 노래만 따라 부르심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "표정 변화가 없이 노래만 간간히 따라 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "컨디션 좋지 않아 휴식 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "초반에 앉아 계시 다가 이내 머리를 붙잡고 누워 계심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "환한 웃음을 지으시면서 즐겁게 율동에 참여하셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "음악소리에 맞춰 손가락 움직 일뿐 호응도 많지 않으심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "부르시는 모습을 보이심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "자리에 앉아 티비를 시청 하셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "손톱과 발톱은 깔끔하게 다듬어 드렸음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "발톱을 깔끔하게 다듬어드리면서 영양제를 발라 드렸음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "참여하셨음. 자리에는 앉아 계셨으나 율동보다는 앉아서 강사님을 바라 보심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "고개를 숙이신채 졸고 계셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "환한 웃음을 지으시면서 즐겁게 활동에 참여하셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "수행 원활 하시고 옆에 어르신에게 도움을 주심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "옆에서 전반적으로 보조 하며 진행 하였음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "활동 즐기 시며 적극적으로 참여 해주심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "활동에 흥미 보이시며 즐겁게 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "설명을 드려도 본인이 하고 싶은 대로 작품을 만들어나가심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "옆자리 어르신과 웃으며 노래 부르고 즐겨 주심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "다른 참여자들의 노래도 적극적으로 응원 해주심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "집중 잘하시며 게임에 몰두 하심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "전적으로 옆에서 보조 하며 진행 하였음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "하시어 보조 하며 진행 하였음"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "점점 팔에 힘이 빠지시면서 쉬엄쉬엄 따라하셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "하셨으나 점점 집중력이 떨어지시면서 고개를 숙이신채 졸고 계셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "병원진료로 인하여 외출 특이사항 없이 율동을 크게 하시면서 즐겁게 활동에 참여하셨음"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "차분히 찾으시며 집중하여 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "적극적으로 잘라 붙이 시며 능동 적으로 참여하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "컨디션이 좋지 않으신지 우두 커니 앉아 바라만 보심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "따라 하사고 민요 노래도 잘 따라 부르시면서 흥겹게 활동에 참여 하셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "활동 참여하지 못하고 휴식 하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "옆에 함께 앉아 활동 호응 유도 하였음"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "박수를 치시면서 고개를 흔들어 주시면서 리듬을 맞추심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "휴식",
+   "text": "컨디션이 좋지 않아 누워서 휴식을 취하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "리듬에 맞춰 마라카스 흔들면서 아시는 노래 따라 부르심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "섬마을 선생님 선곡 하셨으나 가사를 모르 시고 흥만 있으심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "모정의 세월 열창 하시고 그외 참여 시간에는 졸고 게심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "집중력을 발휘하여 즐겁게 그림 채색을 하셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "쉬엄쉬엄 따라하셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "옆에서 보조로 도와드려야 했음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "별다른 반응 없이 자리에 앉아 주로 관찰만 하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "활동에 관심을 보이시지 않고 이내 주무심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "손톱을 깨끗하게 다듬어드리면서 매니큐어를 발라 드렸음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "머리를 개운하게 감고 나오 셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "컨디션 난조로 휴식을 취하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "동작을 따라하시고 않고 노랫 소리에 맞춰 자유롭게 춤을 추심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "초반에는 참여하셨다가 피곤하셔서 휴식을 취하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "활동에 의지가 없으시고 대부분 시간을 졸고 계심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "속도가 늦어 남은 탁구공이 많으심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "환하게 웃어 주시면서 율동도 따라하시고 즐거워하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "탁구공이 떨어 지자 옆에 어르신 탁구공 까지 던지심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "옆에 어르신과 담소를 나누시면서 즐겁게 게임에 참여하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "즐겁게 율동을 따라하시고 민요노래에 맞추어 흥겹게 부르 셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "힘이 빠지시면서 눈을 감으신채고 개로 리듬만 타고 계셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "활동에 대한이 해력이 없으 셔서 옆에서 보조가 필요 하였음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "미소를 띄어 주셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "빙고가 안되 셨는 데되 셨다고 버럭 화를 내심."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "가위질은 혼자 잘하시나 옆에서 보조가 필요 하였음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "활동에 적극적으로 참여하시며 즐겁게 빙고게임을 하셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "활동 부분적 으로 옆에서 보조가 필요 하였음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "집중력이 낮아 지시 면서 자리이동이 잦으 셨음."
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "별다른 관심을 보이시지 않아 자리에 앉아 꾸벅 꾸벅 졸고 계심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "소극",
+   "text": "전일 잠을 주무셔서 휴식을 취하심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "별다른 반응 없이 관찰만 하시고 간혹 고개를 숙이심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "아시는 노래 따라 부르시면서 마라카스를 흔들어주심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "봉선화 연정을 선곡하시고 고개를 흔들면서 리듬을 타심"
+  },
+  {
+   "category": "신체",
+   "types": [
+    "신체"
+   ],
+   "programs": [],
+   "status": "휴식",
+   "text": "관심을 보이시지 않고 누워서 휴식을 취하심"
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "게 따라하셨으나 점점 팔에 힘이 빠지시면서 쉬엄쉬엄 따라 하셨 음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "감고 계시는 시간이 많으 셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "적극",
+   "text": "부르시면서 흥겹게 활동에 참여하셨음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "손톱을 깔끔하게 다듬어드리면서 영양제를 발라 드렸음."
+  },
+  {
+   "category": "인지",
+   "types": [
+    "인지"
+   ],
+   "programs": [],
+   "status": "일반",
+   "text": "전국노래자랑을 시청 하셨음."
   }
  ]
 }
