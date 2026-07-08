@@ -69,4 +69,7 @@ GitHub Pages로 배포된다: https://yonzi0510.github.io/work/
   도구만 `pg/` 밖 별도 폴더로 만든다.
 - 기존 디자인 토큰을 재사용한다: `--navy #1F3864`, `--teal #1D9E75`, Noto Sans KR, 카드형
   레이아웃, 상단 남색 헤더.
+- `<head>`에 사이트 아이콘을 넣는다: `<link rel="icon" type="image/svg+xml" href="…/favicon.svg">`.
+  경로는 폴더 깊이에 맞춘 상대경로(루트 하위 1단계=`../favicon.svg`, 2단계=`../../favicon.svg`).
+  아이콘 원본은 루트 `favicon.svg`(남색 라운드 + 흰 W + teal 밑줄)이며 새 도구도 같은 아이콘으로 통일한다.
 - 처음부터 위의 절대 규칙(오프라인 동작, 개인정보 금지, 버전 표기)을 적용한다.
