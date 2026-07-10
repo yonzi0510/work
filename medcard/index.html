@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>투약정보 카드 생성기</title>
-<!-- v2026.07.10.001 -->
+<!-- v2026.07.10.002 -->
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -41,7 +41,7 @@ body{font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--tx
 .actions button{border:none; border-radius:9px; padding:11px 18px; font-size:13.5px; font-weight:700; cursor:pointer; font-family:inherit;}
 .btn-excel{background:#1e7d4d; color:#fff;}
 .btn-html{background:var(--navy); color:#fff;}
-.btn-reset{background:#fff; border:1px solid var(--line) !important; color:var(--sub);}
+.btn-reset{background:#fff; border:1px solid #f0c4bd !important; color:var(--danger);}
 .actions button:hover{filter:brightness(1.08);}
 
 .err{display:none; margin-top:14px; padding:12px 14px; background:#fdecea; border:1px solid #f3c3bd; border-radius:9px; color:var(--danger); font-size:13px; line-height:1.6;}
@@ -63,19 +63,21 @@ body{font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--tx
 <body>
 <div class="header">
   <h1>투약정보 카드 생성기</h1>
-  <span class="ver">v2026.07.10.001</span>
+  <span class="ver">v2026.07.10.002</span>
   <div class="spacer"></div>
 </div>
 <div class="wrap">
 
   <div class="panel" id="uploadPanel">
     <h2>투약기록지 PDF 업로드</h2>
-    <p class="desc">매달 새로 나오는 투약기록지 PDF를 올리면, 어르신별 투약정보 카드와 엑셀 표를 자동으로 만듭니다.
+    <p class="desc">투약기록지 PDF를 올리면, 어르신별 투약정보 카드와 엑셀 표를 자동으로 만듭니다.
+      이 브라우저에 어르신별 최신 정보가 계속 쌓이는 방식입니다 — 새 PDF를 올리면 그 안에 있는
+      어르신만 최신 정보로 갱신되고, 다른 어르신의 기존 카드는 그대로 남습니다.
       인터넷 연결 없이 이 파일 하나로 동작하며, 업로드한 PDF는 이 브라우저 밖으로 전송되지 않습니다.</p>
     <div class="drop" id="drop">
       <input type="file" id="fileInput" accept="application/pdf">
       <div class="big">📄 여기에 PDF를 끌어다 놓거나, 눌러서 파일을 선택하세요</div>
-      <div class="small">투약기록지 PDF 1개</div>
+      <div class="small">투약기록지 PDF 1개 (계속 추가로 올릴 수 있습니다)</div>
     </div>
     <div class="progress" id="progress">
       <div class="bartrack"><div class="barfill" id="barFill"></div></div>
@@ -85,7 +87,7 @@ body{font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--tx
     <div class="actions" id="actions">
       <button class="btn-excel" id="btnExcel">📊 엑셀 다운로드</button>
       <button class="btn-html" id="btnHtml">🗂 카드 페이지 다운로드</button>
-      <button class="btn-reset" id="btnReset">↺ 새 PDF로 다시 만들기</button>
+      <button class="btn-reset" id="btnReset">🗑 저장된 전체 정보 지우기</button>
     </div>
   </div>
 
@@ -363,12 +365,15 @@ function parseEffectSegment(items, hsegs, yTop, yBottom, state) {
   }
 }
 
+const PERIOD_RE = /(\d{4}\.\d{2}\.\d{2})\s*~\s*(\d{4}\.\d{2}\.\d{2})/;
+
 // pdfjsLib: 전역 pdf.js 인스턴스, data: Uint8Array
 async function parseMedicationPdf(pdfjsLib, data, onProgress) {
   const doc = await pdfjsLib.getDocument({ data: data }).promise;
   const OPS = pdfjsLib.OPS;
   const state = { cur: null, mode: null, lastDate: null };
   const residents = [];
+  let periodLabel = null;
 
   for (let pageNo = 1; pageNo <= doc.numPages; pageNo++) {
     if (onProgress) onProgress(pageNo, doc.numPages);
@@ -378,6 +383,13 @@ async function parseMedicationPdf(pdfjsLib, data, onProgress) {
     const items = content.items.filter(it => it.str !== '');
     const lines = groupLines(items);
     const hsegs = extractHSegs(opList, OPS);
+
+    if (periodLabel === null) {
+      for (const line of lines) {
+        const pm = line.text.match(PERIOD_RE);
+        if (pm) { periodLabel = pm[1] + ' ~ ' + pm[2]; break; }
+      }
+    }
 
     let i = 0;
     if (lines.length && !isMarker(lines[0]) && state.mode) {
@@ -423,7 +435,7 @@ async function parseMedicationPdf(pdfjsLib, data, onProgress) {
     }
   }
 
-  return residents;
+  return { residents: residents, periodLabel: periodLabel };
 }
 
 </script>
@@ -508,20 +520,28 @@ function computeTags(drugRows) {
   return [...found.entries()].sort((a, b) => a[1] - b[1]).map(e => e[0]);
 }
 
+// 어르신 식별 키: 이름+생년월일 조합(동명이인 방지). 누적 저장/병합의 기준 키로도 쓰인다.
+function residentKey(name, dob) {
+  return name + '|' + dob;
+}
+
 // 파싱된 residents(Map 기반) -> 카드/엑셀용 표준 레코드로 변환
 function buildRecords(residents) {
   const out = [];
   const reviewList = [];
 
   for (const r of residents) {
+    const key = residentKey(r.name, r.dob);
     const total = r.drugs.size;
+    const localReview = [];
     const medRows = [];
     for (const [drug, info] of r.drugs) {
       const rawEffect = r.effects.get(drug) || '';
-      const effect = resolveEffect(drug, rawEffect, total, reviewList, r.name);
+      const effect = resolveEffect(drug, rawEffect, total, localReview, r.name);
       const { m, l, e } = classifyHours(info.hours);
       medRows.push({ drug: drug, effect: effect, m: m, l: l, e: e, nDates: info.dates.size });
     }
+    for (const item of localReview) reviewList.push({ key: key, name: item.name, drug: item.drug, reason: item.reason });
 
     const allDates = new Set();
     for (const info of r.drugs.values()) for (const d of info.dates) allDates.add(d);
@@ -530,7 +550,7 @@ function buildRecords(residents) {
 
     const tags = computeTags(medRows.map(x => ({ drug: x.drug, effect: x.effect })));
 
-    out.push({ name: r.name, dob: r.dob, sex: r.sex, grade: r.grade, meds: medRows, tags: tags });
+    out.push({ key: key, name: r.name, dob: r.dob, sex: r.sex, grade: r.grade, meds: medRows, tags: tags });
   }
 
   out.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
@@ -624,7 +644,9 @@ function escapeHtml(s) {
 }
 
 // people -> 카드 페이지 본문 HTML(문서 전체가 아니라 <div class="cardpage"> 안쪽 내용)
-function buildCardBodyHtml(people, sourceLabel) {
+// 어르신마다 최근 업로드된 투약기록지 기간이 다를 수 있어(누적 저장), 카드 하단에는
+// 그 어르신 개인의 sourceLabel을(없으면 defaultLabel을) 표시한다.
+function buildCardBodyHtml(people, defaultLabel) {
   const presentTags = new Set();
   for (const p of people) for (const t of p.tags) presentTags.add(t);
   const chipTags = ALL_TAGS_ORDER.filter(t => presentTags.has(t));
@@ -646,17 +668,18 @@ function buildCardBodyHtml(people, sourceLabel) {
 
     const blob = escapeHtml(p.name + ' ' + p.tags.join(' ') + ' ' + p.meds.map(x => x.drug).join(' '));
     const tagsAttr = p.tags.join('|');
+    const cardSrc = p.sourceLabel || defaultLabel;
 
     return `<article class="card" data-tags="${tagsAttr}" data-blob="${blob}">` +
       `<header class="hd"><div class="who"><h2>${escapeHtml(p.name)}</h2><div class="dxs">${dx}</div>` +
       `<p class="meta"><span>${escapeHtml(p.dob)}</span><span class="sep">·</span><span>${escapeHtml(p.sex)}</span><span class="sep">·</span><span class="grade">${escapeHtml(p.grade)}</span></p></div>` +
       `<div class="counts"><span class="c m"><b>${cm}</b>아침</span><span class="c l"><b>${cl}</b>점심</span><span class="c e"><b>${ce}</b>저녁</span></div></header>` +
       `<table><thead><tr><th>약품명</th><th>효과</th><th class="th-strip"><i>아</i><i>점</i><i>저</i></th></tr></thead><tbody>${rows}</tbody></table>` +
-      `<footer class="ft"><span>총 ${p.meds.length}종</span><span class="src">${escapeHtml(sourceLabel)}</span></footer></article>`;
+      `<footer class="ft"><span>총 ${p.meds.length}종</span><span class="src">${escapeHtml(cardSrc)} 기준</span></footer></article>`;
   }).join('');
 
   return `<div class="masthead"><div><h1>투약정보 카드</h1>` +
-    `<p>${escapeHtml(sourceLabel)} · 수급자 ${people.length}명 (가나다순)</p></div>` +
+    `<p>수급자 ${people.length}명 (가나다순) · PDF를 올릴 때마다 그 어르신 정보만 최신으로 갱신됩니다</p></div>` +
     `<div class="legend"><span><i class="m"></i>아침</span><span><i class="l"></i>점심</span><span><i class="e"></i>저녁</span></div></div>` +
     `<p class="caveat">⚠️ 이름 아래 질환 표시는 처방된 약품 구성에서 <b>자동 추정</b>한 것으로, 진단명 원본이 아닙니다. "일부기간" 표시는 전체 기록 기간 중 70% 미만으로 투약된 약품이며, 결석·중단·필요시(PRN) 투약 등 사유 확인이 필요합니다. 공식 문서에 인용하기 전 수급자별 진단·처방 기록을 대조하세요.</p>` +
     `<div class="filterbar"><div class="searchrow"><input id="searchInput" type="text" placeholder="이름, 질환, 약품명으로 검색 — 예: 치매, 혈압" autocomplete="off"><button class="clearbtn" id="clearBtn">초기화</button></div>` +
@@ -723,7 +746,34 @@ function attachCardFilter(container) {
 </script>
 
 <script>
-const SOURCE_LABEL = '투약기록지 기준';
+const SOURCE_LABEL_FALLBACK = '투약기록지';
+const STORAGE_KEY = 'medcard_store_v1';
+
+// 누적 저장소: { version, people: {key: personRecord}, reviewByKey: {key: [item...]} }
+// people/reviewByKey는 어르신(이름+생년월일) 단위로 관리한다. PDF를 새로 올리면
+// 그 PDF에 있는 어르신만 최신 정보로 덮어쓰고, 이번 PDF에 없는 다른 어르신의 기존
+// 카드는 그대로 남는다(부분 업로드로도 전체 인원 목록이 누적된다).
+function loadStore() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return { version: 1, people: {}, reviewByKey: {} };
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== 'object') return { version: 1, people: {}, reviewByKey: {} };
+    return { version: 1, people: parsed.people || {}, reviewByKey: parsed.reviewByKey || {} };
+  } catch (e) {
+    return { version: 1, people: {}, reviewByKey: {} };
+  }
+}
+function saveStore(store) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
+}
+function storeToPeopleAndReview(store) {
+  const people = Object.values(store.people).sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+  const reviewList = Object.values(store.reviewByKey).flat();
+  return { people, reviewList };
+}
+
+let store = loadStore();
 
 const dropEl = document.getElementById('drop');
 const fileInput = document.getElementById('fileInput');
@@ -779,16 +829,12 @@ async function handleFile(file) {
     showError('PDF 파일만 올릴 수 있습니다.');
     return;
   }
-  actionsEl.classList.remove('on');
-  reviewPanel.classList.remove('on');
-  cardsHost.classList.remove('on');
-  cardsHost.innerHTML = '';
   setProgress(true, 0, 'PDF를 읽는 중...');
 
   try {
     const buf = await file.arrayBuffer();
     const data = new Uint8Array(buf);
-    const residents = await parseMedicationPdf(pdfjsLib, data, (page, total) => {
+    const { residents, periodLabel } = await parseMedicationPdf(pdfjsLib, data, (page, total) => {
       setProgress(true, Math.round((page / total) * 100), `PDF 분석 중... (${page}/${total} 페이지)`);
     });
 
@@ -799,20 +845,44 @@ async function handleFile(file) {
     }
 
     const { people, reviewList } = buildRecords(residents);
-    currentPeople = people;
-    currentReviewList = reviewList;
+    const sourceLabel = periodLabel || SOURCE_LABEL_FALLBACK;
 
-    renderReview(people, reviewList);
-    renderCards(people);
+    // 이번 PDF에 있는 어르신만 최신 정보로 덮어쓴다. 이번 PDF에 없는 다른 어르신의
+    // 기존 카드는 store에 그대로 남는다.
+    for (const p of people) {
+      store.people[p.key] = Object.assign({}, p, { sourceLabel: sourceLabel });
+      store.reviewByKey[p.key] = reviewList.filter(r => r.key === p.key);
+    }
+    saveStore(store);
 
+    renderFromStore();
     setProgress(false);
     actionsEl.classList.add('on');
+    fileInput.value = '';
   } catch (err) {
     setProgress(false);
     showError('PDF 처리 중 문제가 생겼습니다: ' + (err && err.message ? err.message : err));
     console.error(err);
   }
 }
+
+function renderFromStore() {
+  const { people, reviewList } = storeToPeopleAndReview(store);
+  currentPeople = people;
+  currentReviewList = reviewList;
+  if (!people.length) {
+    actionsEl.classList.remove('on');
+    reviewPanel.classList.remove('on');
+    cardsHost.classList.remove('on');
+    cardsHost.innerHTML = '';
+    return;
+  }
+  renderReview(people, reviewList);
+  renderCards(people);
+  actionsEl.classList.add('on');
+}
+
+renderFromStore(); // 이전에 저장된 어르신 정보가 있으면 페이지를 열자마자 바로 보여준다
 
 function renderReview(people, reviewList) {
   const partialFlags = [];
@@ -839,25 +909,25 @@ function renderReview(people, reviewList) {
 }
 
 function renderCards(people) {
-  cardsHost.innerHTML = `<div class="cardpage">${buildCardBodyHtml(people, SOURCE_LABEL)}</div>`;
+  cardsHost.innerHTML = `<div class="cardpage">${buildCardBodyHtml(people, SOURCE_LABEL_FALLBACK)}</div>`;
   cardsHost.classList.add('on');
   attachCardFilter(cardsHost);
 }
 
 document.getElementById('btnReset').addEventListener('click', () => {
-  currentPeople = null;
-  currentReviewList = null;
+  const count = Object.keys(store.people).length;
+  const ok = confirm(`저장된 어르신 ${count}명의 투약정보를 전부 지우고 새로 시작할까요?\n이 작업은 되돌릴 수 없습니다.`);
+  if (!ok) return;
+  store = { version: 1, people: {}, reviewByKey: {} };
+  saveStore(store);
   fileInput.value = '';
-  actionsEl.classList.remove('on');
-  reviewPanel.classList.remove('on');
-  cardsHost.classList.remove('on');
-  cardsHost.innerHTML = '';
   clearError();
+  renderFromStore();
 });
 
 document.getElementById('btnHtml').addEventListener('click', () => {
   if (!currentPeople) return;
-  const bodyHtml = buildCardBodyHtml(currentPeople, SOURCE_LABEL);
+  const bodyHtml = buildCardBodyHtml(currentPeople, SOURCE_LABEL_FALLBACK);
   const cardCss = document.getElementById('cardStyle').textContent;
   const jsSource = document.getElementById('cardFilterFnSrc').textContent;
   const doc = `<!DOCTYPE html>
