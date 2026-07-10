@@ -21,5 +21,6 @@
 | 🗓 강사배치 달력 | [.../work/pgcalendar/](https://yonzi0510.github.io/work/pgcalendar/) | 월별 강사배치표 작성·인쇄 (A4 가로) |
 | 🚐 이동서비스 안내서 | [.../work/move/](https://yonzi0510.github.io/work/move/) | 차량운행표(변경 안내서) 작성·인쇄·JPG 저장 |
 | 📄 PDF 변환기 | [.../work/pdf/](https://yonzi0510.github.io/work/pdf/) | PDF ↔ Markdown·이미지 변환, 이미지·문서 → PDF (브라우저 내 처리) |
+| 💊 투약정보 카드 생성기 | [.../work/medcard/](https://yonzi0510.github.io/work/medcard/) | 투약기록지 PDF 업로드 → 어르신별 투약정보 카드(검색·태그 필터)·엑셀 자동 생성 |
 
 Day:음 (dayeum.co.kr) 부속 도구.
