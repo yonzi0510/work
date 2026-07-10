@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>투약정보 카드 생성기</title>
-<!-- v2026.07.10.002 -->
+<!-- v2026.07.10.003 -->
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -56,6 +56,27 @@ body{font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--tx
 .review-group:last-child{margin-bottom:0;}
 .review-group h3{font-size:12.5px; color:var(--sub); font-weight:700; margin-bottom:6px; text-transform:none;}
 
+.formrow{display:flex; gap:10px; margin-bottom:10px; flex-wrap:wrap;}
+.formrow .fld{flex:1; min-width:140px;}
+.formrow label{display:block; font-size:12px; color:var(--sub); margin-bottom:5px; font-weight:600;}
+.formrow input, .formrow select{width:100%; border:1px solid var(--line); border-radius:8px; padding:9px 11px;
+  font-size:14px; font-family:inherit; color:var(--txt); background:#fafbfc; outline:none;}
+.formrow input:focus, .formrow select:focus{border-color:var(--teal);}
+.timechecks{display:flex; gap:14px; align-items:center; padding-top:4px;}
+.timechecks label{display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:600; color:var(--txt); cursor:pointer; margin-bottom:0;}
+.timechecks input{width:auto;}
+.btn-add{border:none; border-radius:9px; padding:11px 20px; font-size:13.5px; font-weight:700; cursor:pointer;
+  font-family:inherit; background:var(--teal); color:#fff;}
+.btn-add:hover{filter:brightness(1.08);}
+.manual-list{margin-top:16px; border-top:1px solid var(--line); padding-top:12px;}
+.manual-list h3{font-size:12.5px; color:var(--sub); font-weight:700; margin-bottom:8px;}
+.manual-item{display:flex; align-items:center; gap:10px; padding:8px 0; font-size:13px; border-bottom:1px solid #f1f4f6;}
+.manual-item:last-child{border-bottom:none;}
+.manual-item .mi-drug{font-weight:700; flex-shrink:0;}
+.manual-item .mi-time{color:var(--sub); font-size:12px;}
+.manual-item .mi-del{margin-left:auto; border:none; background:none; color:var(--danger); cursor:pointer; font-size:16px; padding:2px 6px;}
+.empty-hint{font-size:12.5px; color:var(--sub); padding:6px 0;}
+
 #cardsHost{display:none;}
 #cardsHost.on{display:block;}
 </style>
@@ -63,7 +84,7 @@ body{font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--tx
 <body>
 <div class="header">
   <h1>투약정보 카드 생성기</h1>
-  <span class="ver">v2026.07.10.002</span>
+  <span class="ver">v2026.07.10.003</span>
   <div class="spacer"></div>
 </div>
 <div class="wrap">
@@ -88,6 +109,54 @@ body{font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--tx
       <button class="btn-excel" id="btnExcel">📊 엑셀 다운로드</button>
       <button class="btn-html" id="btnHtml">🗂 카드 페이지 다운로드</button>
       <button class="btn-reset" id="btnReset">🗑 저장된 전체 정보 지우기</button>
+    </div>
+  </div>
+
+  <div class="panel" id="manualPanel">
+    <h2>✏️ 수기로 약 추가하기</h2>
+    <p class="desc">처방전 사진은 양식이 제각각이라 자동으로 읽지 못합니다. 대신 약 이름과 아침·점심·저녁
+      복용 여부를 직접 입력해서 추가할 수 있습니다. PDF로 이미 만들어진 카드에도, 아직 카드가 없는
+      어르신에게도 추가할 수 있습니다.</p>
+    <div class="formrow">
+      <div class="fld">
+        <label for="residentSelect">어르신</label>
+        <select id="residentSelect">
+          <option value="__new__">+ 새 어르신 입력</option>
+        </select>
+      </div>
+    </div>
+    <div class="formrow" id="newResidentRow">
+      <div class="fld">
+        <label for="newName">이름</label>
+        <input type="text" id="newName" placeholder="예: 김민심">
+      </div>
+      <div class="fld">
+        <label for="newDob">생년월일</label>
+        <input type="text" id="newDob" placeholder="예: 1938.12.02">
+      </div>
+    </div>
+    <div class="formrow">
+      <div class="fld">
+        <label for="drugName">약 이름</label>
+        <input type="text" id="drugName" placeholder="예: 엑스포지정 5/80mg">
+      </div>
+      <div class="fld">
+        <label for="drugNote">메모(효과 등, 선택)</label>
+        <input type="text" id="drugNote" placeholder="예: 고혈압약">
+      </div>
+    </div>
+    <div class="formrow">
+      <div class="timechecks">
+        <label><input type="checkbox" id="chkM"> 아침</label>
+        <label><input type="checkbox" id="chkL"> 점심</label>
+        <label><input type="checkbox" id="chkE"> 저녁</label>
+      </div>
+    </div>
+    <button class="btn-add" id="btnAddManual">+ 추가</button>
+    <div class="err" id="manualErr"></div>
+    <div class="manual-list" id="manualList" style="display:none">
+      <h3>이 어르신의 수기 입력 목록</h3>
+      <div id="manualListBody"></div>
     </div>
   </div>
 
@@ -662,7 +731,8 @@ function buildCardBodyHtml(people, defaultLabel) {
     const rows = p.meds.map(x => {
       const dot = (on, cls) => `<i class="d ${cls}${on ? ' on' : ''}"></i>`;
       const partial = x.partial ? '<span class="partial">일부기간</span>' : '';
-      return `<tr><td class="drug">${escapeHtml(x.drug)}${partial}</td><td class="eff">${escapeHtml(x.effect)}</td>` +
+      const manual = x.manual ? '<span class="partial" style="background:#e7f4f1;color:#1d7a5f">수기입력</span>' : '';
+      return `<tr><td class="drug">${escapeHtml(x.drug)}${partial}${manual}</td><td class="eff">${escapeHtml(x.effect)}</td>` +
         `<td class="strip">${dot(x.m, 'm')}${dot(x.l, 'l')}${dot(x.e, 'e')}</td></tr>`;
     }).join('');
 
@@ -767,9 +837,29 @@ function loadStore() {
 function saveStore(store) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
 }
+// PDF에서 만든 meds(person.meds)와 수기로 추가한 manualMeds를 화면 표시용으로 합치고,
+// 합쳐진 약 목록 기준으로 질환 태그를 다시 계산한다. 저장소 자체에는 둘을 분리해서 담아 두므로
+// (person.meds = PDF 최신 스냅샷, person.manualMeds = 사람이 계속 관리하는 목록),
+// 다음 PDF가 올라와도 수기 입력 목록은 영향을 받지 않는다.
+// 수기로 적은 약도 효과 보정 규칙(resolveEffect)을 그대로 거친다 — 예를 들어 리스페리돈처럼
+// BPSD 확인이 필요한 약을 수기로 적어도 "검증 필요" 목록에 똑같이 올라오게 하기 위해서다.
+function combineMedsForDisplay(person, manualReviewOut) {
+  const totalCount = (person.meds || []).length + (person.manualMeds || []).length;
+  const manual = (person.manualMeds || []).map(mm => {
+    const effect = resolveEffect(mm.drug, mm.note || '', totalCount, manualReviewOut, person.name);
+    return { drug: mm.drug, effect: effect, m: mm.m, l: mm.l, e: mm.e, partial: false, manual: true };
+  });
+  const combinedMeds = (person.meds || []).concat(manual);
+  const tags = computeTags(combinedMeds.map(x => ({ drug: x.drug, effect: x.effect })));
+  return Object.assign({}, person, { meds: combinedMeds, tags: tags });
+}
+
 function storeToPeopleAndReview(store) {
-  const people = Object.values(store.people).sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
-  const reviewList = Object.values(store.reviewByKey).flat();
+  const manualReview = [];
+  const people = Object.values(store.people)
+    .map(p => combineMedsForDisplay(p, manualReview))
+    .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+  const reviewList = Object.values(store.reviewByKey).flat().concat(manualReview);
   return { people, reviewList };
 }
 
@@ -848,14 +938,17 @@ async function handleFile(file) {
     const sourceLabel = periodLabel || SOURCE_LABEL_FALLBACK;
 
     // 이번 PDF에 있는 어르신만 최신 정보로 덮어쓴다. 이번 PDF에 없는 다른 어르신의
-    // 기존 카드는 store에 그대로 남는다.
+    // 기존 카드는 store에 그대로 남는다. 수기로 입력해 둔 약(manualMeds)은 PDF와
+    // 무관하게 계속 유지되도록 새로 덮어쓸 때도 그대로 옮겨온다.
     for (const p of people) {
-      store.people[p.key] = Object.assign({}, p, { sourceLabel: sourceLabel });
+      const existingManual = (store.people[p.key] && store.people[p.key].manualMeds) || [];
+      store.people[p.key] = Object.assign({}, p, { sourceLabel: sourceLabel, manualMeds: existingManual });
       store.reviewByKey[p.key] = reviewList.filter(r => r.key === p.key);
     }
     saveStore(store);
 
     renderFromStore();
+    refreshResidentSelect();
     setProgress(false);
     actionsEl.classList.add('on');
     fileInput.value = '';
@@ -923,7 +1016,121 @@ document.getElementById('btnReset').addEventListener('click', () => {
   fileInput.value = '';
   clearError();
   renderFromStore();
+  refreshResidentSelect();
 });
+
+// ------------------------------------------------------------
+// 수기 입력 (처방전 사진은 양식이 제각각이라 자동 인식하지 않고, 사람이 직접 입력)
+// ------------------------------------------------------------
+const residentSelect = document.getElementById('residentSelect');
+const newResidentRow = document.getElementById('newResidentRow');
+const newNameInput = document.getElementById('newName');
+const newDobInput = document.getElementById('newDob');
+const drugNameInput = document.getElementById('drugName');
+const drugNoteInput = document.getElementById('drugNote');
+const chkM = document.getElementById('chkM');
+const chkL = document.getElementById('chkL');
+const chkE = document.getElementById('chkE');
+const manualErr = document.getElementById('manualErr');
+const manualListEl = document.getElementById('manualList');
+const manualListBody = document.getElementById('manualListBody');
+
+function refreshResidentSelect(preserveKey) {
+  const keep = preserveKey !== undefined ? preserveKey : residentSelect.value;
+  const people = Object.values(store.people).sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+  residentSelect.innerHTML = '<option value="__new__">+ 새 어르신 입력</option>' +
+    people.map(p => `<option value="${escapeHtml(p.key)}">${escapeHtml(p.name)} (${escapeHtml(p.dob)})</option>`).join('');
+  if (keep && people.some(p => p.key === keep)) residentSelect.value = keep;
+  else residentSelect.value = '__new__';
+  onResidentSelectChange();
+}
+
+function onResidentSelectChange() {
+  const isNew = residentSelect.value === '__new__';
+  newResidentRow.style.display = isNew ? 'flex' : 'none';
+  renderManualList();
+}
+residentSelect.addEventListener('change', onResidentSelectChange);
+
+function normalizeDob(raw) {
+  return raw.trim().replace(/[.\-\/]/g, '.').replace(/\.+/g, '.');
+}
+
+function renderManualList() {
+  const key = residentSelect.value;
+  if (key === '__new__' || !store.people[key]) {
+    manualListEl.style.display = 'none';
+    return;
+  }
+  const items = store.people[key].manualMeds || [];
+  manualListEl.style.display = 'block';
+  if (!items.length) {
+    manualListBody.innerHTML = '<div class="empty-hint">아직 수기로 추가한 약이 없습니다.</div>';
+    return;
+  }
+  manualListBody.innerHTML = items.map(it => {
+    const times = [it.m ? '아침' : '', it.l ? '점심' : '', it.e ? '저녁' : ''].filter(Boolean).join('·') || '시간 미지정';
+    return `<div class="manual-item">
+      <span class="mi-drug">${escapeHtml(it.drug)}</span>
+      <span class="mi-time">${escapeHtml(times)}${it.note ? ' · ' + escapeHtml(it.note) : ''}</span>
+      <button class="mi-del" data-id="${it.id}" title="삭제">×</button>
+    </div>`;
+  }).join('');
+  manualListBody.querySelectorAll('.mi-del').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      store.people[key].manualMeds = store.people[key].manualMeds.filter(it => String(it.id) !== id);
+      saveStore(store);
+      renderManualList();
+      renderFromStore();
+    });
+  });
+}
+
+function showManualError(msg) {
+  manualErr.textContent = msg;
+  manualErr.classList.add('on');
+}
+function clearManualError() {
+  manualErr.textContent = '';
+  manualErr.classList.remove('on');
+}
+
+document.getElementById('btnAddManual').addEventListener('click', () => {
+  clearManualError();
+  const drug = drugNameInput.value.trim();
+  const note = drugNoteInput.value.trim();
+  const m = chkM.checked, l = chkL.checked, e = chkE.checked;
+
+  if (!drug) { showManualError('약 이름을 입력해 주세요.'); return; }
+  if (!m && !l && !e) { showManualError('아침·점심·저녁 중 하나 이상 체크해 주세요.'); return; }
+
+  let key = residentSelect.value;
+  if (key === '__new__') {
+    const name = newNameInput.value.trim();
+    const dob = normalizeDob(newDobInput.value);
+    if (!name) { showManualError('어르신 이름을 입력해 주세요.'); return; }
+    if (!dob) { showManualError('생년월일을 입력해 주세요. (예: 1938.12.02)'); return; }
+    key = residentKey(name, dob);
+    if (!store.people[key]) {
+      store.people[key] = { key, name, dob, sex: '', grade: '', meds: [], manualMeds: [] };
+    }
+  }
+
+  const person = store.people[key];
+  if (!person.manualMeds) person.manualMeds = [];
+  person.manualMeds.push({ id: Date.now() + Math.random().toString(36).slice(2), drug, note, m, l, e });
+  saveStore(store);
+
+  drugNameInput.value = '';
+  drugNoteInput.value = '';
+  chkM.checked = false; chkL.checked = false; chkE.checked = false;
+
+  refreshResidentSelect(key);
+  renderFromStore();
+});
+
+refreshResidentSelect();
 
 document.getElementById('btnHtml').addEventListener('click', () => {
   if (!currentPeople) return;
