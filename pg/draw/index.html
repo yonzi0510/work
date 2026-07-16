@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#1F3864">
 <title>그림 학습지 생성기</title>
-<!-- v2026.07.16.002 -->
+<!-- v2026.07.16.003 -->
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="print.css">
@@ -16,13 +16,13 @@
 <!-- ═══════════ 화면 UI (인쇄 시 숨김) ═══════════ -->
 <header class="app-header no-print">
   <h1>🎨 그림 학습지 생성기</h1>
-  <span class="ver">v2026.07.16.002</span>
+  <span class="ver">v2026.07.16.003</span>
 </header>
 
 <nav id="tabs" class="tabs no-print">
   <button class="tab sel" data-tab="count">🔢 개수 세기</button>
   <button class="tab" data-tab="array">✂️ 도형 배열</button>
-  <button class="tab" data-tab="line">🧶 줄 따라 색칠 <span class="soon">준비 중</span></button>
+  <button class="tab" data-tab="line">🧶 줄 따라 색칠</button>
   <button class="tab" data-tab="color">🎨 숫자 색칠 <span class="soon">준비 중</span></button>
 </nav>
 
@@ -30,7 +30,7 @@
   <div class="coming-card">
     <div class="coming-emoji">🛠️</div>
     <div class="coming-title">곧 만들어져요!</div>
-    <div class="coming-sub">이 학습지는 지금 준비하고 있어요.<br>지금은 「🔢 개수 세기」·「✂️ 도형 배열」 탭을 이용해 주세요.</div>
+    <div class="coming-sub">이 학습지는 지금 준비하고 있어요.<br>지금은 「🔢 개수 세기」·「✂️ 도형 배열」·「🧶 줄 따라 색칠」 탭을 이용해 주세요.</div>
   </div>
 </div>
 
@@ -146,10 +146,74 @@
   </div>
 </div>
 
+<!-- ═══════════ 줄 따라 색칠 (얽힌 줄을 한 가닥씩 같은 색으로) ═══════════ -->
+<div id="workspace-line" class="workspace" hidden>
+  <aside class="controls no-print">
+    <div class="ctrl-group">
+      <div class="ctrl-title">그림 테마</div>
+      <div id="line-themes" class="pic-list">
+        <button class="pic-btn sel" data-theme="yarn">
+          <span class="pic-emoji">🧶</span><span class="pic-name">실타래</span>
+        </button>
+        <button class="pic-btn" data-theme="kite">
+          <span class="pic-emoji">🪁</span><span class="pic-name">연날리기</span>
+        </button>
+        <button class="pic-btn" data-theme="ribbon">
+          <span class="pic-emoji">🎀</span><span class="pic-name">리본</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="ctrl-group">
+      <div class="ctrl-title">난이도</div>
+      <div id="line-level-btns" class="level-list">
+        <button class="level-btn" data-level="easy">
+          <span class="lv-emoji">🌱</span>
+          <span class="lv-text"><b>쉬움</b><small>2가닥 · 줄이 굵고 완만해요</small></span>
+        </button>
+        <button class="level-btn sel" data-level="mid">
+          <span class="lv-emoji">🌟</span>
+          <span class="lv-text"><b>보통</b><small>3가닥 · 교차가 조금 많아져요</small></span>
+        </button>
+        <button class="level-btn" data-level="hard">
+          <span class="lv-emoji">🔥</span>
+          <span class="lv-text"><b>어려움</b><small>4~5가닥 · 교차가 많고 고리도 나와요</small></span>
+        </button>
+        <button class="level-btn" data-level="max">
+          <span class="lv-emoji">💪</span>
+          <span class="lv-text"><b>도전</b><small>6~7가닥 · 가는 줄이 종이 가득 얽혀요</small></span>
+        </button>
+      </div>
+    </div>
+
+    <button id="line-btn-new" class="big-btn btn-new">🔀 새 문제 만들기</button>
+
+    <details class="adv">
+      <summary>⚙️ 고급 옵션</summary>
+      <label class="opt"><input type="checkbox" id="line-opt-namedate" checked> 이름·날짜 칸 넣기</label>
+      <label class="opt"><input type="checkbox" id="line-opt-answer"> 정답 보기
+        <small>직원 확인용이에요. 줄마다 제 색이 옅게 칠해져요. 화면에서만 보이고 인쇄되지는 않습니다.</small></label>
+      <div class="opt paper-opt">용지
+        <label><input type="radio" name="paper-line" value="a3" checked> A3(기본)</label>
+        <label><input type="radio" name="paper-line" value="a4"> A4(예비)</label>
+      </div>
+    </details>
+
+    <button id="line-btn-print" class="big-btn btn-print">🖨️ 인쇄하기</button>
+  </aside>
+
+  <div class="preview-col">
+    <div id="line-wrap" class="preview-wrap">
+      <div id="sheet-line" class="sheet"></div>
+    </div>
+  </div>
+</div>
+
 <script src="icons.js"></script>
 <script src="shapes.js"></script>
 <script src="sheet.js"></script>
 <script src="count.js"></script>
 <script src="arrange.js"></script>
+<script src="trace.js"></script>
 </body>
 </html>

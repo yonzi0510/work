@@ -290,7 +290,7 @@
 
   S.bindPrint('btn-print');
 
-  /* ─────────── 탭 전환 (개수 세기 · 도형 배열 동작, 나머지는 준비 중) ─────────── */
+  /* ─────────── 탭 전환 (개수 세기 · 도형 배열 · 줄 따라 색칠 동작, 나머지는 준비 중) ─────────── */
   $('tabs').addEventListener('click', function (e) {
     var tab = e.target.closest('.tab');
     if (!tab) return;
@@ -298,15 +298,17 @@
       t.classList.toggle('sel', t === tab);
     });
     var which = tab.dataset.tab;
-    var ready = which === 'count' || which === 'array';
+    var ready = which === 'count' || which === 'array' || which === 'line';
     $('coming').hidden = ready;
     $('workspace').hidden = which !== 'count';
     $('workspace-arr').hidden = which !== 'array';
+    $('workspace-line').hidden = which !== 'line';
     if (which === 'count') {
       if (state.dirty) { state.dirty = false; render(); }
       else S.fitPreview();
     }
     if (which === 'array' && window.ArrangeTab) window.ArrangeTab.show();
+    if (which === 'line' && window.TraceTab) window.TraceTab.show();
   });
 
   render();
