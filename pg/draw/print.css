@@ -352,4 +352,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .sheet { transform: none !important; box-shadow: none; border-radius: 0; }
   /* 도형 배열: 조각판 다음에 붙임판이 새 페이지로 */
   .print-break { break-after: page; page-break-after: always; }
+  /* 줄 따라 색칠: 정답 보기(옅은 색)는 화면 전용 — 인쇄물에는 나오지 않는다 */
+  .trace-answer { display: none !important; }
 }
