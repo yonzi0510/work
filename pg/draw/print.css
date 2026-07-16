@@ -52,35 +52,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   color: var(--sub);
 }
 .tab.sel { background: var(--navy); border-color: var(--navy); color: #fff; }
-.tab .soon {
-  font-size: 10px;
-  font-weight: 500;
-  background: var(--line);
-  color: var(--sub);
-  border-radius: 8px;
-  padding: 1px 6px;
-  margin-left: 2px;
-  vertical-align: 1px;
-}
-.tab.sel .soon { background: rgba(255,255,255,.25); color: #fff; }
-
-/* ─────────── 준비 중 안내 ─────────── */
-.coming {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px 16px;
-}
-.coming-card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 48px 20px;
-  text-align: center;
-}
-.coming-emoji { font-size: 40px; }
-.coming-title { font-size: 20px; font-weight: 700; color: var(--navy); margin-top: 10px; }
-.coming-sub { font-size: 14px; color: var(--sub); margin-top: 8px; line-height: 1.6; }
-
 /* ─────────── 작업 공간: 왼쪽 컨트롤 / 오른쪽 미리보기 ─────────── */
 .workspace {
   display: flex;
@@ -314,6 +285,47 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   margin-bottom: 1.5mm;
 }
 
+/* ─────────── 숫자 색칠: 범례 + 그림 ───────────
+ * 범례는 그림 위쪽에 크게 — [숫자] 색칩 색이름.
+ * 색칩은 흑백 인쇄에서도 이름·숫자로 구분되도록 이름을 함께 쓴다. */
+.cbn-legend {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 3mm 8mm;
+  margin: 1mm 0 3mm;
+}
+.cbn-leg-item { display: flex; align-items: center; gap: 2mm; }
+.cbn-leg-num {
+  width: 10mm;
+  height: 10mm;
+  border: 0.7mm solid #111;
+  border-radius: 1.5mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6.5mm;
+  font-weight: 900;
+}
+.cbn-leg-chip {
+  width: 11mm;                 /* 색칩 10mm 이상 */
+  height: 11mm;
+  border: 0.5mm solid #333;
+  border-radius: 1.5mm;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;   /* 색칩은 인쇄에서도 실제 색으로 */
+}
+.cbn-leg-name { font-size: 5.5mm; font-weight: 700; }
+.cbn-art {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;      /* 납작한 도안도 지면 가운데에 오게 */
+}
+
 .sheet-foot {
   flex: 0 0 auto;
   font-size: 3.5mm;
@@ -334,6 +346,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .paper-a4 .ans-box { width: 22mm; height: 22mm; border-width: 0.6mm; }
 .paper-a4 .ans-val { font-size: 10mm; }
 .paper-a4 .ans-sum-label { font-size: 4.6mm; }
+.paper-a4 .cbn-legend { gap: 2mm 5mm; margin-bottom: 2mm; }
+.paper-a4 .cbn-leg-num { width: 7.5mm; height: 7.5mm; font-size: 5mm; border-width: 0.5mm; }
+.paper-a4 .cbn-leg-chip { width: 8mm; height: 8mm; }
+.paper-a4 .cbn-leg-name { font-size: 4.2mm; }
 
 /* ─────────── 좁은 화면: 컨트롤이 위로 쌓임 ─────────── */
 @media (max-width: 900px) {
@@ -354,4 +370,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .print-break { break-after: page; page-break-after: always; }
   /* 줄 따라 색칠: 정답 보기(옅은 색)는 화면 전용 — 인쇄물에는 나오지 않는다 */
   .trace-answer { display: none !important; }
+  /* 숫자 색칠: 완성 견본(색 채움)도 화면 전용 — 인쇄물에는 나오지 않는다 */
+  .cbn-sample { display: none !important; }
 }
