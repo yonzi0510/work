@@ -24,6 +24,7 @@ GitHub Pages로 배포된다: https://yonzi0510.github.io/work/
 | `pgcalendar/` | 강사배치 달력 | 월별 강사배치표 작성·인쇄(A4 가로). 단일 HTML, localStorage 저장 |
 | `move/` | 이동서비스 안내서 | 차량운행표(변경 안내서) 작성·인쇄·JPG. 직인 이미지 삽입 가능한 단일 HTML |
 | `pdf/` | PDF 변환기 | PDF↔Markdown·이미지 변환, 이미지·문서→PDF. pdf.js·jspdf·html2canvas 내장(워커 포함) 단일 HTML |
+| `medcard/` | 투약정보 카드 생성기 | 투약기록지 PDF 업로드→어르신별 카드(검색·질환태그 필터)·엑셀 자동 생성. PDF를 올릴 때마다 그 안의 어르신만 최신 정보로 갱신되고 나머지는 유지되는 localStorage 누적 저장(이름+생년월일 키). pdf.js(워커 포함)·SheetJS 내장 단일 HTML |
 
 ## 절대 규칙 (어기면 안 됨)
 
