@@ -1,9 +1,10 @@
 /* ═══════════ 그림 학습지 — 개수 세기 생성기 ═══════════
  * 장면 박스에 그림을 흩어 놓고, 아래 답칸에 종류별 개수를 쓰는 학습지.
  * - 그리드 지터 배치: 가상 격자 셀당 그림 1개 → 절대 겹치지 않음
- *   (셀 안 랜덤 오프셋 + 회전 ±15° + 크기 ±15%, 난이도별로 정도 조절)
+ *   (셀 안 랜덤 오프셋 + 회전 + 크기 변주, 난이도별로 정도 조절)
  * - 시드 난수(mulberry32) → 같은 시드면 항상 같은 문제
- * - 어려움 난이도: 세지 않는 방해 그림 소량 + "모두 몇 개?" 합계 칸
+ * - 어려움·도전 난이도: 세지 않는 방해 그림 + "모두 몇 개?" 합계 칸
+ * - 크기(mm)는 A3 세로 기본 기준 — 어르신 시력을 위해 크고 뚜렷하게.
  * - 어르신 지면에는 난이도 이름을 인쇄하지 않는다.
  */
 (function () {
@@ -13,27 +14,30 @@
   var ICONS = window.COUNT_ICONS || [];
   var $ = function (id) { return document.getElementById(id); };
 
-  /* ─────────── 난이도 설계 (인지학습지개발팀 확정) ─────────── */
+  /* ─────────── 난이도 설계 (인지학습지개발팀 확정, A3 기준 mm) ─────────── */
   var LEVELS = {
-    easy: { kinds: [2, 2], per: [2, 4], total: [6, 8],  minMm: 18, maxMm: 30,
+    easy: { kinds: [2, 2], per: [2, 4], total: [6, 8],  minMm: 28, maxMm: 46,
             jitter: 0.15, rot: 4,  sizeVar: 0.04, tidy: true,  distract: [0, 0], sum: false },
-    mid:  { kinds: [3, 4], per: [3, 7], total: [10, 16], minMm: 14, maxMm: 21,
+    mid:  { kinds: [3, 4], per: [3, 7], total: [10, 16], minMm: 20, maxMm: 32,
             jitter: 0.9,  rot: 10, sizeVar: 0.10, tidy: false, distract: [0, 0], sum: false },
-    hard: { kinds: [5, 6], per: [5, 10], total: [25, 35], minMm: 11, maxMm: 16,
-            jitter: 1.0,  rot: 15, sizeVar: 0.15, tidy: false, distract: [1, 2], sum: true }
+    hard: { kinds: [5, 6], per: [5, 10], total: [25, 35], minMm: 15, maxMm: 24,
+            jitter: 1.0,  rot: 15, sizeVar: 0.15, tidy: false, distract: [1, 2], sum: true },
+    // 도전: I Spy처럼 종이가 그림으로 가득 — 작아도 12mm 밑으로는 내려가지 않는다(A3)
+    max:  { kinds: [7, 9], per: [6, 12], total: [70, 110], minMm: 12, maxMm: 16,
+            jitter: 1.0,  rot: 20, sizeVar: 0.18, tidy: false, distract: [2, 3], sum: true }
   };
 
-  // 지면 세로 예산 (mm) — print.css의 시트 구성과 맞춘 추정치
-  var HEAD_H = 27;    // 제목 + 지시문(2줄) + 이름·날짜
-  var ANS_H  = 45;    // 답칸 표 (견본 + 이름 + 20×20 빈칸)
-  var FOOT_H = 5;     // 꼬리글
+  // 지면 세로 예산 (mm) — 본문 높이는 실제 렌더를 재서 쓰고, 이 값들은 예비 추정치
+  var HEAD_H = 36;    // 제목 + 지시문 + 이름·날짜 (A3)
+  var FOOT_H = 8;     // 꼬리글
   var GAPS   = 8;     // 위아래 간격
 
   var state = {
     level: 'mid',
     seed: S.randomSeed(),
     nameDate: true,
-    showAnswer: false
+    showAnswer: false,
+    dirty: false
   };
 
   /* ─────────── 문제 생성 ─────────── */
@@ -95,11 +99,14 @@
                  ') scale(' + k.toFixed(4) + ') translate(-50 -50)'
     });
     icon.paths.forEach(function (p) {
+      var base = p.sw == null ? 3 : p.sw;
+      // 작은 그림도 선이 인쇄에서 뚜렷하게: 최소 0.58mm 굵기를 보장 (가는 선 금지)
+      var sw = base === 0 ? 0 : Math.max(base, 58 / sizeMm);
       g.appendChild(S.svg('path', {
         d: p.d,
         fill: p.fill || 'none',
-        stroke: p.sw === 0 ? 'none' : '#111',
-        'stroke-width': p.sw == null ? 3 : p.sw,
+        stroke: base === 0 ? 'none' : '#111',
+        'stroke-width': sw,
         'stroke-linecap': 'round',
         'stroke-linejoin': 'round'
       }));
@@ -218,7 +225,19 @@
 
     var prob = makeProblem();
     var W = S.PAGE.w - S.PAGE.pad * 2;
-    var H = S.PAGE.h - S.PAGE.pad * 2 - HEAD_H - ANS_H - FOOT_H - GAPS;
+
+    // 본문 높이는 실제 렌더를 잰다(숨겨진 탭이면 추정치). 답칸 표는 종류가 많으면 2줄로 감긴다.
+    var pxPerMm = 96 / 25.4;
+    var bodyH = body.clientHeight
+      ? body.clientHeight / pxPerMm
+      : (S.PAGE.h - S.PAGE.pad * 2 - HEAD_H - FOOT_H - GAPS);
+    var a4 = S.getPaper() === 'a4';
+    var itemW = a4 ? 26 : 34, itemH = a4 ? 46 : 57, gapX = 5, gapY = 4;
+    var nAns = prob.kinds.length + (prob.cfg.sum ? 1 : 0);
+    var perRow = Math.max(1, Math.floor((W + gapX) / (itemW + gapX)));
+    var ansRows = Math.ceil(nAns / perRow);
+    var ansH = ansRows * itemH + (ansRows - 1) * gapY + 4;
+    var H = Math.max(60, bodyH - ansH - 4);
 
     var sceneBox = S.el('div', 'scene-box');
     sceneBox.appendChild(buildScene(prob, W, H));
@@ -255,19 +274,39 @@
     render();
   });
 
+  // 용지 선택 (A3 기본 / A4 예비) — 도형 배열 탭과 공유되는 설정
+  document.querySelectorAll('input[name="paper-count"]').forEach(function (r) {
+    r.addEventListener('change', function (e) {
+      if (e.target.checked) S.setPaper(e.target.value);
+    });
+  });
+  S.onPaper(function (p) {
+    document.querySelectorAll('input[name="paper-count"]').forEach(function (r) {
+      r.checked = r.value === p;
+    });
+    if ($('workspace').hidden) state.dirty = true;
+    else render();
+  });
+
   S.bindPrint('btn-print');
 
-  /* ─────────── 탭 (1단계: 개수 세기만 동작) ─────────── */
+  /* ─────────── 탭 전환 (개수 세기 · 도형 배열 동작, 나머지는 준비 중) ─────────── */
   $('tabs').addEventListener('click', function (e) {
     var tab = e.target.closest('.tab');
     if (!tab) return;
     document.querySelectorAll('.tab').forEach(function (t) {
       t.classList.toggle('sel', t === tab);
     });
-    var ready = tab.dataset.tab === 'count';
+    var which = tab.dataset.tab;
+    var ready = which === 'count' || which === 'array';
     $('coming').hidden = ready;
-    $('workspace').hidden = !ready;
-    if (ready) S.fitPreview();
+    $('workspace').hidden = which !== 'count';
+    $('workspace-arr').hidden = which !== 'array';
+    if (which === 'count') {
+      if (state.dirty) { state.dirty = false; render(); }
+      else S.fitPreview();
+    }
+    if (which === 'array' && window.ArrangeTab) window.ArrangeTab.show();
   });
 
   render();

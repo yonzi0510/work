@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#1F3864">
 <title>그림 학습지 생성기</title>
-<!-- v2026.07.16.001 -->
+<!-- v2026.07.16.002 -->
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="print.css">
@@ -16,12 +16,12 @@
 <!-- ═══════════ 화면 UI (인쇄 시 숨김) ═══════════ -->
 <header class="app-header no-print">
   <h1>🎨 그림 학습지 생성기</h1>
-  <span class="ver">v2026.07.16.001</span>
+  <span class="ver">v2026.07.16.002</span>
 </header>
 
 <nav id="tabs" class="tabs no-print">
   <button class="tab sel" data-tab="count">🔢 개수 세기</button>
-  <button class="tab" data-tab="array">✂️ 도형 배열 <span class="soon">준비 중</span></button>
+  <button class="tab" data-tab="array">✂️ 도형 배열</button>
   <button class="tab" data-tab="line">🧶 줄 따라 색칠 <span class="soon">준비 중</span></button>
   <button class="tab" data-tab="color">🎨 숫자 색칠 <span class="soon">준비 중</span></button>
 </nav>
@@ -30,10 +30,11 @@
   <div class="coming-card">
     <div class="coming-emoji">🛠️</div>
     <div class="coming-title">곧 만들어져요!</div>
-    <div class="coming-sub">이 학습지는 지금 준비하고 있어요.<br>지금은 「🔢 개수 세기」 탭을 이용해 주세요.</div>
+    <div class="coming-sub">이 학습지는 지금 준비하고 있어요.<br>지금은 「🔢 개수 세기」·「✂️ 도형 배열」 탭을 이용해 주세요.</div>
   </div>
 </div>
 
+<!-- ═══════════ 개수 세기 ═══════════ -->
 <div id="workspace" class="workspace">
   <aside class="controls no-print">
     <div class="ctrl-group">
@@ -51,6 +52,10 @@
           <span class="lv-emoji">🔥</span>
           <span class="lv-text"><b>어려움</b><small>초기·경도 · 많고 촘촘하고 함정 그림도 나와요</small></span>
         </button>
+        <button class="level-btn" data-level="max">
+          <span class="lv-emoji">💪</span>
+          <span class="lv-text"><b>도전</b><small>인지 좋으신 분 · 그림이 종이에 가득해요</small></span>
+        </button>
       </div>
     </div>
 
@@ -61,6 +66,10 @@
       <label class="opt"><input type="checkbox" id="opt-namedate" checked> 이름·날짜 칸 넣기</label>
       <label class="opt"><input type="checkbox" id="opt-answer"> 정답 보기
         <small>직원 확인용이에요. 켠 채로 인쇄하면 정답도 함께 인쇄됩니다.</small></label>
+      <div class="opt paper-opt">용지
+        <label><input type="radio" name="paper-count" value="a3" checked> A3(기본)</label>
+        <label><input type="radio" name="paper-count" value="a4"> A4(예비)</label>
+      </div>
     </details>
 
     <button id="btn-print" class="big-btn btn-print">🖨️ 인쇄하기</button>
@@ -74,8 +83,73 @@
   </div>
 </div>
 
+<!-- ═══════════ 도형 배열 (조각판 + 붙임판, 인쇄 2장) ═══════════ -->
+<div id="workspace-arr" class="workspace" hidden>
+  <aside class="controls no-print">
+    <div class="ctrl-group">
+      <div class="ctrl-title">도안 고르기</div>
+      <div id="arr-pics" class="pic-list"></div>
+    </div>
+
+    <div class="ctrl-group">
+      <div class="ctrl-title">난이도</div>
+      <div id="arr-level-btns" class="level-list">
+        <button class="level-btn sel" data-level="easy">
+          <span class="lv-emoji">🌱</span>
+          <span class="lv-text"><b>쉬움</b><small>3~4조각 · 붙일 자리에 색과 번호가 있어요</small></span>
+        </button>
+        <button class="level-btn" data-level="mid">
+          <span class="lv-emoji">🌟</span>
+          <span class="lv-text"><b>보통</b><small>5~7조각 · 붙일 자리에 선만 있어요</small></span>
+        </button>
+        <button class="level-btn" data-level="hard">
+          <span class="lv-emoji">🔥</span>
+          <span class="lv-text"><b>어려움</b><small>7~9조각 · 바깥 모양만 있어요</small></span>
+        </button>
+        <button class="level-btn" data-level="max">
+          <span class="lv-emoji">💪</span>
+          <span class="lv-text"><b>도전</b><small>10조각 이상 · 조각이 많고 작아져요</small></span>
+        </button>
+      </div>
+    </div>
+
+    <button id="arr-btn-new" class="big-btn btn-new">🔀 조각 다시 섞기</button>
+
+    <details class="adv">
+      <summary>⚙️ 고급 옵션</summary>
+      <label class="opt"><input type="checkbox" id="arr-opt-namedate" checked> 이름·날짜 칸 넣기</label>
+      <label class="opt"><input type="checkbox" id="arr-opt-done"> 완성 그림 미리보기
+        <small>직원 확인용이에요. 화면에서만 보이고 인쇄되지는 않습니다.</small></label>
+      <div class="opt paper-opt">용지
+        <label><input type="radio" name="paper-arr" value="a3" checked> A3(기본)</label>
+        <label><input type="radio" name="paper-arr" value="a4"> A4(예비)</label>
+      </div>
+    </details>
+
+    <div id="arr-done" class="done-view no-print" hidden>
+      <div class="done-title">완성 모습 (화면에서만 보여요)</div>
+      <div id="arr-done-svg"></div>
+    </div>
+
+    <button id="arr-btn-print" class="big-btn btn-print">🖨️ 인쇄하기 (2장)</button>
+  </aside>
+
+  <div class="preview-col">
+    <div class="page-label no-print">① 조각판 — 오려서 쓰는 종이</div>
+    <div id="arr-wrap-pieces" class="preview-wrap print-break">
+      <div id="sheet-pieces" class="sheet"></div>
+    </div>
+    <div class="page-label no-print">② 붙임판 — 붙여서 완성하는 종이</div>
+    <div id="arr-wrap-board" class="preview-wrap">
+      <div id="sheet-board" class="sheet"></div>
+    </div>
+  </div>
+</div>
+
 <script src="icons.js"></script>
+<script src="shapes.js"></script>
 <script src="sheet.js"></script>
 <script src="count.js"></script>
+<script src="arrange.js"></script>
 </body>
 </html>
