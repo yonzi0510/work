@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1F3864">
+<title>그림 학습지 생성기</title>
+<!-- v2026.07.16.001 -->
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="print.css">
+<style id="page-style"></style>
+</head>
+<body>
+
+<!-- ═══════════ 화면 UI (인쇄 시 숨김) ═══════════ -->
+<header class="app-header no-print">
+  <h1>🎨 그림 학습지 생성기</h1>
+  <span class="ver">v2026.07.16.001</span>
+</header>
+
+<nav id="tabs" class="tabs no-print">
+  <button class="tab sel" data-tab="count">🔢 개수 세기</button>
+  <button class="tab" data-tab="array">✂️ 도형 배열 <span class="soon">준비 중</span></button>
+  <button class="tab" data-tab="line">🧶 줄 따라 색칠 <span class="soon">준비 중</span></button>
+  <button class="tab" data-tab="color">🎨 숫자 색칠 <span class="soon">준비 중</span></button>
+</nav>
+
+<div id="coming" class="coming no-print" hidden>
+  <div class="coming-card">
+    <div class="coming-emoji">🛠️</div>
+    <div class="coming-title">곧 만들어져요!</div>
+    <div class="coming-sub">이 학습지는 지금 준비하고 있어요.<br>지금은 「🔢 개수 세기」 탭을 이용해 주세요.</div>
+  </div>
+</div>
+
+<div id="workspace" class="workspace">
+  <aside class="controls no-print">
+    <div class="ctrl-group">
+      <div class="ctrl-title">난이도</div>
+      <div id="level-btns" class="level-list">
+        <button class="level-btn" data-level="easy">
+          <span class="lv-emoji">🌱</span>
+          <span class="lv-text"><b>쉬움</b><small>인지저하 많음 · 그림이 크고 적어요</small></span>
+        </button>
+        <button class="level-btn sel" data-level="mid">
+          <span class="lv-emoji">🌟</span>
+          <span class="lv-text"><b>보통</b><small>기본 난이도 · 알맞게 흩어져요</small></span>
+        </button>
+        <button class="level-btn" data-level="hard">
+          <span class="lv-emoji">🔥</span>
+          <span class="lv-text"><b>어려움</b><small>초기·경도 · 많고 촘촘하고 함정 그림도 나와요</small></span>
+        </button>
+      </div>
+    </div>
+
+    <button id="btn-new" class="big-btn btn-new">🔀 새 문제 만들기</button>
+
+    <details class="adv">
+      <summary>⚙️ 고급 옵션</summary>
+      <label class="opt"><input type="checkbox" id="opt-namedate" checked> 이름·날짜 칸 넣기</label>
+      <label class="opt"><input type="checkbox" id="opt-answer"> 정답 보기
+        <small>직원 확인용이에요. 켠 채로 인쇄하면 정답도 함께 인쇄됩니다.</small></label>
+    </details>
+
+    <button id="btn-print" class="big-btn btn-print">🖨️ 인쇄하기</button>
+    <div id="print-warn" class="print-warn" hidden>⚠️ 지금 정답이 보이는 상태예요. 이대로 인쇄하면 정답 숫자도 같이 나옵니다.</div>
+  </aside>
+
+  <div class="preview-col">
+    <div id="preview-wrap" class="preview-wrap">
+      <div id="sheet" class="sheet"></div>
+    </div>
+  </div>
+</div>
+
+<script src="icons.js"></script>
+<script src="sheet.js"></script>
+<script src="count.js"></script>
+</body>
+</html>

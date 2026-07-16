@@ -1,0 +1,298 @@
+/* ═══════════ 그림 학습지 생성기 — 스타일 ═══════════
+ * 화면 UI(직원용) + 시트(mm 단위, 인쇄물 그대로 미리보기)
+ * 디자인 토큰: --navy #1F3864, --teal #1D9E75, Noto Sans KR, 카드형
+ */
+:root {
+  --navy: #1F3864;
+  --teal: #1D9E75;
+  --bg: #f4f6fa;
+  --card: #fff;
+  --line: #e3e8f0;
+  --txt: #2b3446;
+  --sub: #7b8698;
+  --red: #D62828;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+[hidden] { display: none !important; }
+
+html, body { font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
+body { background: var(--bg); color: var(--txt); min-height: 100vh; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ─────────── 상단 헤더 ─────────── */
+.app-header {
+  background: var(--navy);
+  color: #fff;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.app-header h1 { font-size: 18px; font-weight: 700; }
+.app-header .ver { font-size: 11px; opacity: .6; }
+
+/* ─────────── 탭 ─────────── */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 16px 0;
+}
+.tab {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--sub);
+}
+.tab.sel { background: var(--navy); border-color: var(--navy); color: #fff; }
+.tab .soon {
+  font-size: 10px;
+  font-weight: 500;
+  background: var(--line);
+  color: var(--sub);
+  border-radius: 8px;
+  padding: 1px 6px;
+  margin-left: 2px;
+  vertical-align: 1px;
+}
+.tab.sel .soon { background: rgba(255,255,255,.25); color: #fff; }
+
+/* ─────────── 준비 중 안내 ─────────── */
+.coming {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+.coming-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 48px 20px;
+  text-align: center;
+}
+.coming-emoji { font-size: 40px; }
+.coming-title { font-size: 20px; font-weight: 700; color: var(--navy); margin-top: 10px; }
+.coming-sub { font-size: 14px; color: var(--sub); margin-top: 8px; line-height: 1.6; }
+
+/* ─────────── 작업 공간: 왼쪽 컨트롤 / 오른쪽 미리보기 ─────────── */
+.workspace {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 16px 48px;
+}
+.controls {
+  flex: 0 0 300px;
+  width: 300px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ctrl-title { font-size: 13px; font-weight: 700; color: var(--sub); margin-bottom: 8px; }
+
+.level-list { display: flex; flex-direction: column; gap: 8px; }
+.level-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff;
+  transition: border-color .12s, background .12s;
+}
+.level-btn:hover { border-color: #c6d0de; }
+.level-btn.sel { border-color: var(--teal); background: #ecf9f4; }
+.lv-emoji { font-size: 22px; flex-shrink: 0; }
+.lv-text b { display: block; font-size: 15px; color: var(--txt); }
+.lv-text small { display: block; font-size: 12px; color: var(--sub); margin-top: 1px; }
+
+.big-btn {
+  width: 100%;
+  border-radius: 10px;
+  padding: 13px 16px;
+  font-size: 16px;
+  font-weight: 700;
+  transition: filter .12s, transform .1s;
+}
+.big-btn:active { transform: translateY(1px); }
+.btn-new { background: var(--teal); color: #fff; }
+.btn-new:hover { filter: brightness(1.06); }
+.btn-print { background: var(--navy); color: #fff; }
+.btn-print:hover { filter: brightness(1.15); }
+
+.adv { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.adv summary { font-size: 14px; font-weight: 700; color: var(--sub); cursor: pointer; }
+.adv .opt {
+  display: block;
+  font-size: 14px;
+  margin-top: 10px;
+  cursor: pointer;
+  line-height: 1.4;
+}
+.adv .opt input { accent-color: var(--teal); width: 16px; height: 16px; vertical-align: -2px; margin-right: 4px; }
+.adv .opt small { display: block; font-size: 12px; color: var(--sub); margin: 2px 0 0 22px; }
+
+.print-warn {
+  font-size: 13px;
+  color: var(--red);
+  background: #fdeeee;
+  border: 1px solid #f5c6c6;
+  border-radius: 8px;
+  padding: 8px 10px;
+  line-height: 1.5;
+}
+
+/* ─────────── 미리보기 ─────────── */
+.preview-col { flex: 1 1 auto; min-width: 0; }
+.preview-wrap { display: flex; justify-content: center; overflow: hidden; }
+
+/* ─────────── 시트 (미리보기 = 인쇄물) ─────────── */
+.sheet {
+  /* 크기(mm)는 sheet.js가 지정 — 좁은 화면에서도 줄어들지 않고 배율로만 작아진다 */
+  flex: 0 0 auto;
+  background: #fff;
+  padding: 12mm;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: #111;
+}
+@media screen {
+  .sheet {
+    box-shadow: 0 6px 24px rgba(31, 56, 100, .18);
+    border-radius: 4px;
+    transform-origin: top center;
+  }
+}
+
+/* 머리글: 왼쪽 제목·지시문 / 오른쪽 이름·날짜 */
+.sheet-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 6mm;
+  flex: 0 0 auto;
+}
+.sheet-head-left { flex: 1 1 auto; min-width: 0; }
+.sheet-title {
+  font-size: 7mm;            /* ≈ 20pt */
+  font-weight: 900;
+  letter-spacing: 0.5mm;
+}
+.sheet-instr {
+  font-size: 5mm;            /* ≈ 14pt 이상 */
+  font-weight: 700;
+  line-height: 1.45;
+  margin-top: 2mm;
+}
+.sheet-fields {
+  flex: 0 0 auto;
+  font-size: 4.5mm;
+  font-weight: 700;
+  line-height: 2.1;
+  white-space: nowrap;
+  text-align: right;
+}
+.sheet-fields .blank {
+  display: inline-block;
+  border-bottom: 0.4mm solid #111;
+  margin: 0 1mm;
+}
+.sheet-fields .w-name { width: 28mm; }
+.sheet-fields .w-num { width: 9mm; }
+
+.sheet-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: 3mm;
+}
+
+/* 장면 박스 */
+.scene-box {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* 답칸 표 */
+.answer-row {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 4mm;
+  margin-top: 4mm;
+}
+.ans-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 23mm;
+}
+.ans-sample { width: 11mm; height: 11mm; }
+.ans-name {
+  font-size: 4.4mm;          /* ≈ 12.5pt */
+  font-weight: 700;
+  margin: 1mm 0 1.5mm;
+  white-space: nowrap;
+}
+.ans-box {
+  width: 20mm;
+  height: 20mm;
+  border: 0.6mm solid #333;
+  border-radius: 1.5mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ans-val { font-size: 9mm; font-weight: 900; color: var(--red); }
+.ans-sum-label {
+  font-size: 4.4mm;
+  font-weight: 900;
+  text-align: center;
+  line-height: 1.3;
+  margin-bottom: 1.5mm;
+}
+
+.sheet-foot {
+  flex: 0 0 auto;
+  font-size: 3mm;
+  color: #999;
+  text-align: center;
+  margin-top: 2mm;
+}
+
+/* ─────────── 좁은 화면: 컨트롤이 위로 쌓임 ─────────── */
+@media (max-width: 900px) {
+  .workspace { flex-direction: column; align-items: stretch; }
+  .controls { flex: 1 1 auto; width: 100%; }
+  .preview-col { width: 100%; }
+}
+
+/* ─────────── 인쇄 ─────────── */
+@media print {
+  body { background: #fff; }
+  .no-print { display: none !important; }
+  .workspace { display: block; max-width: none; padding: 0; }
+  .preview-col { min-width: 0; }
+  .preview-wrap { display: block; height: auto !important; padding: 0; overflow: visible; }
+  .sheet { transform: none !important; box-shadow: none; border-radius: 0; }
+}
