@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#1F3864">
 <title>그림 학습지 생성기</title>
-<!-- v2026.07.16.003 -->
+<!-- v2026.07.16.004 -->
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="print.css">
@@ -16,23 +16,15 @@
 <!-- ═══════════ 화면 UI (인쇄 시 숨김) ═══════════ -->
 <header class="app-header no-print">
   <h1>🎨 그림 학습지 생성기</h1>
-  <span class="ver">v2026.07.16.003</span>
+  <span class="ver">v2026.07.16.004</span>
 </header>
 
 <nav id="tabs" class="tabs no-print">
   <button class="tab sel" data-tab="count">🔢 개수 세기</button>
   <button class="tab" data-tab="array">✂️ 도형 배열</button>
   <button class="tab" data-tab="line">🧶 줄 따라 색칠</button>
-  <button class="tab" data-tab="color">🎨 숫자 색칠 <span class="soon">준비 중</span></button>
+  <button class="tab" data-tab="color">🎨 숫자 색칠</button>
 </nav>
-
-<div id="coming" class="coming no-print" hidden>
-  <div class="coming-card">
-    <div class="coming-emoji">🛠️</div>
-    <div class="coming-title">곧 만들어져요!</div>
-    <div class="coming-sub">이 학습지는 지금 준비하고 있어요.<br>지금은 「🔢 개수 세기」·「✂️ 도형 배열」·「🧶 줄 따라 색칠」 탭을 이용해 주세요.</div>
-  </div>
-</div>
 
 <!-- ═══════════ 개수 세기 ═══════════ -->
 <div id="workspace" class="workspace">
@@ -209,11 +201,66 @@
   </div>
 </div>
 
+<!-- ═══════════ 숫자 색칠 (범례를 보고 숫자와 같은 색으로 칠하기) ═══════════ -->
+<div id="workspace-cbn" class="workspace" hidden>
+  <aside class="controls no-print">
+    <div class="ctrl-group">
+      <div class="ctrl-title">난이도</div>
+      <div id="cbn-level-btns" class="level-list">
+        <button class="level-btn sel" data-level="1">
+          <span class="lv-emoji">🌱</span>
+          <span class="lv-text"><b>쉬움</b><small>칸 6~10개 · 3~4가지 색 · 칸이 아주 커요</small></span>
+        </button>
+        <button class="level-btn" data-level="2">
+          <span class="lv-emoji">🌟</span>
+          <span class="lv-text"><b>보통</b><small>칸 12~20개 · 4~6가지 색</small></span>
+        </button>
+        <button class="level-btn" data-level="3">
+          <span class="lv-emoji">🔥</span>
+          <span class="lv-text"><b>어려움</b><small>칸 25~40개 · 6~9가지 색</small></span>
+        </button>
+        <button class="level-btn" data-level="4">
+          <span class="lv-emoji">💪</span>
+          <span class="lv-text"><b>도전</b><small>조각보 무늬 · 칸 45개 이상 · 8~10가지 색</small></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="ctrl-group">
+      <div class="ctrl-title">도안 고르기</div>
+      <div id="cbn-pics" class="pic-list"></div>
+    </div>
+
+    <button id="cbn-btn-new" class="big-btn btn-new">🔀 색 바꾸기</button>
+
+    <details class="adv">
+      <summary>⚙️ 고급 옵션</summary>
+      <label class="opt"><input type="checkbox" id="cbn-opt-namedate" checked> 이름·날짜 칸 넣기</label>
+      <label class="opt"><input type="checkbox" id="cbn-opt-sample"> 완성 견본 보기
+        <small>직원 확인용이에요. 영역이 실제 색으로 채워져 보여요. 화면에서만 보이고 인쇄되지는 않습니다.</small></label>
+      <div class="opt paper-opt">용지
+        <label><input type="radio" name="paper-cbn" value="a3" checked> A3(기본)</label>
+        <label><input type="radio" name="paper-cbn" value="a4"> A4(예비)</label>
+      </div>
+    </details>
+
+    <button id="cbn-btn-print" class="big-btn btn-print">🖨️ 인쇄하기</button>
+  </aside>
+
+  <div class="preview-col">
+    <div id="cbn-wrap" class="preview-wrap">
+      <div id="sheet-cbn" class="sheet"></div>
+    </div>
+  </div>
+</div>
+
 <script src="icons.js"></script>
 <script src="shapes.js"></script>
 <script src="sheet.js"></script>
 <script src="count.js"></script>
 <script src="arrange.js"></script>
 <script src="trace.js"></script>
+<script src="pics-cbn.js"></script>
+<script src="colornum.js"></script>
 </body>
 </html>
