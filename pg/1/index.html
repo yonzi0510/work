@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>숫자찾기 생성기</title>
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<!-- v2026.07.07.001 -->
+<!-- v2026.07.29.001 -->
 <style>
   :root{
     --ink:#1b1b1b; --line:#222; --accent:#2563eb; --soft:#f3f4f6;
@@ -52,6 +52,10 @@
     font-size:24px; font-weight:600; padding:0;
   }
   table.grid td.hit{background:#fff3b0;}
+  /* 격자와 아래 묶음 박스의 폭을 일치시키는 래퍼 (inline-block = 표 폭에 맞춤) */
+  .inner{display:inline-block;}
+  /* 기호(＋－×÷ 등)는 숫자보다 작게 인쇄되므로 확대 표시 */
+  .sym-ch{font-size:1.4em; line-height:1; vertical-align:middle;}
   .targets{display:flex; width:100%; border:1.5px solid #111; margin-top:10mm;}
   .targets .col{flex:1; padding:10px 6px; display:flex; flex-direction:column; align-items:center; gap:9px;}
   .targets .col + .col{border-left:1.5px solid #111;}
@@ -64,7 +68,8 @@
     body{background:#fff;}
     .controls{display:none !important;}
     #output{max-width:none; margin:0; padding:0;}
-    .sheet{box-shadow:none; border:none; margin:0; width:auto; min-height:auto; padding:14mm 12mm; page-break-after:always;}
+    /* 세로 가운데 정렬: 한 장 높이를 확보하고 내용물을 중앙에 배치 */
+    .sheet{box-shadow:none; border:none; margin:0; width:auto; min-height:294mm; padding:0 12mm; justify-content:center; page-break-after:always;}
     .sheet:last-child{page-break-after:auto;}
     @page{size:A4 portrait; margin:0;}
   }
@@ -73,7 +78,7 @@
 <body>
 
 <div class="controls">
-  <h1>🔢 숫자찾기 생성기 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.07.07.001</span></h1>
+  <h1>🔢 숫자찾기 생성기 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.07.29.001</span></h1>
   <p class="sub">인지훈련용 숫자찾기 학습지를 무한 생성합니다. 한 부 = 10장. 제시된 묶음은 모두 격자 안에 들어 있습니다.</p>
 
   <div class="card">
@@ -207,6 +212,21 @@ function buildPuzzle(styleKey, difficulty){
   return null;
 }
 
+// 기호(숫자·글자가 아닌 문자)는 span.sym-ch로 감싸 크게 표시
+function setDecorated(el, str){
+  el.textContent = "";
+  for(const ch of str){
+    if(/[0-9A-Za-z가-힣]/.test(ch)){
+      el.appendChild(document.createTextNode(ch));
+    } else {
+      const s = document.createElement("span");
+      s.className = "sym-ch";
+      s.textContent = ch;
+      el.appendChild(s);
+    }
+  }
+}
+
 function renderSheet(puzzle, idx, total, opts){
   const { grid, targets, placements } = puzzle;
   const hitSet = new Set();
@@ -216,6 +236,9 @@ function renderSheet(puzzle, idx, total, opts){
 
   const sheet = document.createElement("div");
   sheet.className = "sheet";
+  // 격자와 묶음 박스를 같은 폭으로 묶는 래퍼
+  const inner = document.createElement("div");
+  inner.className = "inner";
 
   // 격자
   const table = document.createElement("table");
@@ -224,13 +247,13 @@ function renderSheet(puzzle, idx, total, opts){
     const tr = document.createElement("tr");
     for(let c=0;c<SIZE;c++){
       const td = document.createElement("td");
-      td.textContent = grid[r][c];
+      setDecorated(td, grid[r][c]);
       if(hitSet.has(r+"_"+c)) td.classList.add("hit");
       tr.appendChild(td);
     }
     table.appendChild(tr);
   }
-  sheet.appendChild(table);
+  inner.appendChild(table);
 
   // 묶음 박스 3칸 x 5개
   const box = document.createElement("div");
@@ -241,12 +264,13 @@ function renderSheet(puzzle, idx, total, opts){
     for(let i=0;i<5;i++){
       const t = document.createElement("div");
       t.className = "t" + (opts.showAnswers?" mark":"");
-      t.textContent = targets[col*5+i];
+      setDecorated(t, targets[col*5+i]);
       colDiv.appendChild(t);
     }
     box.appendChild(colDiv);
   }
-  sheet.appendChild(box);
+  inner.appendChild(box);
+  sheet.appendChild(inner);
 
   return sheet;
 }
