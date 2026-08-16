@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>글귀필사 워크북</title>
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<!-- v2026.08.16.001 -->
+<style>
+  :root{
+    --ink:#1b1b1b; --line:#222; --accent:#2563eb; --soft:#f3f4f6;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:"Pretendard","Malgun Gothic","맑은 고딕",sans-serif; color:var(--ink); background:#fafafa;}
+
+  /* ===== 컨트롤 패널 ===== */
+  .controls{max-width:980px; margin:0 auto; padding:24px 20px 40px;}
+  .controls h1{font-size:22px; margin:0 0 4px;}
+  .controls .sub{color:#666; font-size:14px; margin:0 0 20px;}
+  .card{background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:18px 20px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,.04);}
+  .card h2{font-size:15px; margin:0 0 14px; color:#111;}
+  .row{display:flex; flex-wrap:wrap; gap:14px 22px; align-items:center;}
+  label.fld{display:flex; flex-direction:column; gap:5px; font-size:13px; color:#374151;}
+  select,input[type=text],textarea{padding:8px 10px; border:1px solid #d1d5db; border-radius:8px; font-size:14px; background:#fff; font-family:inherit;}
+  textarea{width:100%; resize:vertical; line-height:1.5;}
+  .btn{padding:10px 18px; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;}
+  .btn-primary{background:var(--accent); color:#fff;}
+  .btn-primary:hover{background:#1d4ed8;}
+  .btn-ghost{background:#eef2ff; color:#1d4ed8;}
+  .btn-ghost:hover{background:#e0e7ff;}
+  .btn-line{background:#fff; border:1px solid #d1d5db; color:#374151;}
+  .btn-line:hover{background:#f9fafb;}
+  .quick{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:14px;}
+  .actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:6px; align-items:center;}
+  .hint{font-size:12px; color:#9ca3af; margin-top:10px;}
+  .verse-list{display:flex; flex-direction:column; gap:8px; max-height:320px; overflow-y:auto; padding:4px 2px;}
+  .verse-item{display:flex; gap:10px; align-items:flex-start; font-size:13px; padding:8px 10px; border:1px solid #eee; border-radius:8px;}
+  .verse-item input{margin-top:3px;}
+  .verse-item .cat{display:inline-block; font-size:11px; font-weight:700; color:#1d4ed8; background:#eef2ff; border-radius:6px; padding:1px 6px; margin-bottom:3px;}
+  .verse-item .txt{color:#333; display:block;}
+
+  /* ===== 인쇄물(페이지) ===== */
+  #output{max-width:980px; margin:0 auto; padding:0 20px 60px;}
+  .sheet{
+    background:#fff; width:210mm; min-height:297mm; margin:0 auto 24px; padding:17mm; box-sizing:border-box;
+    border:1px solid #e5e7eb; box-shadow:0 2px 10px rgba(0,0,0,.06);
+    display:flex; flex-direction:column;
+    font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  }
+  .sheet .head{width:100%; margin-bottom:8mm;}
+  .sheet .head .cat{display:inline-block; font-size:12px; font-weight:700; color:#1d4ed8; background:#eef2ff; border-radius:6px; padding:2px 8px; margin-right:6px;}
+  .sheet .head .cont{font-size:12px; color:#9ca3af; font-weight:400;}
+  .sheet .head .meta{display:flex; gap:22px; margin-top:6mm; font-size:13px; color:#374151;}
+  .sheet .head .meta span{border-bottom:1px solid #666; padding:0 4px 2px; min-width:60px; display:inline-block;}
+  table.grid{border-collapse:collapse; margin:0 auto;}
+  table.grid td{
+    border:1px solid #888; text-align:center; vertical-align:middle; padding:0;
+    font-weight:500;
+  }
+  table.grid td .g{color:#9aa0a8; font-weight:700;}
+  table.grid tr.spacer td{border:none; padding:0;}
+  .pageno{font-size:11px; color:#9ca3af; margin-top:6mm; text-align:center;}
+
+  @media print{
+    body{background:#fff;}
+    .controls{display:none !important;}
+    #output{max-width:none; margin:0; padding:0;}
+    .sheet{box-shadow:none; border:none; margin:0; width:auto; min-height:294mm; page-break-after:always;}
+    .sheet:last-child{page-break-after:auto;}
+    @page{size:A4 portrait; margin:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <h1>✍️ 글귀필사 워크북 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.08.16.001</span></h1>
+  <p class="sub">속담·명언과 계절·자연을 담은 좋은 글귀를 원고지 칸에 따라 쓰는 인지훈련용 필사 학습지를 생성·인쇄합니다. 특정 종교와 무관합니다.</p>
+
+  <div class="card">
+    <h2>글귀 선택 (속담·명언 / 계절·자연 / 마음·감사)</h2>
+    <div class="quick">
+      <button class="btn btn-ghost" id="selectAll">전체 선택</button>
+      <button class="btn btn-line" id="selectNone">전체 해제</button>
+    </div>
+    <div class="verse-list" id="verseList"></div>
+  </div>
+
+  <div class="card">
+    <h2>글귀 직접 입력 (선택)</h2>
+    <p class="hint" style="margin-top:0;">한 줄에 글귀 하나씩, <b>구분 | 본문</b> 형식으로 입력하세요. 예: <code>속담 | 가는 말이 고와야 오는 말이 곱다</code></p>
+    <textarea id="customVerses" rows="4" placeholder="구분 | 본문"></textarea>
+  </div>
+
+  <div class="card">
+    <h2>인쇄 설정</h2>
+    <div class="row">
+      <label class="fld">글자 칸 크기
+        <select id="cellSize">
+          <option value="11">보통</option>
+          <option value="14" selected>크게</option>
+          <option value="17">아주 크게</option>
+        </select>
+      </label>
+      <label class="fld">한 줄당 따라쓰기 횟수
+        <select id="repeatCount">
+          <option value="1" selected>1회</option>
+          <option value="2">2회</option>
+          <option value="3">3회</option>
+          <option value="4">4회</option>
+          <option value="5">5회</option>
+        </select>
+      </label>
+      <label class="fld" style="flex-direction:row; align-items:center; gap:8px; margin-top:18px;">
+        <input type="checkbox" id="showGuide" checked> 원문 안내(연한 글씨) 표시
+      </label>
+      <label class="fld" style="flex-direction:row; align-items:center; gap:8px; margin-top:18px;">
+        <input type="checkbox" id="showMeta" checked> 이름·날짜·확인란 표시
+      </label>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" id="generate">📄 생성</button>
+    <button class="btn btn-line" id="print">🖨️ 인쇄 / PDF 저장</button>
+  </div>
+  <p class="hint">한 줄을 연하게 안내로 보여준 바로 아래에 그 줄만 선택한 횟수만큼 따라 쓰게 한 뒤, 다음 줄로 넘어갑니다. 전체 글귀를 외우지 않아도 눈앞의 한 줄만 보고 옮겨 쓸 수 있습니다. 내용이 길면 자동으로 다음 장에 이어집니다.</p>
+</div>
+
+<div id="output"></div>
+
+<script>
+const VERSE_BANK = [
+  { ref:"속담", text:"가는 말이 고와야 오는 말이 곱다" },
+  { ref:"속담", text:"웃는 얼굴에 침 못 뱉는다" },
+  { ref:"속담", text:"천 리 길도 한 걸음부터" },
+  { ref:"속담", text:"고생 끝에 낙이 온다" },
+  { ref:"속담", text:"티끌 모아 태산" },
+  { ref:"속담", text:"말 한마디에 천 냥 빚도 갚는다" },
+  { ref:"계절·자연", text:"봄이 오면 꽃이 피고 새가 노래한다" },
+  { ref:"계절·자연", text:"여름 하늘에 뭉게구름이 두둥실 떠간다" },
+  { ref:"계절·자연", text:"가을 들판에 황금빛 벼가 익어간다" },
+  { ref:"계절·자연", text:"겨울눈이 소복소복 온 세상을 덮는다" },
+  { ref:"마음·감사", text:"감사하는 마음이 행복을 부른다" },
+  { ref:"마음·감사", text:"웃음은 마음의 보약이다" },
+  { ref:"마음·감사", text:"가족은 세상에서 가장 소중한 보물이다" },
+  { ref:"마음·감사", text:"친구는 인생의 좋은 동무다" },
+  { ref:"마음·감사", text:"건강이 최고의 재산이다" },
+  { ref:"마음·감사", text:"오늘 하루도 감사한 마음으로 살자" },
+];
+
+// ===== 글귀 선택 목록 구성 =====
+const verseListEl = document.getElementById("verseList");
+VERSE_BANK.forEach((v, i) => {
+  const item = document.createElement("label");
+  item.className = "verse-item";
+  item.innerHTML = `<input type="checkbox" data-idx="${i}" checked>
+    <span><span class="cat">${v.ref}</span><span class="txt">${v.text}</span></span>`;
+  verseListEl.appendChild(item);
+});
+document.getElementById("selectAll").onclick = () => {
+  verseListEl.querySelectorAll("input[type=checkbox]").forEach(c => c.checked = true);
+};
+document.getElementById("selectNone").onclick = () => {
+  verseListEl.querySelectorAll("input[type=checkbox]").forEach(c => c.checked = false);
+};
+
+function getSelectedVerses(){
+  const picked = [];
+  verseListEl.querySelectorAll("input[type=checkbox]").forEach(c => {
+    if (c.checked) picked.push(VERSE_BANK[parseInt(c.dataset.idx, 10)]);
+  });
+  const custom = document.getElementById("customVerses").value.split("\n");
+  custom.forEach(line => {
+    const t = line.trim();
+    if (!t) return;
+    const idx = t.indexOf("|");
+    if (idx < 0) return;
+    const ref = t.slice(0, idx).trim();
+    const text = t.slice(idx + 1).trim();
+    if (ref && text) picked.push({ ref, text });
+  });
+  return picked;
+}
+
+// ===== 원고지 칸 배치 =====
+const PAGE_W_MM = 176;   // 사용 가능 폭 (210 - 좌우 17mm*2)
+const PAGE_H_MM = 200;   // 격자에 쓸 수 있는 대략 높이 (헤더·여백 제외)
+
+// 한 줄(안내) 바로 아래에 같은 줄을 반복해서 따라 쓰게 한다 — 어르신이 전체 글귀를
+// 외우거나 앞줄을 계속 되돌아보지 않고, 눈앞의 한 줄만 보고 바로 옮겨 쓸 수 있게 하기 위함.
+function buildRows(text, cols, showGuide, repeatCount){
+  const chars = Array.from(text);
+  const guideRowCount = Math.max(1, Math.ceil(chars.length / cols));
+  const rows = [];
+  for (let r = 0; r < guideRowCount; r++) {
+    if (showGuide) {
+      rows.push({ type: "guide", chars: chars.slice(r * cols, (r + 1) * cols) });
+    }
+    for (let i = 0; i < repeatCount; i++) rows.push({ type: "blank" });
+    if (r < guideRowCount - 1) rows.push({ type: "spacer" });
+  }
+  return rows;
+}
+
+function renderGridTable(rowsChunk, cols, cellMm, fontPx){
+  const table = document.createElement("table");
+  table.className = "grid";
+  rowsChunk.forEach(row => {
+    const tr = document.createElement("tr");
+    if (row.type === "spacer") {
+      tr.className = "spacer";
+      const td = document.createElement("td");
+      td.colSpan = cols;
+      td.style.height = Math.max(3, Math.round(cellMm * 0.35)) + "mm";
+      tr.appendChild(td);
+      table.appendChild(tr);
+      return;
+    }
+    for (let c = 0; c < cols; c++) {
+      const td = document.createElement("td");
+      td.style.width = cellMm + "mm";
+      td.style.height = cellMm + "mm";
+      td.style.fontSize = fontPx + "px";
+      if (row.type === "guide" && row.chars[c] && row.chars[c] !== " ") {
+        const span = document.createElement("span");
+        span.className = "g";
+        span.textContent = row.chars[c];
+        td.appendChild(span);
+      }
+      tr.appendChild(td);
+    }
+    table.appendChild(tr);
+  });
+  return table;
+}
+
+function makeSheet(ref, isContinued, rowsChunk, cols, cellMm, fontPx, showMeta, pageNo, pageTotal){
+  const sheet = document.createElement("div");
+  sheet.className = "sheet";
+
+  const head = document.createElement("div");
+  head.className = "head";
+  head.innerHTML = `<span class="cat">${ref}</span>${isContinued ? '<span class="cont">(이어서)</span>' : ""}`;
+  if (showMeta && !isContinued) {
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    meta.innerHTML = `<div>이름 <span>&nbsp;</span></div><div>날짜 <span>&nbsp;</span></div><div>확인 <span>&nbsp;</span></div>`;
+    head.appendChild(meta);
+  }
+  sheet.appendChild(head);
+
+  sheet.appendChild(renderGridTable(rowsChunk, cols, cellMm, fontPx));
+
+  if (pageTotal > 1) {
+    const pn = document.createElement("div");
+    pn.className = "pageno";
+    pn.textContent = `${pageNo} / ${pageTotal}`;
+    sheet.appendChild(pn);
+  }
+  return sheet;
+}
+
+function generate(){
+  const out = document.getElementById("output");
+  out.innerHTML = "";
+
+  const verses = getSelectedVerses();
+  if (!verses.length) {
+    out.innerHTML = '<p style="text-align:center; color:#9ca3af; padding:40px;">선택된 글귀가 없습니다. 글귀를 선택하거나 직접 입력해 주세요.</p>';
+    return;
+  }
+
+  const cellMm = parseInt(document.getElementById("cellSize").value, 10);
+  const fontPx = Math.round(cellMm * 2.1);
+  const cols = Math.max(6, Math.floor(PAGE_W_MM / cellMm));
+  const rowsPerPage = Math.max(6, Math.floor(PAGE_H_MM / cellMm));
+  const showGuide = document.getElementById("showGuide").checked;
+  const showMeta = document.getElementById("showMeta").checked;
+  const repeatCount = parseInt(document.getElementById("repeatCount").value, 10);
+
+  verses.forEach(v => {
+    const rows = buildRows(v.text, cols, showGuide, repeatCount);
+    const chunks = [];
+    for (let i = 0; i < rows.length; i += rowsPerPage) {
+      chunks.push(rows.slice(i, i + rowsPerPage));
+    }
+    chunks.forEach((chunk, idx) => {
+      out.appendChild(makeSheet(v.ref, idx > 0, chunk, cols, cellMm, fontPx, showMeta, idx + 1, chunks.length));
+    });
+  });
+
+  window.scrollTo({ top: out.offsetTop - 10, behavior: "smooth" });
+}
+
+document.getElementById("generate").onclick = generate;
+document.getElementById("print").onclick = () => window.print();
+
+generate();
+</script>
+</body>
+</html>
