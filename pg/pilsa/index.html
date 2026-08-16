@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>성결필사 워크북</title>
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<!-- v2026.08.16.001 -->
+<style>
+  :root{
+    --ink:#1b1b1b; --line:#222; --accent:#2563eb; --soft:#f3f4f6;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:"Pretendard","Malgun Gothic","맑은 고딕",sans-serif; color:var(--ink); background:#fafafa;}
+
+  /* ===== 컨트롤 패널 ===== */
+  .controls{max-width:980px; margin:0 auto; padding:24px 20px 40px;}
+  .controls h1{font-size:22px; margin:0 0 4px;}
+  .controls .sub{color:#666; font-size:14px; margin:0 0 20px;}
+  .card{background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:18px 20px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,.04);}
+  .card h2{font-size:15px; margin:0 0 14px; color:#111;}
+  .notice{background:#fff7e6; border:1px solid #f4d792; color:#7a5b00; font-size:13px; border-radius:10px; padding:12px 14px; margin-bottom:18px; line-height:1.5;}
+  .row{display:flex; flex-wrap:wrap; gap:14px 22px; align-items:center;}
+  label.fld{display:flex; flex-direction:column; gap:5px; font-size:13px; color:#374151;}
+  select,input[type=text],textarea{padding:8px 10px; border:1px solid #d1d5db; border-radius:8px; font-size:14px; background:#fff; font-family:inherit;}
+  textarea{width:100%; resize:vertical; line-height:1.5;}
+  .btn{padding:10px 18px; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;}
+  .btn-primary{background:var(--accent); color:#fff;}
+  .btn-primary:hover{background:#1d4ed8;}
+  .btn-ghost{background:#eef2ff; color:#1d4ed8;}
+  .btn-ghost:hover{background:#e0e7ff;}
+  .btn-line{background:#fff; border:1px solid #d1d5db; color:#374151;}
+  .btn-line:hover{background:#f9fafb;}
+  .quick{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:14px;}
+  .actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:6px; align-items:center;}
+  .hint{font-size:12px; color:#9ca3af; margin-top:10px;}
+  .verse-list{display:flex; flex-direction:column; gap:8px; max-height:320px; overflow-y:auto; padding:4px 2px;}
+  .verse-item{display:flex; gap:10px; align-items:flex-start; font-size:13px; padding:8px 10px; border:1px solid #eee; border-radius:8px;}
+  .verse-item input{margin-top:3px;}
+  .verse-item .ref{font-weight:700; color:#111; white-space:nowrap;}
+  .verse-item .txt{color:#555;}
+
+  /* ===== 인쇄물(페이지) ===== */
+  #output{max-width:980px; margin:0 auto; padding:0 20px 60px;}
+  .sheet{
+    background:#fff; width:210mm; min-height:297mm; margin:0 auto 24px; padding:17mm; box-sizing:border-box;
+    border:1px solid #e5e7eb; box-shadow:0 2px 10px rgba(0,0,0,.06);
+    display:flex; flex-direction:column;
+    font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  }
+  .sheet .head{width:100%; margin-bottom:8mm;}
+  .sheet .head .ref{font-size:17px; font-weight:700; color:#111;}
+  .sheet .head .cont{font-size:12px; color:#9ca3af; font-weight:400; margin-left:6px;}
+  .sheet .head .meta{display:flex; gap:22px; margin-top:6mm; font-size:13px; color:#374151;}
+  .sheet .head .meta span{border-bottom:1px solid #666; padding:0 4px 2px; min-width:60px; display:inline-block;}
+  table.grid{border-collapse:collapse; margin:0 auto;}
+  table.grid td{
+    border:1px solid #888; text-align:center; vertical-align:middle; padding:0;
+    font-weight:500;
+  }
+  table.grid td .g{color:#9aa0a8; font-weight:700;}
+  .pageno{font-size:11px; color:#9ca3af; margin-top:6mm; text-align:center;}
+
+  @media print{
+    body{background:#fff;}
+    .controls{display:none !important;}
+    #output{max-width:none; margin:0; padding:0;}
+    .sheet{box-shadow:none; border:none; margin:0; width:auto; min-height:294mm; page-break-after:always;}
+    .sheet:last-child{page-break-after:auto;}
+    @page{size:A4 portrait; margin:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <h1>✍️ 성결필사 워크북 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.08.16.001</span></h1>
+  <p class="sub">거룩(성결) 주제의 성경 구절을 원고지 칸에 따라 쓰는 인지훈련용 필사 학습지를 생성·인쇄합니다.</p>
+
+  <div class="notice">
+    ⚠️ 아래 구절 본문은 참고용 예시입니다. 번역본(개역개정 등)에 따라 표기가 다를 수 있으니,
+    인쇄해서 나눠드리기 전에 반드시 실제 사용하시는 성경과 대조해 확인해 주세요.
+    확인이 끝난 구절만 체크하거나, 아래 "구절 직접 입력"에 직접 확인한 본문을 붙여넣어 사용하시면 더 안전합니다.
+  </div>
+
+  <div class="card">
+    <h2>구절 선택 (거룩·성결 주제)</h2>
+    <div class="quick">
+      <button class="btn btn-ghost" id="selectAll">전체 선택</button>
+      <button class="btn btn-line" id="selectNone">전체 해제</button>
+    </div>
+    <div class="verse-list" id="verseList"></div>
+  </div>
+
+  <div class="card">
+    <h2>구절 직접 입력 (선택)</h2>
+    <p class="hint" style="margin-top:0;">한 줄에 구절 하나씩, <b>출처 | 본문</b> 형식으로 입력하세요. 예: <code>레위기 19:2 | 너희는 거룩하라 이는 나 여호와 너희 하나님이 거룩함이니라</code></p>
+    <textarea id="customVerses" rows="4" placeholder="출처 | 본문"></textarea>
+  </div>
+
+  <div class="card">
+    <h2>인쇄 설정</h2>
+    <div class="row">
+      <label class="fld">글자 칸 크기
+        <select id="cellSize">
+          <option value="11">보통</option>
+          <option value="14" selected>크게</option>
+          <option value="17">아주 크게</option>
+        </select>
+      </label>
+      <label class="fld">따라쓰기 연습 횟수
+        <select id="repeatCount">
+          <option value="1">1회</option>
+          <option value="2" selected>2회</option>
+          <option value="3">3회</option>
+          <option value="4">4회</option>
+          <option value="5">5회</option>
+        </select>
+      </label>
+      <label class="fld" style="flex-direction:row; align-items:center; gap:8px; margin-top:18px;">
+        <input type="checkbox" id="showGuide" checked> 원문 안내(연한 글씨) 표시
+      </label>
+      <label class="fld" style="flex-direction:row; align-items:center; gap:8px; margin-top:18px;">
+        <input type="checkbox" id="showMeta" checked> 이름·날짜·확인란 표시
+      </label>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" id="generate">📄 생성</button>
+    <button class="btn btn-line" id="print">🖨️ 인쇄 / PDF 저장</button>
+  </div>
+  <p class="hint">구절마다 원고지 칸에 원문을 연하게 안내로 보여준 뒤, 선택한 횟수만큼 같은 칸 수의 빈 줄을 이어서 넣어 따라 쓰게 합니다. 내용이 길면 자동으로 다음 장에 이어집니다.</p>
+</div>
+
+<div id="output"></div>
+
+<script>
+const VERSE_BANK = [
+  { ref:"레위기 19:2",     text:"너희는 거룩하라 이는 나 여호와 너희 하나님이 거룩함이니라" },
+  { ref:"베드로전서 1:16", text:"기록되었으되 내가 거룩하니 너희도 거룩할지어다 하셨느니라" },
+  { ref:"히브리서 12:14",  text:"모든 사람과 더불어 화평함과 거룩함을 따르라 이것이 없이는 아무도 주를 보지 못하리라" },
+  { ref:"데살로니가전서 4:3", text:"하나님의 뜻은 이것이니 너희의 거룩함이라 곧 음란을 버리고" },
+  { ref:"데살로니가전서 4:7", text:"하나님이 우리를 부르심은 부정하게 하심이 아니요 거룩하게 하심이니" },
+  { ref:"로마서 12:1",     text:"너희 몸을 하나님이 기뻐하시는 거룩한 산 제물로 드리라 이는 너희가 드릴 영적 예배니라" },
+  { ref:"에베소서 1:4",    text:"창세 전에 그리스도 안에서 우리를 택하사 우리로 사랑 안에서 그 앞에 거룩하고 흠이 없게 하시려고" },
+  { ref:"시편 24:3",      text:"여호와의 산에 오를 자가 누구며 그의 거룩한 곳에 설 자가 누구인가" },
+  { ref:"시편 24:4",      text:"곧 손이 깨끗하며 마음이 청결하며 뜻을 허탄한 데에 두지 아니하며 거짓 맹세하지 아니하는 자로다" },
+  { ref:"이사야 6:3",     text:"거룩하다 거룩하다 거룩하다 만군의 여호와여 그의 영광이 온 땅에 충만하도다" },
+  { ref:"요한계시록 4:8",  text:"거룩하다 거룩하다 거룩하다 주 하나님 곧 전능하신 이여 전에도 계셨고 이제도 계시고 장차 오실 이시라" },
+  { ref:"요한일서 3:3",    text:"주를 향하여 이 소망을 가진 자마다 주의 깨끗하심과 같이 자기를 깨끗하게 하느니라" },
+  { ref:"시편 51:10",     text:"하나님이여 내 속에 정한 마음을 창조하시고 내 안에 정직한 영을 새롭게 하소서" },
+  { ref:"야고보서 4:8",    text:"하나님을 가까이하라 그리하면 너희를 가까이하시리라 죄인들아 손을 깨끗이 하라 두 마음을 품은 자들아 마음을 성결하게 하라" },
+  { ref:"마태복음 5:8",    text:"마음이 청결한 자는 복이 있나니 그들이 하나님을 볼 것임이요" },
+  { ref:"골로새서 3:12",   text:"너희는 하나님이 택하사 거룩하고 사랑받는 자처럼 긍휼과 자비와 겸손과 온유와 오래 참음을 옷 입고" },
+];
+
+// ===== 구절 선택 목록 구성 =====
+const verseListEl = document.getElementById("verseList");
+VERSE_BANK.forEach((v, i) => {
+  const item = document.createElement("label");
+  item.className = "verse-item";
+  item.innerHTML = `<input type="checkbox" data-idx="${i}" checked>
+    <span><span class="ref">${v.ref}</span><br><span class="txt">${v.text}</span></span>`;
+  verseListEl.appendChild(item);
+});
+document.getElementById("selectAll").onclick = () => {
+  verseListEl.querySelectorAll("input[type=checkbox]").forEach(c => c.checked = true);
+};
+document.getElementById("selectNone").onclick = () => {
+  verseListEl.querySelectorAll("input[type=checkbox]").forEach(c => c.checked = false);
+};
+
+function getSelectedVerses(){
+  const picked = [];
+  verseListEl.querySelectorAll("input[type=checkbox]").forEach(c => {
+    if (c.checked) picked.push(VERSE_BANK[parseInt(c.dataset.idx, 10)]);
+  });
+  const custom = document.getElementById("customVerses").value.split("\n");
+  custom.forEach(line => {
+    const t = line.trim();
+    if (!t) return;
+    const idx = t.indexOf("|");
+    if (idx < 0) return;
+    const ref = t.slice(0, idx).trim();
+    const text = t.slice(idx + 1).trim();
+    if (ref && text) picked.push({ ref, text });
+  });
+  return picked;
+}
+
+// ===== 원고지 칸 배치 =====
+const PAGE_W_MM = 176;   // 사용 가능 폭 (210 - 좌우 17mm*2)
+const PAGE_H_MM = 200;   // 격자에 쓸 수 있는 대략 높이 (헤더·여백 제외)
+
+function buildRows(text, cols, showGuide, repeatCount){
+  const chars = Array.from(text);
+  const guideRowCount = Math.max(1, Math.ceil(chars.length / cols));
+  const rows = [];
+  if (showGuide) {
+    for (let r = 0; r < guideRowCount; r++) {
+      rows.push({ type: "guide", chars: chars.slice(r * cols, (r + 1) * cols) });
+    }
+  }
+  const blankRows = guideRowCount * repeatCount;
+  for (let i = 0; i < blankRows; i++) rows.push({ type: "blank" });
+  return rows;
+}
+
+function renderGridTable(rowsChunk, cols, cellMm, fontPx){
+  const table = document.createElement("table");
+  table.className = "grid";
+  rowsChunk.forEach(row => {
+    const tr = document.createElement("tr");
+    for (let c = 0; c < cols; c++) {
+      const td = document.createElement("td");
+      td.style.width = cellMm + "mm";
+      td.style.height = cellMm + "mm";
+      td.style.fontSize = fontPx + "px";
+      if (row.type === "guide" && row.chars[c] && row.chars[c] !== " ") {
+        const span = document.createElement("span");
+        span.className = "g";
+        span.textContent = row.chars[c];
+        td.appendChild(span);
+      }
+      tr.appendChild(td);
+    }
+    table.appendChild(tr);
+  });
+  return table;
+}
+
+function makeSheet(ref, isContinued, rowsChunk, cols, cellMm, fontPx, showMeta, pageNo, pageTotal){
+  const sheet = document.createElement("div");
+  sheet.className = "sheet";
+
+  const head = document.createElement("div");
+  head.className = "head";
+  head.innerHTML = `<span class="ref">${ref}</span>${isContinued ? '<span class="cont">(이어서)</span>' : ""}`;
+  if (showMeta && !isContinued) {
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    meta.innerHTML = `<div>이름 <span>&nbsp;</span></div><div>날짜 <span>&nbsp;</span></div><div>확인 <span>&nbsp;</span></div>`;
+    head.appendChild(meta);
+  }
+  sheet.appendChild(head);
+
+  sheet.appendChild(renderGridTable(rowsChunk, cols, cellMm, fontPx));
+
+  if (pageTotal > 1) {
+    const pn = document.createElement("div");
+    pn.className = "pageno";
+    pn.textContent = `${pageNo} / ${pageTotal}`;
+    sheet.appendChild(pn);
+  }
+  return sheet;
+}
+
+function generate(){
+  const out = document.getElementById("output");
+  out.innerHTML = "";
+
+  const verses = getSelectedVerses();
+  if (!verses.length) {
+    out.innerHTML = '<p style="text-align:center; color:#9ca3af; padding:40px;">선택된 구절이 없습니다. 구절을 선택하거나 직접 입력해 주세요.</p>';
+    return;
+  }
+
+  const cellMm = parseInt(document.getElementById("cellSize").value, 10);
+  const fontPx = Math.round(cellMm * 2.1);
+  const cols = Math.max(6, Math.floor(PAGE_W_MM / cellMm));
+  const rowsPerPage = Math.max(6, Math.floor(PAGE_H_MM / cellMm));
+  const showGuide = document.getElementById("showGuide").checked;
+  const showMeta = document.getElementById("showMeta").checked;
+  const repeatCount = parseInt(document.getElementById("repeatCount").value, 10);
+
+  verses.forEach(v => {
+    const rows = buildRows(v.text, cols, showGuide, repeatCount);
+    const chunks = [];
+    for (let i = 0; i < rows.length; i += rowsPerPage) {
+      chunks.push(rows.slice(i, i + rowsPerPage));
+    }
+    chunks.forEach((chunk, idx) => {
+      out.appendChild(makeSheet(v.ref, idx > 0, chunk, cols, cellMm, fontPx, showMeta, idx + 1, chunks.length));
+    });
+  });
+
+  window.scrollTo({ top: out.offsetTop - 10, behavior: "smooth" });
+}
+
+document.getElementById("generate").onclick = generate;
+document.getElementById("print").onclick = () => window.print();
+
+generate();
+</script>
+</body>
+</html>
