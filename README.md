@@ -18,6 +18,9 @@
 | └ ✍️ 글귀필사 워크북 | [.../work/pg/geulgwi/](https://yonzi0510.github.io/work/pg/geulgwi/) | 속담·명언·계절 등 좋은 글귀 필사(원고지 따라쓰기) 학습지 생성·인쇄 (종교 무관) |
 | └ 🖌 천자문쓰기 워크북 | [.../work/pg/cheonja/](https://yonzi0510.github.io/work/pg/cheonja/) | 천자문 전체 1000자 쓰기 연습지(훈음 포함) 생성·인쇄 (A4 가로) |
 | └ ✍️ 한글 기초 쓰기 워크북 | [.../work/pg/hangeul/](https://yonzi0510.github.io/work/pg/hangeul/) | 자음·모음·기초 글자·숫자(1~100) 큰 글자 쓰기 연습지 생성·인쇄 (인지저하 심한 어르신용, A4 가로) |
+| └ 🔎 글자 찾기 개수 세기 | [.../work/pg/findcount/](https://yonzi0510.github.io/work/pg/findcount/) | 흩어진 글자 중 예시 글자를 찾아 개수를 세는 학습지 생성·인쇄 (난이도 1~5단계) |
+| └ 🔗 끝말잇기 활동지 | [.../work/pg/kkeutmal/](https://yonzi0510.github.io/work/pg/kkeutmal/) | 시작 단어에서 이어서 채우는 끝말잇기 활동지 생성·인쇄 (난이도 1~5단계) |
+| └ 🌿 오늘의 마음 살피기 | [.../work/pg/mind/](https://yonzi0510.github.io/work/pg/mind/) | 우울감이 있는 어르신을 위한 감정 체크인 활동지 인쇄 |
 
 ## 🗂 그 밖의 도구
 

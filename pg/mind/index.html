@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>오늘의 마음 살피기</title>
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<!-- v2026.08.17.001 -->
+<style>
+  :root{ --ink:#1b1b1b; }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:"Pretendard","Malgun Gothic","맑은 고딕",sans-serif; color:var(--ink); background:#fafafa;}
+
+  .controls{max-width:900px; margin:0 auto; padding:24px 20px 40px;}
+  .controls h1{font-size:22px; margin:0 0 4px;}
+  .controls .sub{color:#666; font-size:14px; margin:0 0 20px;}
+  .card{background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:18px 20px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,.04);}
+  .card h2{font-size:15px; margin:0 0 14px; color:#111;}
+  .row{display:flex; flex-wrap:wrap; gap:14px 22px; align-items:center;}
+  label.fld{display:flex; flex-direction:column; gap:5px; font-size:13px; color:#374151;}
+  select{padding:8px 10px; border:1px solid #d1d5db; border-radius:8px; font-size:14px; background:#fff;}
+  .btn{padding:10px 18px; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;}
+  .btn-primary{background:#111; color:#fff;}
+  .btn-primary:hover{background:#333;}
+  .btn-line{background:#fff; border:1px solid #d1d5db; color:#374151;}
+  .btn-line:hover{background:#f9fafb;}
+  .actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:6px; align-items:center;}
+  .hint{font-size:12px; color:#9ca3af; margin-top:10px;}
+
+  #output{max-width:900px; margin:0 auto; padding:0 20px 60px;}
+  .sheet{
+    background:#fff; width:210mm; min-height:297mm; margin:0 auto; padding:16mm; box-sizing:border-box;
+    border:1px solid #e5e7eb; box-shadow:0 2px 10px rgba(0,0,0,.06);
+    font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  }
+  .sheet .top{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6mm;}
+  .sheet h1.title{font-size:26px; margin:0; color:#111;}
+  .sheet .meta{display:flex; gap:16px; font-size:14px; color:#374151;}
+  .sheet .meta span{border-bottom:1px solid #666; padding:0 4px 2px; min-width:60px; display:inline-block;}
+  .lead{background:#111; color:#fff; border-radius:12px; padding:12px 16px; font-size:16px; font-weight:600; margin-bottom:8mm; line-height:1.5;}
+  .lead .sub2{display:block; font-size:12.5px; font-weight:400; opacity:.85; margin-top:4px;}
+
+  .q{margin-bottom:8mm;}
+  .q .qt{font-size:16px; font-weight:700; margin-bottom:4mm;}
+  .emo-grid{display:flex; flex-wrap:wrap; gap:8px;}
+  .emo{border:2px solid #cbd5e1; border-radius:999px; padding:10px 20px; font-size:16px; font-weight:600; color:#374151;}
+  .emo.etc{border-style:dashed; color:#9ca3af; min-width:140px; text-align:center;}
+  .lines{display:flex; flex-direction:column; gap:14mm; margin-top:4mm;}
+  .lines .ln{border-bottom:1.5px solid #888; height:1px;}
+
+  .temp{border:2px solid #111; border-radius:14px; padding:12px 16px;}
+  .temp .tt{font-size:15px; font-weight:700; margin-bottom:8px; display:flex; justify-content:space-between;}
+  .temp .scale{display:flex; gap:6px;}
+  .temp .scale .box{flex:1; border:1.5px solid #888; border-radius:8px; height:14mm; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; color:#374151;}
+
+  .foot{margin-top:10mm; font-size:12px; color:#9ca3af; text-align:center;}
+
+  @media print{
+    body{background:#fff;}
+    .controls{display:none !important;}
+    #output{max-width:none; margin:0; padding:0;}
+    .sheet{box-shadow:none; border:none; margin:0; width:auto; min-height:0; height:277mm;}
+    @page{size:A4 portrait; margin:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <h1>🌿 오늘의 마음 살피기 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.08.17.001</span></h1>
+  <p class="sub">우울감이 있는 어르신을 위한 감정 체크인 활동지입니다. 오늘 느낀 마음에 이름을 붙이고, 마음의 온도를 표시해봅니다.</p>
+
+  <div class="card">
+    <h2>인쇄 설정</h2>
+    <div class="row">
+      <label class="fld">글자 크기
+        <select id="fontSize">
+          <option value="normal">보통</option>
+          <option value="large" selected>크게</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" id="print">🖨️ 인쇄 / PDF 저장</button>
+  </div>
+  <p class="hint">매일 한 장씩 인쇄해서 나눠드리는 용도의 활동지입니다. 날짜는 오늘 날짜로 자동 채워집니다(직접 수정 가능).</p>
+</div>
+
+<div id="output">
+  <div class="sheet" id="sheet">
+    <div class="top">
+      <h1 class="title">오늘의 마음 살피기</h1>
+      <div class="meta">
+        <span>이름 <span id="nameField">&nbsp;</span></span>
+        <span>날짜 <span id="dateField"></span></span>
+      </div>
+    </div>
+
+    <div class="lead">
+      마음에 이름을 붙여보면, 마음이 조금 가벼워져요.
+      <span class="sub2">오늘 느낀 마음을 천천히 떠올려 보세요.</span>
+    </div>
+
+    <div class="q">
+      <div class="qt">1. 오늘 가장 크게 느낀 마음에 표시하세요</div>
+      <div class="emo-grid">
+        <span class="emo">기쁨</span>
+        <span class="emo">편안함</span>
+        <span class="emo">불안함</span>
+        <span class="emo">속상함</span>
+        <span class="emo">화남</span>
+        <span class="emo">외로움</span>
+        <span class="emo">지침</span>
+        <span class="emo etc">그 밖에</span>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="qt">2. 그 마음이 몸 어디에서 느껴지나요?</div>
+      <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    </div>
+
+    <div class="q">
+      <div class="qt">3. 그 마음에게 한마디 해준다면?</div>
+      <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    </div>
+
+    <div class="q temp">
+      <div class="tt"><span>오늘의 마음 온도</span><span style="font-weight:400; color:#6b7280;">0(가장 힘듦) — 10(가장 편안함)</span></div>
+      <div class="scale" id="tempScale"></div>
+    </div>
+
+    <div class="foot">Day:음 · 마음 살피기 활동지</div>
+  </div>
+</div>
+
+<script>
+document.getElementById("dateField").textContent = new Date().toLocaleDateString("ko-KR", { year:"numeric", month:"long", day:"numeric" });
+
+const tempScale = document.getElementById("tempScale");
+for (let i = 0; i <= 10; i++) {
+  const box = document.createElement("div");
+  box.className = "box";
+  box.textContent = i;
+  tempScale.appendChild(box);
+}
+
+document.getElementById("fontSize").addEventListener("change", (e) => {
+  document.getElementById("sheet").style.fontSize = e.target.value === "large" ? "108%" : "100%";
+});
+document.getElementById("sheet").style.fontSize = "108%";
+
+document.getElementById("print").onclick = () => window.print();
+</script>
+</body>
+</html>

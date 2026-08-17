@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>끝말잇기 활동지</title>
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<!-- v2026.08.17.001 -->
+<style>
+  :root{ --ink:#1b1b1b; --accent:#2563eb; }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:"Pretendard","Malgun Gothic","맑은 고딕",sans-serif; color:var(--ink); background:#fafafa;}
+
+  .controls{max-width:900px; margin:0 auto; padding:24px 20px 40px;}
+  .controls h1{font-size:22px; margin:0 0 4px;}
+  .controls .sub{color:#666; font-size:14px; margin:0 0 20px;}
+  .card{background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:18px 20px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,.04);}
+  .card h2{font-size:15px; margin:0 0 14px; color:#111;}
+  .row{display:flex; flex-wrap:wrap; gap:14px 22px; align-items:center;}
+  label.fld{display:flex; flex-direction:column; gap:5px; font-size:13px; color:#374151;}
+  select{padding:8px 10px; border:1px solid #d1d5db; border-radius:8px; font-size:14px; background:#fff;}
+  .btn{padding:10px 18px; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;}
+  .btn-primary{background:var(--accent); color:#fff;}
+  .btn-primary:hover{background:#1d4ed8;}
+  .btn-line{background:#fff; border:1px solid #d1d5db; color:#374151;}
+  .btn-line:hover{background:#f9fafb;}
+  .actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:6px; align-items:center;}
+  .hint{font-size:12px; color:#9ca3af; margin-top:10px;}
+
+  #output{max-width:900px; margin:0 auto; padding:0 20px 60px;}
+  .sheet{
+    background:#fff; width:210mm; min-height:297mm; margin:0 auto; padding:16mm; box-sizing:border-box;
+    font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  }
+  .sheet h1.title{font-size:17px; margin:0 0 3mm;}
+  .legend{display:flex; align-items:center; gap:6mm; background:#fdf6d8; border:2px dashed #e0b400; border-radius:10px; padding:6mm 8mm; margin-bottom:8mm;}
+  .legend .lb{font-size:12px; color:#a68a00; font-weight:700; margin-right:2mm;}
+  .box{border:3px solid #111; border-radius:8px; padding:4mm 8mm; font-size:20px; font-weight:700; text-align:center; min-width:28mm;}
+  .legend .box{border-style:dashed; border-color:#e0684a;}
+  .arrow{font-size:22px; color:#f08a3c;}
+  .chain-row{display:flex; align-items:center; gap:4mm; margin-bottom:5mm;}
+  .chain-row .box.blank{border-style:solid; color:transparent; min-height:10mm; flex:1;}
+
+  @media print{
+    body{background:#fff;}
+    .controls{display:none !important;}
+    #output{max-width:none; margin:0; padding:0;}
+    .sheet{box-shadow:none; border:none; margin:0; width:auto; min-height:0; height:277mm;}
+    @page{size:A4 portrait; margin:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <h1>🔗 끝말잇기 활동지 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.08.17.001</span></h1>
+  <p class="sub">시작 단어에서 이어서 끝말잇기를 채우는 인지훈련 활동지를 생성·인쇄합니다.</p>
+
+  <div class="card">
+    <h2>내용 설정</h2>
+    <div class="row">
+      <label class="fld">난이도
+        <select id="level">
+          <option value="1">1단계 (아주 쉬움)</option>
+          <option value="2">2단계 (쉬움)</option>
+          <option value="3" selected>3단계 (보통)</option>
+          <option value="4">4단계 (어려움)</option>
+          <option value="5">5단계 (아주 어려움)</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" id="generate">📄 생성</button>
+    <button class="btn btn-line" id="print">🖨️ 인쇄 / PDF 저장</button>
+  </div>
+  <p class="hint">매번 [생성]을 누르면 시작 단어가 새로 무작위 선택됩니다.</p>
+</div>
+
+<div id="output"></div>
+
+<script>
+const WORD_BANK = [
+  "세탁기","자전거","손거울","반바지","우산","한복","냉장고","텔레비전","라디오","신문지",
+  "안경집","지갑","손수건","목도리","장갑","운동화","슬리퍼","베개","이불","식탁",
+  "의자","거울","빗자루","걸레","냄비","주전자","접시","젓가락","숟가락","그릇",
+  "화분","달력","시계","전화기","가방","신발장","옷장","책상","선풍기","계란",
+].map(w => ({ w, len: w.length }));
+
+// 난이도 1~5단계: 짧은 단어→긴 단어 · 이어갈 빈 칸 수↑ · 문항 수↑
+const LEVELS = {
+  1: { qCount:4,  blanks:1, filter: x => x.len <= 2 },
+  2: { qCount:5,  blanks:1, filter: x => x.len <= 3 },
+  3: { qCount:6,  blanks:2, filter: x => x.len <= 3 },
+  4: { qCount:8,  blanks:2, filter: x => x.len >= 3 },
+  5: { qCount:10, blanks:3, filter: x => x.len >= 3 },
+};
+
+function rand(n){ return Math.floor(Math.random()*n); }
+function shuffle(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = rand(i+1);
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function generate(){
+  const out = document.getElementById("output");
+  out.innerHTML = "";
+
+  const level = LEVELS[document.getElementById("level").value];
+  const candidates = WORD_BANK.filter(level.filter);
+  const words = shuffle(candidates).slice(0, level.qCount).map(x => x.w);
+
+  const sheet = document.createElement("div");
+  sheet.className = "sheet";
+
+  sheet.innerHTML = `<h1 class="title"># 끝말잇기 활동. 글자 수는 상관없이 이어서 적어주세요.</h1>
+    <div class="legend">
+      <span class="lb">예시</span>
+      <span class="box">냉장고</span><span class="arrow">→</span>
+      <span class="box">고물상</span><span class="arrow">→</span>
+      <span class="box">상어</span>
+    </div>`;
+
+  words.forEach(w => {
+    const row = document.createElement("div");
+    row.className = "chain-row";
+    let html = `<span class="box">${w}</span>`;
+    for (let i = 0; i < level.blanks; i++) {
+      html += `<span class="arrow">→</span><span class="box blank">_</span>`;
+    }
+    row.innerHTML = html;
+    sheet.appendChild(row);
+  });
+
+  out.appendChild(sheet);
+  window.scrollTo({ top: out.offsetTop - 10, behavior: "smooth" });
+}
+
+document.getElementById("generate").onclick = generate;
+document.getElementById("print").onclick = () => window.print();
+generate();
+</script>
+</body>
+</html>
