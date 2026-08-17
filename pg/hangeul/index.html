@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한글 기초 쓰기 워크북</title>
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<!-- v2026.08.17.001 -->
+<style>
+  :root{ --ink:#1b1b1b; --accent:#2563eb; }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:"Pretendard","Malgun Gothic","맑은 고딕",sans-serif; color:var(--ink); background:#fafafa;}
+
+  .controls{max-width:980px; margin:0 auto; padding:24px 20px 40px;}
+  .controls h1{font-size:22px; margin:0 0 4px;}
+  .controls .sub{color:#666; font-size:14px; margin:0 0 20px;}
+  .card{background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:18px 20px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,.04);}
+  .card h2{font-size:15px; margin:0 0 14px; color:#111;}
+  .cat-grid{display:flex; flex-wrap:wrap; gap:10px;}
+  .cat-item{display:flex; gap:8px; align-items:flex-start; font-size:13px; padding:10px 14px; border:1px solid #eee; border-radius:8px; flex:1; min-width:220px;}
+  .cat-item .t{font-weight:700; color:#111; display:block;}
+  .cat-item .r{color:#777; font-size:13px; display:block; margin-top:3px; letter-spacing:2px;}
+  .actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:6px; align-items:center;}
+  .btn{padding:10px 18px; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;}
+  .btn-primary{background:var(--accent); color:#fff;}
+  .btn-primary:hover{background:#1d4ed8;}
+  .btn-line{background:#fff; border:1px solid #d1d5db; color:#374151;}
+  .btn-line:hover{background:#f9fafb;}
+  .hint{font-size:12px; color:#9ca3af; margin-top:10px;}
+
+  /* ===== 인쇄물: 천자문쓰기 워크북과 같은 A4 가로·12칸 격자 ===== */
+  #output{max-width:1122px; margin:0 auto; padding:0 20px 60px;}
+  .sheet{
+    background:#fff; width:297mm; min-height:210mm; margin:0 auto 24px; padding:5mm 6mm 4mm 11mm; box-sizing:border-box;
+    border:1px solid #e5e7eb; box-shadow:0 2px 10px rgba(0,0,0,.06);
+    font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  }
+  table.crow{border-collapse:collapse; width:100%; table-layout:fixed; margin-bottom:10.4mm; border:1.5px solid #333;}
+  table.crow.last{margin-bottom:0;}
+  table.crow td{border:1.5px dashed #333; padding:0; vertical-align:top; width:20mm;}
+  .wcell{height:30.1mm; display:flex; align-items:center; justify-content:center; overflow:hidden;}
+  .wcell.model{font-weight:700; color:#111; font-size:17mm;}
+  .wcell.model.long{font-size:9mm;}
+  .lcell{height:10.4mm; font-size:4.6mm; color:#111; display:flex; align-items:center; justify-content:center; border-top:1.5px dashed #333;}
+
+  @media print{
+    body{background:#fff;}
+    .controls{display:none !important;}
+    #output{max-width:none; margin:0; padding:0;}
+    .sheet{box-shadow:none; border:none; margin:0; width:auto; min-height:0; page-break-after:always;}
+    .sheet:last-child{page-break-after:auto;}
+    @page{size:A4 landscape; margin:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <h1>✍️ 한글 기초 쓰기 워크북 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.08.17.001</span></h1>
+  <p class="sub">인지저하가 심한 어르신도 쓰실 수 있도록 자음·모음·기초 글자·숫자(1~100)를 아주 큰 글자로 연습합니다. ㄱㄴㄷㄹ…처럼 순서대로 이어서 안내한 뒤 같은 줄에 따라 쓰게 합니다.</p>
+
+  <div class="card">
+    <h2>내용 선택</h2>
+    <div class="actions" style="margin-bottom:12px;">
+      <button class="btn btn-line" id="selectAll">전체 선택</button>
+      <button class="btn btn-line" id="selectNone">전체 해제</button>
+      <button class="btn btn-line" id="selectNumbers">숫자쓰기만 선택</button>
+    </div>
+    <div class="cat-grid" id="catGrid"></div>
+  </div>
+
+  <div class="card">
+    <h2>인쇄 설정</h2>
+    <label class="fld" style="display:inline-flex; flex-direction:column; gap:5px; font-size:13px; color:#374151;">따라쓰기 줄 수
+      <select id="copyRows" style="padding:8px 10px; border:1px solid #d1d5db; border-radius:8px; font-size:14px;">
+        <option value="2">2줄</option>
+        <option value="3" selected>3줄</option>
+        <option value="4">4줄</option>
+        <option value="5">5줄</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" id="generate">📄 생성</button>
+    <button class="btn btn-line" id="print">🖨️ 인쇄 / PDF 저장</button>
+  </div>
+  <p class="hint">ㄱㄴㄷㄹ…처럼 글자를 한 줄에 순서대로 이어서 보여준 뒤, 그 아래 같은 자리에 빈 줄을 이어 붙여 따라 쓰게 합니다.</p>
+</div>
+
+<div id="output"></div>
+
+<script>
+const CATS = [
+  { key:"cons", name:"자음 (14자)",
+    items:[["ㄱ","기역"],["ㄴ","니은"],["ㄷ","디귿"],["ㄹ","리을"],["ㅁ","미음"],["ㅂ","비읍"],["ㅅ","시옷"],
+           ["ㅇ","이응"],["ㅈ","지읒"],["ㅊ","치읓"],["ㅋ","키읔"],["ㅌ","티읕"],["ㅍ","피읖"],["ㅎ","히읗"]] },
+  { key:"vowel", name:"모음 (10자)",
+    items:[["ㅏ",""],["ㅑ",""],["ㅓ",""],["ㅕ",""],["ㅗ",""],["ㅛ",""],["ㅜ",""],["ㅠ",""],["ㅡ",""],["ㅣ",""]] },
+  { key:"syl", name:"기초 글자 — 가나다라 (14자)",
+    items:[["가",""],["나",""],["다",""],["라",""],["마",""],["바",""],["사",""],["아",""],["자",""],["차",""],["카",""],["타",""],["파",""],["하",""]] },
+];
+
+// 숫자쓰기 1~100을 10개씩 끊어서 카테고리로 추가 (1~10, 11~20 … 91~100)
+for (let start = 1; start <= 91; start += 10) {
+  const items = [];
+  for (let n = start; n < start + 10; n++) items.push([String(n), ""]);
+  CATS.push({ key:"num"+start, name:`숫자쓰기 ${start}~${start+9}`, items, numGroup:true });
+}
+
+const catGrid = document.getElementById("catGrid");
+CATS.forEach((c, i) => {
+  const label = document.createElement("label");
+  label.className = "cat-item";
+  const preview = c.items.map(it => it[0]).join(" ");
+  label.innerHTML = `<input type="checkbox" data-cat="${i}" ${c.numGroup ? "" : "checked"}>
+    <span><span class="t">${c.name}</span><span class="r">${preview}</span></span>`;
+  catGrid.appendChild(label);
+});
+
+document.getElementById("selectAll").onclick = () => {
+  catGrid.querySelectorAll("input[type=checkbox]").forEach(c => c.checked = true);
+};
+document.getElementById("selectNone").onclick = () => {
+  catGrid.querySelectorAll("input[type=checkbox]").forEach(c => c.checked = false);
+};
+document.getElementById("selectNumbers").onclick = () => {
+  catGrid.querySelectorAll("input[type=checkbox]").forEach((c, i) => c.checked = !!CATS[i].numGroup);
+};
+
+const NUM_COLS = 14; // 자음 14자가 한 줄에 다 들어가도록
+
+// row: 최대 NUM_COLS개까지 채워진 [ch,cap] 배열. 부족한 칸은 빈 칸.
+function makeRow(rowItems){
+  const table = document.createElement("table");
+  table.className = "crow";
+  const tr1 = document.createElement("tr");
+  const tr2 = document.createElement("tr");
+  for(let c=0;c<NUM_COLS;c++){
+    const td1 = document.createElement("td");
+    const td2 = document.createElement("td");
+    const item = rowItems[c];
+    const wcell = document.createElement("div");
+    const isLong = item && item[0].length > 1;
+    wcell.className = "wcell" + (item ? " model" : "") + (isLong ? " long" : "");
+    wcell.textContent = item ? item[0] : "";
+    td1.appendChild(wcell);
+    const lcell = document.createElement("div");
+    lcell.className = "lcell";
+    lcell.textContent = item ? (item[1] || "") : "";
+    td2.appendChild(lcell);
+    tr1.appendChild(td1);
+    tr2.appendChild(td2);
+  }
+  table.appendChild(tr1);
+  table.appendChild(tr2);
+  return table;
+}
+
+// 카테고리 하나 → [안내줄(들), 따라쓰기 빈 줄(들)]
+function buildCategoryRows(items, copyRows){
+  const rows = [];
+  for(let i=0;i<items.length;i+=NUM_COLS) rows.push(makeRow(items.slice(i, i+NUM_COLS)));
+  for(let i=0;i<copyRows;i++) rows.push(makeRow([]));
+  return rows;
+}
+
+function generate(){
+  const out = document.getElementById("output");
+  out.innerHTML = "";
+
+  let rows = [];
+  const copyRows = parseInt(document.getElementById("copyRows").value, 10);
+  catGrid.querySelectorAll("input[type=checkbox]").forEach((c, i) => {
+    if (c.checked) rows = rows.concat(buildCategoryRows(CATS[i].items, copyRows));
+  });
+
+  if (!rows.length) {
+    out.innerHTML = '<p style="text-align:center; color:#9ca3af; padding:40px;">선택된 내용이 없습니다. 위에서 선택해 주세요.</p>';
+    return;
+  }
+
+  const ROWS_PER_PAGE = 4;
+  for (let i = 0; i < rows.length; i += ROWS_PER_PAGE) {
+    const chunk = rows.slice(i, i + ROWS_PER_PAGE);
+    const sheet = document.createElement("div");
+    sheet.className = "sheet";
+    chunk.forEach((row, idx) => {
+      if (idx === chunk.length - 1) row.classList.add("last");
+      sheet.appendChild(row);
+    });
+    out.appendChild(sheet);
+  }
+
+  window.scrollTo({ top: out.offsetTop - 10, behavior: "smooth" });
+}
+
+document.getElementById("generate").onclick = generate;
+document.getElementById("print").onclick = () => window.print();
+generate();
+</script>
+</body>
+</html>
