@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>한글 기초 쓰기 워크북</title>
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<!-- v2026.08.17.001 -->
+<!-- v2026.08.17.002 -->
 <style>
   :root{ --ink:#1b1b1b; --accent:#2563eb; }
   *{box-sizing:border-box;}
@@ -56,8 +56,8 @@
 <body>
 
 <div class="controls">
-  <h1>✍️ 한글 기초 쓰기 워크북 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.08.17.001</span></h1>
-  <p class="sub">인지저하가 심한 어르신도 쓰실 수 있도록 자음·모음·기초 글자·숫자(1~100)를 아주 큰 글자로 연습합니다. ㄱㄴㄷㄹ…처럼 순서대로 이어서 안내한 뒤 같은 줄에 따라 쓰게 합니다.</p>
+  <h1>✍️ 한글 기초 쓰기 워크북 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.08.17.002</span></h1>
+  <p class="sub">인지저하가 심한 어르신도 쓰실 수 있도록 자음·모음·기초 글자(자모 결합표 10줄)·숫자(1~100)를 아주 큰 글자로 연습합니다. ㄱㄴㄷㄹ…처럼 순서대로 이어서 안내한 뒤 같은 줄에 따라 쓰게 합니다.</p>
 
   <div class="card">
     <h2>내용 선택</h2>
@@ -92,20 +92,32 @@
 
 <script>
 const CATS = [
-  { key:"cons", name:"자음 (14자)",
+  { key:"cons", name:"자음 (14자)", checked:true,
     items:[["ㄱ","기역"],["ㄴ","니은"],["ㄷ","디귿"],["ㄹ","리을"],["ㅁ","미음"],["ㅂ","비읍"],["ㅅ","시옷"],
            ["ㅇ","이응"],["ㅈ","지읒"],["ㅊ","치읓"],["ㅋ","키읔"],["ㅌ","티읕"],["ㅍ","피읖"],["ㅎ","히읗"]] },
-  { key:"vowel", name:"모음 (10자)",
+  { key:"vowel", name:"모음 (10자)", checked:true,
     items:[["ㅏ",""],["ㅑ",""],["ㅓ",""],["ㅕ",""],["ㅗ",""],["ㅛ",""],["ㅜ",""],["ㅠ",""],["ㅡ",""],["ㅣ",""]] },
-  { key:"syl", name:"기초 글자 — 가나다라 (14자)",
-    items:[["가",""],["나",""],["다",""],["라",""],["마",""],["바",""],["사",""],["아",""],["자",""],["차",""],["카",""],["타",""],["파",""],["하",""]] },
 ];
+
+// 한글 자모 결합표 — 자음 14개 × 기본 모음 10개 = 140자를 유니코드 조합식으로 정확히 생성
+// (가나다라, 갸냐댜랴, 거너더러, 겨녀뎌려, 고노도로, 교뇨됴료, 구누두루, 규뉴듀류, 그느드르, 기니디리)
+function composeHangul(choIdx, jungIdx){ return String.fromCharCode(0xAC00 + choIdx*588 + jungIdx*28); }
+const CHO_IDX = [0,2,3,5,6,7,9,11,12,14,15,16,17,18]; // ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ
+const JUNG_LIST = [
+  {idx:0, jamo:"ㅏ"}, {idx:2, jamo:"ㅑ"}, {idx:4, jamo:"ㅓ"}, {idx:6, jamo:"ㅕ"}, {idx:8, jamo:"ㅗ"},
+  {idx:12, jamo:"ㅛ"}, {idx:13, jamo:"ㅜ"}, {idx:17, jamo:"ㅠ"}, {idx:18, jamo:"ㅡ"}, {idx:20, jamo:"ㅣ"},
+];
+JUNG_LIST.forEach((v, vi) => {
+  const items = CHO_IDX.map(ci => [composeHangul(ci, v.idx), ""]);
+  const preview = items.slice(0, 4).map(it => it[0]).join("");
+  CATS.push({ key:"syl_"+v.jamo, name:`기초 글자 — ${preview}… (${v.jamo}, 14자)`, items, checked: vi === 0 });
+});
 
 // 숫자쓰기 1~100을 10개씩 끊어서 카테고리로 추가 (1~10, 11~20 … 91~100)
 for (let start = 1; start <= 91; start += 10) {
   const items = [];
   for (let n = start; n < start + 10; n++) items.push([String(n), ""]);
-  CATS.push({ key:"num"+start, name:`숫자쓰기 ${start}~${start+9}`, items, numGroup:true });
+  CATS.push({ key:"num"+start, name:`숫자쓰기 ${start}~${start+9}`, items, numGroup:true, checked:false });
 }
 
 const catGrid = document.getElementById("catGrid");
@@ -113,7 +125,7 @@ CATS.forEach((c, i) => {
   const label = document.createElement("label");
   label.className = "cat-item";
   const preview = c.items.map(it => it[0]).join(" ");
-  label.innerHTML = `<input type="checkbox" data-cat="${i}" ${c.numGroup ? "" : "checked"}>
+  label.innerHTML = `<input type="checkbox" data-cat="${i}" ${c.checked ? "checked" : ""}>
     <span><span class="t">${c.name}</span><span class="r">${preview}</span></span>`;
   catGrid.appendChild(label);
 });

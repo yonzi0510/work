@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>글자 찾기 개수 세기</title>
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<!-- v2026.08.17.001 -->
+<style>
+  :root{ --ink:#1b1b1b; --accent:#2563eb; }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:"Pretendard","Malgun Gothic","맑은 고딕",sans-serif; color:var(--ink); background:#fafafa;}
+
+  .controls{max-width:900px; margin:0 auto; padding:24px 20px 40px;}
+  .controls h1{font-size:22px; margin:0 0 4px;}
+  .controls .sub{color:#666; font-size:14px; margin:0 0 20px;}
+  .card{background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:18px 20px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,.04);}
+  .card h2{font-size:15px; margin:0 0 14px; color:#111;}
+  .row{display:flex; flex-wrap:wrap; gap:14px 22px; align-items:center;}
+  label.fld{display:flex; flex-direction:column; gap:5px; font-size:13px; color:#374151;}
+  select{padding:8px 10px; border:1px solid #d1d5db; border-radius:8px; font-size:14px; background:#fff;}
+  .btn{padding:10px 18px; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;}
+  .btn-primary{background:var(--accent); color:#fff;}
+  .btn-primary:hover{background:#1d4ed8;}
+  .btn-line{background:#fff; border:1px solid #d1d5db; color:#374151;}
+  .btn-line:hover{background:#f9fafb;}
+  .actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:6px; align-items:center;}
+  .hint{font-size:12px; color:#9ca3af; margin-top:10px;}
+
+  #output{max-width:900px; margin:0 auto; padding:0 20px 60px;}
+  .sheet{
+    background:#fff; width:210mm; min-height:297mm; margin:0 auto; padding:14mm; box-sizing:border-box;
+    border:1px solid #e5e7eb; box-shadow:0 2px 10px rgba(0,0,0,.06);
+    font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  }
+  .sheet h1.title{font-size:18px; margin:0 0 10mm;}
+  table.legend{border-collapse:collapse; width:100%; margin-bottom:10mm;}
+  table.legend td{border:1.5px solid #333; text-align:center; vertical-align:middle; padding:0; height:16mm;}
+  table.legend td.item{width:14%; font-size:26px; font-weight:700;}
+  table.legend td.count{width:11%; font-size:16px; color:#9ca3af;}
+  .item-box{display:inline-flex; align-items:center; justify-content:center; border:2px solid #333; border-radius:6px; width:16mm; height:16mm; font-size:22px; font-weight:700;}
+
+  .scatter{position:relative; width:100%; height:210mm; border:1.5px solid #333; border-radius:4px; overflow:hidden;}
+  .scatter .piece{position:absolute; display:flex; align-items:center; justify-content:center; border:2px solid #333; border-radius:6px; font-weight:700; background:#fff;}
+
+  @media print{
+    body{background:#fff;}
+    .controls{display:none !important;}
+    #output{max-width:none; margin:0; padding:0;}
+    .sheet{box-shadow:none; border:none; margin:0; width:auto; min-height:0; height:277mm;}
+    @page{size:A4 portrait; margin:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <h1>🔎 글자 찾기 개수 세기 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.08.17.001</span></h1>
+  <p class="sub">화면에 흩어진 글자 중 예시된 글자를 찾아 개수를 세는 인지훈련 학습지를 생성·인쇄합니다.</p>
+
+  <div class="card">
+    <h2>내용 설정</h2>
+    <div class="row">
+      <label class="fld">대상 글자 묶음
+        <select id="preset">
+          <option value="ganada">기초 글자 (가나다라마바사아)</option>
+          <option value="cons">자음 (ㄱㄴㄷㄹㅁㅂㅅㅇ)</option>
+          <option value="num">숫자 (1~8)</option>
+        </select>
+      </label>
+      <label class="fld">난이도
+        <select id="level">
+          <option value="1">1단계 (아주 쉬움)</option>
+          <option value="2">2단계 (쉬움)</option>
+          <option value="3" selected>3단계 (보통)</option>
+          <option value="4">4단계 (어려움)</option>
+          <option value="5">5단계 (아주 어려움)</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" id="generate">📄 생성</button>
+    <button class="btn btn-line" id="print">🖨️ 인쇄 / PDF 저장</button>
+  </div>
+  <p class="hint">매번 [생성]을 누르면 흩어진 배치가 새로 만들어집니다.</p>
+</div>
+
+<div id="output"></div>
+
+<script>
+const PRESETS = {
+  ganada: ["가","나","다","라","마","바","사","아"],
+  cons: ["ㄱ","ㄴ","ㄷ","ㄹ","ㅁ","ㅂ","ㅅ","ㅇ"],
+  num: ["1","2","3","4","5","6","7","8"],
+};
+
+// 대상 글자와 헷갈리게 섞을 "가짜 글자"(예시에 없는 글자) — 어려운 난이도에서만 사용
+const DISTRACTORS = {
+  ganada: ["자","차","카","타","파","하"],
+  cons: ["ㅈ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"],
+  num: ["9","0"],
+};
+
+// 난이도 1~5단계: 글자 칸 크기는 어르신용으로 항상 큼직하게 고정(22mm)하고,
+// 대상 글자 수·등장 횟수·가짜 글자 섞기·살짝 기울이기로만 난이도를 조절한다.
+const CELL_MM = 22;
+const LEVELS = {
+  1: { targets:4, min:2, max:3, distractorRatio:0,    rotate:0  },
+  2: { targets:6, min:2, max:4, distractorRatio:0,    rotate:0  },
+  3: { targets:8, min:3, max:5, distractorRatio:0,    rotate:0  },
+  4: { targets:8, min:4, max:6, distractorRatio:0.15, rotate:6  },
+  5: { targets:8, min:5, max:7, distractorRatio:0.25, rotate:12 },
+};
+
+function rand(n){ return Math.floor(Math.random()*n); }
+function shuffle(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = rand(i+1);
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function generate(){
+  const out = document.getElementById("output");
+  out.innerHTML = "";
+
+  const presetKey = document.getElementById("preset").value;
+  const allItems = PRESETS[presetKey];
+  const level = LEVELS[document.getElementById("level").value];
+  const items = allItems.slice(0, level.targets);
+  const minC = level.min, maxC = level.max;
+
+  const sheet = document.createElement("div");
+  sheet.className = "sheet";
+
+  const h1 = document.createElement("h1");
+  h1.className = "title";
+  h1.textContent = "# 예시된 글자를 찾아서 개수를 적어주세요.";
+  sheet.appendChild(h1);
+
+  const table = document.createElement("table");
+  table.className = "legend";
+  const legendCols = Math.min(4, items.length);
+  const legendRows = Math.ceil(items.length / legendCols);
+  for (let r = 0; r < legendRows; r++) {
+    const tr = document.createElement("tr");
+    for (let c = 0; c < legendCols; c++) {
+      const item = items[r*legendCols+c];
+      const td1 = document.createElement("td");
+      td1.className = "item";
+      td1.innerHTML = item ? `<span class="item-box">${item}</span>` : "";
+      const td2 = document.createElement("td");
+      td2.className = "count";
+      td2.textContent = "";
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+    }
+    table.appendChild(tr);
+  }
+  sheet.appendChild(table);
+
+  // 배치판: 그리드 슬롯을 섞어서 겹치지 않게 배치
+  const scatter = document.createElement("div");
+  scatter.className = "scatter";
+  sheet.appendChild(scatter);
+  out.appendChild(sheet);
+
+  const scatterHmm = 210, scatterWmm = 182; // .sheet 내부 폭(210mm - padding*2 = 182mm)
+  const cellMm = CELL_MM;
+  const cols = Math.floor(scatterWmm / cellMm);
+  const rows = Math.floor(scatterHmm / cellMm);
+  let slots = [];
+  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) slots.push([r, c]);
+  slots = shuffle(slots);
+
+  let pool = [];
+  items.forEach(it => {
+    const n = minC + rand(maxC - minC + 1);
+    for (let i = 0; i < n; i++) pool.push(it);
+  });
+
+  // 어려운 난이도: 예시에 없는 "가짜 글자"를 섞어서 헷갈리게 함
+  if (level.distractorRatio > 0) {
+    const dpool = DISTRACTORS[presetKey] || [];
+    const dCount = Math.round(pool.length * level.distractorRatio);
+    for (let i = 0; i < dCount && dpool.length; i++) pool.push(dpool[rand(dpool.length)]);
+  }
+
+  pool = shuffle(pool).slice(0, slots.length);
+
+  const pieceMm = cellMm * (level.rotate ? 0.66 : 0.75);
+  const jitterRange = cellMm * 0.06;
+  pool.forEach((ch, i) => {
+    const [r, c] = slots[i];
+    const jitterX = (Math.random()*jitterRange*2 - jitterRange);
+    const jitterY = (Math.random()*jitterRange*2 - jitterRange);
+    const rot = level.rotate ? (Math.random()*level.rotate*2 - level.rotate) : 0;
+    const piece = document.createElement("div");
+    piece.className = "piece";
+    piece.textContent = ch;
+    piece.style.width = pieceMm + "mm";
+    piece.style.height = pieceMm + "mm";
+    piece.style.fontSize = (pieceMm * 0.62) + "mm";
+    piece.style.left = (c*cellMm + jitterX) + "mm";
+    piece.style.top = (r*cellMm + jitterY) + "mm";
+    piece.style.transform = `rotate(${rot}deg)`;
+    scatter.appendChild(piece);
+  });
+
+  window.scrollTo({ top: out.offsetTop - 10, behavior: "smooth" });
+}
+
+document.getElementById("generate").onclick = generate;
+document.getElementById("print").onclick = () => window.print();
+generate();
+</script>
+</body>
+</html>
