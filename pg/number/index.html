@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>숫자쓰기 워크북</title>
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<!-- v2026.08.17.001 -->
+<!-- v2026.08.18.001 -->
 <style>
   :root{ --ink:#1b1b1b; --accent:#2563eb; }
   *{box-sizing:border-box;}
@@ -40,7 +40,6 @@
   table.crow td{border:1.5px dashed #333; padding:0; vertical-align:top; width:28mm;}
   .wcell{height:30.1mm; display:flex; align-items:center; justify-content:center; overflow:hidden;}
   .wcell.model{font-weight:700; color:#111; font-size:15mm;}
-  .lcell{height:10.4mm; font-size:4.6mm; color:#111; display:flex; align-items:center; justify-content:center; border-top:1.5px dashed #333;}
 
   @media print{
     body{background:#fff;}
@@ -55,7 +54,7 @@
 <body>
 
 <div class="controls">
-  <h1>🔢 숫자쓰기 워크북 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.08.17.001</span></h1>
+  <h1>🔢 숫자쓰기 워크북 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.08.18.001</span></h1>
   <p class="sub">인지저하가 심한 어르신도 쓰실 수 있도록 숫자 1~100을 아주 큰 글자로 연습합니다. 1-2-3…처럼 한 줄에 순서대로 이어서 안내한 뒤 같은 줄에 따라 쓰게 합니다.</p>
 
   <div class="card">
@@ -120,23 +119,16 @@ function makeRow(rowItems){
   const table = document.createElement("table");
   table.className = "crow";
   const tr1 = document.createElement("tr");
-  const tr2 = document.createElement("tr");
   for(let c=0;c<NUM_COLS;c++){
     const td1 = document.createElement("td");
-    const td2 = document.createElement("td");
     const item = rowItems[c];
     const wcell = document.createElement("div");
     wcell.className = "wcell" + (item ? " model" : "");
     wcell.textContent = item ? item[0] : "";
     td1.appendChild(wcell);
-    const lcell = document.createElement("div");
-    lcell.className = "lcell";
-    td2.appendChild(lcell);
     tr1.appendChild(td1);
-    tr2.appendChild(td2);
   }
   table.appendChild(tr1);
-  table.appendChild(tr2);
   return table;
 }
 
