@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>숫자쓰기 워크북</title>
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<!-- v2026.08.18.002 -->
+<!-- v2026.08.18.003 -->
 <style>
   :root{ --ink:#1b1b1b; --accent:#2563eb; }
   *{box-sizing:border-box;}
@@ -40,6 +40,7 @@
   table.crow td{border:1.5px dashed #333; padding:0; vertical-align:top; width:28mm;}
   .wcell{height:30.1mm; display:flex; align-items:center; justify-content:center; overflow:hidden;}
   .wcell.model{font-weight:700; color:#111; font-size:15mm;}
+  .wcell.trace svg{width:21mm; height:21mm; display:block;}
 
   @media print{
     body{background:#fff;}
@@ -54,8 +55,8 @@
 <body>
 
 <div class="controls">
-  <h1>🔢 숫자쓰기 워크북 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.08.18.002</span></h1>
-  <p class="sub">인지저하가 심한 어르신도 쓰실 수 있도록 숫자 1~100을 아주 큰 글자로 연습합니다. 1-2-3…처럼 한 줄에 순서대로 이어서 안내한 뒤 같은 줄에 따라 쓰게 합니다.</p>
+  <h1>🔢 숫자쓰기 워크북 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.08.18.003</span></h1>
+  <p class="sub">인지저하가 심한 어르신도 쓰실 수 있도록 숫자 1~100을 아주 큰 글자로 연습합니다. 1-2-3…처럼 한 줄에 순서대로 이어서 안내한 뒤, 점선으로 흐리게 표시된 숫자를 따라 쓰게 합니다.</p>
 
   <div class="card">
     <h2>내용 선택 (1~10, 11~20 … 91~100)</h2>
@@ -82,7 +83,7 @@
     <button class="btn btn-primary" id="generate">📄 생성</button>
     <button class="btn btn-line" id="print">🖨️ 인쇄 / PDF 저장</button>
   </div>
-  <p class="hint">1-2-3…처럼 숫자를 한 줄에 순서대로 이어서 보여준 뒤, 그 아래 같은 자리에 빈 줄을 이어 붙여 따라 쓰게 합니다.</p>
+  <p class="hint">1-2-3…처럼 숫자를 한 줄에 순서대로 보여준 뒤, 점선으로 흐리게 표시된 숫자 줄(2줄)을 따라 쓰게 하고, 선택하면 빈 줄을 추가로 붙입니다.</p>
 </div>
 
 <div id="output"></div>
@@ -114,8 +115,17 @@ document.getElementById("selectNone").onclick = () => {
 
 const NUM_COLS = 10; // 10개씩 끊은 구간(1~10 등)이 한 줄에 딱 맞도록
 
-// row: 최대 NUM_COLS개까지 채워진 [숫자,""] 배열. 부족한 칸은 빈 칸.
-function makeRow(rowItems){
+// 점선(따라쓰기) 숫자 — 획 테두리를 점선으로 그려 그 위에 겹쳐 쓰게 한다
+function traceSvg(ch){
+  return `<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+    <text x="50" y="56" text-anchor="middle" dominant-baseline="middle"
+      font-family="'Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-weight="700"
+      font-size="60" fill="none" stroke="#9aa0a8" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="0.1,4">${ch}</text>
+  </svg>`;
+}
+
+// row: 최대 NUM_COLS개까지 채워진 [숫자,""] 배열. 부족한 칸은 빈 칸. rowType: guide·trace(점선 따라쓰기)·blank
+function makeRow(rowItems, rowType){
   const table = document.createElement("table");
   table.className = "crow";
   const tr1 = document.createElement("tr");
@@ -123,8 +133,13 @@ function makeRow(rowItems){
     const td1 = document.createElement("td");
     const item = rowItems[c];
     const wcell = document.createElement("div");
-    wcell.className = "wcell" + (item ? " model" : "");
-    wcell.textContent = item ? item[0] : "";
+    if (rowType === "trace" && item) {
+      wcell.className = "wcell trace";
+      wcell.innerHTML = traceSvg(item[0]);
+    } else {
+      wcell.className = "wcell" + (item ? " model" : "");
+      wcell.textContent = item ? item[0] : "";
+    }
     td1.appendChild(wcell);
     tr1.appendChild(td1);
   }
@@ -132,11 +147,17 @@ function makeRow(rowItems){
   return table;
 }
 
-// 카테고리 하나 → [안내줄, 따라쓰기 빈 줄(들)]
+// 카테고리 하나 → [안내줄, 점선 따라쓰기 줄(최대 2줄), 빈 줄(들)]
 function buildCategoryRows(items, copyRows){
   const rows = [];
-  for(let i=0;i<items.length;i+=NUM_COLS) rows.push(makeRow(items.slice(i, i+NUM_COLS)));
-  for(let i=0;i<copyRows;i++) rows.push(makeRow([]));
+  const guideRows = [];
+  for(let i=0;i<items.length;i+=NUM_COLS) guideRows.push(items.slice(i, i+NUM_COLS));
+  guideRows.forEach(gr => rows.push(makeRow(gr, "guide")));
+
+  const lastGuide = guideRows[guideRows.length - 1] || [];
+  const traceCount = Math.min(2, copyRows);
+  for(let i=0;i<traceCount;i++) rows.push(makeRow(lastGuide, "trace"));
+  for(let i=traceCount;i<copyRows;i++) rows.push(makeRow([], "blank"));
   return rows;
 }
 
