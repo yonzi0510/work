@@ -14,7 +14,7 @@
 | └ 🔤 단어찾기 생성기 | [.../work/pg/2/](https://yonzi0510.github.io/work/pg/2/) | 인지훈련용 단어찾기 학습지(주제별) 생성·인쇄 |
 | └ 🖨️ 픽셀 도안 인쇄 | [.../work/pg/pixel/](https://yonzi0510.github.io/work/pg/pixel/) | 인지학습 픽셀아트 활동지 43종 A4/A3 인쇄 (색연필 12색) |
 | └ 🎨 그림 학습지 생성기 | [.../work/pg/draw/](https://yonzi0510.github.io/work/pg/draw/) | 개수 세기 등 그림 인지학습지 생성·인쇄 (1차: 개수 세기) |
-| └ ✍️ 성결필사 워크북 | [.../work/pg/pilsa/](https://yonzi0510.github.io/work/pg/pilsa/) | 거룩·성결 주제 성경 구절 필사(원고지 따라쓰기) 학습지 생성·인쇄 |
+| └ ✍️ 성경필사 워크북 | [.../work/pg/pilsa/](https://yonzi0510.github.io/work/pg/pilsa/) | 거룩·성결 주제 성경 구절 필사(원고지 따라쓰기) 학습지 생성·인쇄 |
 | └ ✍️ 글귀필사 워크북 | [.../work/pg/geulgwi/](https://yonzi0510.github.io/work/pg/geulgwi/) | 속담·명언·계절 등 좋은 글귀 필사(원고지 따라쓰기) 학습지 생성·인쇄 (종교 무관) |
 | └ 🖌 천자문쓰기 워크북 | [.../work/pg/cheonja/](https://yonzi0510.github.io/work/pg/cheonja/) | 천자문 전체 1000자 쓰기 연습지(훈음 포함) 생성·인쇄 (A4 가로) |
 | └ ✍️ 한글 기초 쓰기 워크북 | [.../work/pg/hangeul/](https://yonzi0510.github.io/work/pg/hangeul/) | 자음·모음·기초 글자(자모 결합표) 큰 글자 쓰기 연습지 생성·인쇄 (인지저하 심한 어르신용, A4 가로) |
