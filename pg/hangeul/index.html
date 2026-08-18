@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>한글 기초 쓰기 워크북</title>
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<!-- v2026.08.18.001 -->
+<!-- v2026.08.18.002 -->
 <style>
   :root{ --ink:#1b1b1b; --accent:#2563eb; }
   *{box-sizing:border-box;}
@@ -55,7 +55,7 @@
 <body>
 
 <div class="controls">
-  <h1>✍️ 한글 기초 쓰기 워크북 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.08.18.001</span></h1>
+  <h1>✍️ 한글 기초 쓰기 워크북 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.08.18.002</span></h1>
   <p class="sub">인지저하가 심한 어르신도 쓰실 수 있도록 자음·모음·기초 글자(자모 결합표 10줄)를 큰 글자로 연습합니다. ㄱ, ㄴ, ㄷ…처럼 한 글자씩 줄을 바꿔가며 안내하고, 같은 줄에 점선으로 흐리게 표시된 글자를 따라 쓰게 합니다. 숫자 쓰기는 <a href="../number/">숫자쓰기 워크북</a>에 따로 있습니다.</p>
 
   <div class="card">
@@ -175,32 +175,37 @@ function buildCategoryRows(items, copyRows){
   return items.map(ch => makeCharRow(ch, copyRows));
 }
 
+const ROWS_PER_PAGE = 9;
+
 function generate(){
   const out = document.getElementById("output");
   out.innerHTML = "";
 
-  let rows = [];
   const copyRows = parseInt(document.getElementById("copyRows").value, 10);
+  const checkedCats = [];
   catGrid.querySelectorAll("input[type=checkbox]").forEach((c, i) => {
-    if (c.checked) rows = rows.concat(buildCategoryRows(CATS[i].items, copyRows));
+    if (c.checked) checkedCats.push(CATS[i]);
   });
 
-  if (!rows.length) {
+  if (!checkedCats.length) {
     out.innerHTML = '<p style="text-align:center; color:#9ca3af; padding:40px;">선택된 내용이 없습니다. 위에서 선택해 주세요.</p>';
     return;
   }
 
-  const ROWS_PER_PAGE = 9;
-  for (let i = 0; i < rows.length; i += ROWS_PER_PAGE) {
-    const chunk = rows.slice(i, i + ROWS_PER_PAGE);
-    const sheet = document.createElement("div");
-    sheet.className = "sheet";
-    chunk.forEach((row, idx) => {
-      if (idx === chunk.length - 1) row.classList.add("last");
-      sheet.appendChild(row);
-    });
-    out.appendChild(sheet);
-  }
+  // 카테고리(주제)마다 새 페이지에서 시작 — 서로 다른 카테고리의 줄이 한 페이지에 섞이지 않는다.
+  checkedCats.forEach(cat => {
+    const rows = buildCategoryRows(cat.items, copyRows);
+    for (let i = 0; i < rows.length; i += ROWS_PER_PAGE) {
+      const chunk = rows.slice(i, i + ROWS_PER_PAGE);
+      const sheet = document.createElement("div");
+      sheet.className = "sheet";
+      chunk.forEach((row, idx) => {
+        if (idx === chunk.length - 1) row.classList.add("last");
+        sheet.appendChild(row);
+      });
+      out.appendChild(sheet);
+    }
+  });
 
   window.scrollTo({ top: out.offsetTop - 10, behavior: "smooth" });
 }
