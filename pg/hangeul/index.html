@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>한글 기초 쓰기 워크북</title>
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<!-- v2026.08.17.003 -->
+<!-- v2026.08.18.001 -->
 <style>
   :root{ --ink:#1b1b1b; --accent:#2563eb; }
   *{box-sizing:border-box;}
@@ -28,20 +28,19 @@
   .btn-line:hover{background:#f9fafb;}
   .hint{font-size:12px; color:#9ca3af; margin-top:10px;}
 
-  /* ===== 인쇄물: 천자문쓰기 워크북과 같은 A4 가로·12칸 격자 ===== */
-  #output{max-width:1122px; margin:0 auto; padding:0 20px 60px;}
+  /* ===== 인쇄물: A4 세로, 글자 한 칸만(라벨 없음) + 점선 따라쓰기 ===== */
+  #output{max-width:850px; margin:0 auto; padding:0 20px 60px;}
   .sheet{
-    background:#fff; width:297mm; min-height:210mm; margin:0 auto 24px; padding:5mm 6mm 4mm 11mm; box-sizing:border-box;
+    background:#fff; width:210mm; min-height:297mm; margin:0 auto 24px; padding:12mm; box-sizing:border-box;
     border:1px solid #e5e7eb; box-shadow:0 2px 10px rgba(0,0,0,.06);
     font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   }
-  table.crow{border-collapse:collapse; width:100%; table-layout:fixed; margin-bottom:10.4mm; border:1.5px solid #333;}
+  table.crow{border-collapse:collapse; width:100%; table-layout:fixed; margin-bottom:4mm; border:1.5px solid #333;}
   table.crow.last{margin-bottom:0;}
-  table.crow td{border:1.5px dashed #333; padding:0; vertical-align:top; width:20mm;}
-  .wcell{height:30.1mm; display:flex; align-items:center; justify-content:center; overflow:hidden;}
-  .wcell.model{font-weight:700; color:#111; font-size:17mm;}
-  .wcell.model.long{font-size:9mm;}
-  .lcell{height:10.4mm; font-size:4.6mm; color:#111; display:flex; align-items:center; justify-content:center; border-top:1.5px dashed #333;}
+  table.crow td{border:1px dashed #999; padding:0; vertical-align:middle; height:26mm;}
+  .wcell{width:100%; height:100%; display:flex; align-items:center; justify-content:center; overflow:hidden;}
+  .wcell.model{font-weight:700; color:#111; font-size:15mm;}
+  .wcell.trace svg{width:21mm; height:21mm; display:block;}
 
   @media print{
     body{background:#fff;}
@@ -49,15 +48,15 @@
     #output{max-width:none; margin:0; padding:0;}
     .sheet{box-shadow:none; border:none; margin:0; width:auto; min-height:0; page-break-after:always;}
     .sheet:last-child{page-break-after:auto;}
-    @page{size:A4 landscape; margin:0;}
+    @page{size:A4 portrait; margin:0;}
   }
 </style>
 </head>
 <body>
 
 <div class="controls">
-  <h1>✍️ 한글 기초 쓰기 워크북 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.08.17.003</span></h1>
-  <p class="sub">인지저하가 심한 어르신도 쓰실 수 있도록 자음·모음·기초 글자(자모 결합표 10줄)를 아주 큰 글자로 연습합니다. ㄱㄴㄷㄹ…처럼 순서대로 이어서 안내한 뒤 같은 줄에 따라 쓰게 합니다. 숫자 쓰기는 <a href="../number/">숫자쓰기 워크북</a>에 따로 있습니다.</p>
+  <h1>✍️ 한글 기초 쓰기 워크북 <span style="font-size:12px;color:#9ca3af;font-weight:400;">v2026.08.18.001</span></h1>
+  <p class="sub">인지저하가 심한 어르신도 쓰실 수 있도록 자음·모음·기초 글자(자모 결합표 10줄)를 큰 글자로 연습합니다. ㄱ, ㄴ, ㄷ…처럼 한 글자씩 줄을 바꿔가며 안내하고, 같은 줄에 점선으로 흐리게 표시된 글자를 따라 쓰게 합니다. 숫자 쓰기는 <a href="../number/">숫자쓰기 워크북</a>에 따로 있습니다.</p>
 
   <div class="card">
     <h2>내용 선택</h2>
@@ -70,12 +69,12 @@
 
   <div class="card">
     <h2>인쇄 설정</h2>
-    <label class="fld" style="display:inline-flex; flex-direction:column; gap:5px; font-size:13px; color:#374151;">따라쓰기 줄 수
+    <label class="fld" style="display:inline-flex; flex-direction:column; gap:5px; font-size:13px; color:#374151;">한 줄당 따라쓰기 칸 수
       <select id="copyRows" style="padding:8px 10px; border:1px solid #d1d5db; border-radius:8px; font-size:14px;">
-        <option value="2">2줄</option>
-        <option value="3" selected>3줄</option>
-        <option value="4">4줄</option>
-        <option value="5">5줄</option>
+        <option value="2">2칸</option>
+        <option value="3">3칸</option>
+        <option value="4">4칸</option>
+        <option value="5" selected>5칸</option>
       </select>
     </label>
   </div>
@@ -84,7 +83,7 @@
     <button class="btn btn-primary" id="generate">📄 생성</button>
     <button class="btn btn-line" id="print">🖨️ 인쇄 / PDF 저장</button>
   </div>
-  <p class="hint">ㄱㄴㄷㄹ…처럼 글자를 한 줄에 순서대로 이어서 보여준 뒤, 그 아래 같은 자리에 빈 줄을 이어 붙여 따라 쓰게 합니다.</p>
+  <p class="hint">한 글자마다 줄을 바꿔가며(ㄱ→ㄴ→ㄷ…) 맨 앞에 모범 글자를, 그 옆에 점선으로 흐리게 표시된 글자(2칸)를 보여줘 같은 줄에서 바로 따라 쓰게 합니다. 따라쓰기 줄 수를 3 이상으로 선택하면 빈 칸이 뒤에 추가됩니다.</p>
 </div>
 
 <div id="output"></div>
@@ -92,10 +91,9 @@
 <script>
 const CATS = [
   { key:"cons", name:"자음 (14자)", checked:true,
-    items:[["ㄱ","기역"],["ㄴ","니은"],["ㄷ","디귿"],["ㄹ","리을"],["ㅁ","미음"],["ㅂ","비읍"],["ㅅ","시옷"],
-           ["ㅇ","이응"],["ㅈ","지읒"],["ㅊ","치읓"],["ㅋ","키읔"],["ㅌ","티읕"],["ㅍ","피읖"],["ㅎ","히읗"]] },
+    items:["ㄱ","ㄴ","ㄷ","ㄹ","ㅁ","ㅂ","ㅅ","ㅇ","ㅈ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"] },
   { key:"vowel", name:"모음 (10자)", checked:true,
-    items:[["ㅏ",""],["ㅑ",""],["ㅓ",""],["ㅕ",""],["ㅗ",""],["ㅛ",""],["ㅜ",""],["ㅠ",""],["ㅡ",""],["ㅣ",""]] },
+    items:["ㅏ","ㅑ","ㅓ","ㅕ","ㅗ","ㅛ","ㅜ","ㅠ","ㅡ","ㅣ"] },
 ];
 
 // 한글 자모 결합표 — 자음 14개 × 기본 모음 10개 = 140자를 유니코드 조합식으로 정확히 생성
@@ -107,8 +105,8 @@ const JUNG_LIST = [
   {idx:12, jamo:"ㅛ"}, {idx:13, jamo:"ㅜ"}, {idx:17, jamo:"ㅠ"}, {idx:18, jamo:"ㅡ"}, {idx:20, jamo:"ㅣ"},
 ];
 JUNG_LIST.forEach((v, vi) => {
-  const items = CHO_IDX.map(ci => [composeHangul(ci, v.idx), ""]);
-  const preview = items.slice(0, 4).map(it => it[0]).join("");
+  const items = CHO_IDX.map(ci => composeHangul(ci, v.idx));
+  const preview = items.slice(0, 4).join("");
   CATS.push({ key:"syl_"+v.jamo, name:`기초 글자 — ${preview}… (${v.jamo}, 14자)`, items, checked: vi === 0 });
 });
 
@@ -116,7 +114,7 @@ const catGrid = document.getElementById("catGrid");
 CATS.forEach((c, i) => {
   const label = document.createElement("label");
   label.className = "cat-item";
-  const preview = c.items.map(it => it[0]).join(" ");
+  const preview = c.items.join(" ");
   label.innerHTML = `<input type="checkbox" data-cat="${i}" ${c.checked ? "checked" : ""}>
     <span><span class="t">${c.name}</span><span class="r">${preview}</span></span>`;
   catGrid.appendChild(label);
@@ -129,41 +127,52 @@ document.getElementById("selectNone").onclick = () => {
   catGrid.querySelectorAll("input[type=checkbox]").forEach(c => c.checked = false);
 };
 
-const NUM_COLS = 14; // 자음 14자가 한 줄에 다 들어가도록
+// 점선(따라쓰기) 글자 — 획 테두리를 점선으로 그려 그 위에 겹쳐 쓰게 한다
+function traceSvg(ch){
+  return `<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+    <text x="50" y="56" text-anchor="middle" dominant-baseline="middle"
+      font-family="'Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-weight="700"
+      font-size="72" fill="none" stroke="#9aa0a8" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="0.1,4">${ch}</text>
+  </svg>`;
+}
 
-// row: 최대 NUM_COLS개까지 채워진 [ch,cap] 배열. 부족한 칸은 빈 칸.
-function makeRow(rowItems){
+// 글자 하나 = 한 줄(세로로 다음 글자, 다음 줄). 맨 앞 모범 칸 + 점선 따라쓰기 칸(최대 2개) + 빈 칸(들)
+function makeCharRow(ch, copyRows){
   const table = document.createElement("table");
   table.className = "crow";
-  const tr1 = document.createElement("tr");
-  const tr2 = document.createElement("tr");
-  for(let c=0;c<NUM_COLS;c++){
-    const td1 = document.createElement("td");
-    const td2 = document.createElement("td");
-    const item = rowItems[c];
+  const tr = document.createElement("tr");
+
+  const guideTd = document.createElement("td");
+  const guideCell = document.createElement("div");
+  guideCell.className = "wcell model";
+  guideCell.textContent = ch;
+  guideTd.appendChild(guideCell);
+  tr.appendChild(guideTd);
+
+  const traceCount = Math.min(2, copyRows);
+  for (let i = 0; i < traceCount; i++) {
+    const td = document.createElement("td");
     const wcell = document.createElement("div");
-    const isLong = item && item[0].length > 1;
-    wcell.className = "wcell" + (item ? " model" : "") + (isLong ? " long" : "");
-    wcell.textContent = item ? item[0] : "";
-    td1.appendChild(wcell);
-    const lcell = document.createElement("div");
-    lcell.className = "lcell";
-    lcell.textContent = item ? (item[1] || "") : "";
-    td2.appendChild(lcell);
-    tr1.appendChild(td1);
-    tr2.appendChild(td2);
+    wcell.className = "wcell trace";
+    wcell.innerHTML = traceSvg(ch);
+    td.appendChild(wcell);
+    tr.appendChild(td);
   }
-  table.appendChild(tr1);
-  table.appendChild(tr2);
+  for (let i = traceCount; i < copyRows; i++) {
+    const td = document.createElement("td");
+    const wcell = document.createElement("div");
+    wcell.className = "wcell";
+    td.appendChild(wcell);
+    tr.appendChild(td);
+  }
+
+  table.appendChild(tr);
   return table;
 }
 
-// 카테고리 하나 → [안내줄(들), 따라쓰기 빈 줄(들)]
+// 카테고리 하나 → 글자 수만큼의 줄(각 줄 = 글자 하나씩 세로로 이어짐)
 function buildCategoryRows(items, copyRows){
-  const rows = [];
-  for(let i=0;i<items.length;i+=NUM_COLS) rows.push(makeRow(items.slice(i, i+NUM_COLS)));
-  for(let i=0;i<copyRows;i++) rows.push(makeRow([]));
-  return rows;
+  return items.map(ch => makeCharRow(ch, copyRows));
 }
 
 function generate(){
@@ -181,7 +190,7 @@ function generate(){
     return;
   }
 
-  const ROWS_PER_PAGE = 4;
+  const ROWS_PER_PAGE = 9;
   for (let i = 0; i < rows.length; i += ROWS_PER_PAGE) {
     const chunk = rows.slice(i, i + ROWS_PER_PAGE);
     const sheet = document.createElement("div");
